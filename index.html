@@ -10,197 +10,68 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-<style>
-  :root{
-    --navy:#0B1424;
-    --navy-2:#101E36;
-    --charcoal:#1E2530;
-    --paper:#F7F8FA;
-    --emerald:#12B76A;
-    --emerald-dark:#0a8a54;
-    --text-muted:#6B7684;
-    --font-display:'Space Grotesk','Inter',sans-serif;
-    --font-body:'Inter',sans-serif;
-  }
-  html{scroll-behavior:smooth;}
-  body{font-family:var(--font-body);background:var(--paper);color:var(--charcoal);}
-  .font-display{font-family:var(--font-display);}
-  section{scroll-margin-top:88px;}
-  *{-webkit-tap-highlight-color:transparent;}
-  a:focus-visible,button:focus-visible{outline:2px solid var(--emerald);outline-offset:2px;}
-
-  /* header */
-  #site-header{transition:all .3s ease;background:rgba(10,18,32,0.55);backdrop-filter:blur(10px);border-bottom:1px solid transparent;}
-  #site-header.scrolled{background:rgba(10,18,32,0.96);border-bottom:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 24px rgba(0,0,0,0.25);}
-  .nav-link{color:rgba(255,255,255,0.82);transition:color .2s;}
-  .nav-link:hover{color:var(--emerald);}
-
-  .btn-primary{background:var(--emerald);color:#08111F;transition:transform .2s;}
-  .btn-primary:hover{transform:scale(1.03);}
-  .btn-outline{border:1px solid rgba(255,255,255,0.25);color:#fff;transition:border-color .2s;}
-  .btn-outline:hover{border-color:var(--emerald);}
-
-  .lang-btn{padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:700;letter-spacing:.03em;color:rgba(255,255,255,0.6);background:transparent;transition:.2s;}
-  .lang-btn.active{background:var(--emerald);color:#08111F;}
-  .lang-btn-footer{font-size:12px;padding:4px 8px;color:rgba(255,255,255,0.35);}
-  .lang-btn-footer.active{color:var(--emerald);}
-
-  /* hero */
-  .hero-bg{background:linear-gradient(160deg,#0B1424 0%,#0F1E38 55%,#0B1424 100%);}
-  .blueprint-grid{
-    position:absolute;inset:0;pointer-events:none;opacity:.09;
-    background-image:linear-gradient(rgba(18,183,106,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(18,183,106,.6) 1px,transparent 1px);
-    background-size:44px 44px;
-    -webkit-mask-image:radial-gradient(ellipse at 50% 30%,black 0%,transparent 72%);
-    mask-image:radial-gradient(ellipse at 50% 30%,black 0%,transparent 72%);
-  }
-  .blueprint-grid.subtle{opacity:.06;}
-
-  .badge-dot{position:relative;display:inline-flex;height:8px;width:8px;}
-  .badge-dot .ping{position:absolute;inset:0;border-radius:9999px;background:var(--emerald);opacity:.75;animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite;}
-  .badge-dot .dot{position:relative;display:inline-flex;border-radius:9999px;height:8px;width:8px;background:var(--emerald);}
-  @keyframes ping{75%,100%{transform:scale(2.4);opacity:0;}}
-
-  .scan-frame{position:relative;aspect-ratio:4/5;max-width:28rem;margin-left:auto;border-radius:1rem;overflow:hidden;box-shadow:0 30px 70px -25px rgba(0,0,0,.6);}
-  .scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(18,183,106,.9),transparent);box-shadow:0 0 12px 2px rgba(18,183,106,.6);animation:scanMove 3.2s ease-in-out infinite;}
-  @keyframes scanMove{0%{top:6%;opacity:0;}10%{opacity:1;}50%{top:92%;opacity:1;}60%{opacity:0;}100%{top:6%;opacity:0;}}
-  .corner{position:absolute;width:28px;height:28px;border-color:var(--emerald);}
-
-  /* service image fallback */
-  .svc-img-wrap{position:relative;width:100%;height:100%;}
-  .svc-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
-  .svc-img-fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);}
-  .svc-img-wrap img.broken{display:none;}
-  .svc-img-wrap img.broken + .svc-img-fallback{display:flex;}
-
-  .eyebrow-dash{display:inline-block;width:24px;height:1px;background:var(--emerald);}
-
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    .scan-line{animation:none;display:none;}
-    .badge-dot .ping{animation:none;}
-  }
-</style>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
+<body data-title-key="home.servicesIntro.title">
 
-<!-- ================= HEADER ================= -->
-<header id="site-header" class="fixed top-0 left-0 right-0 z-50">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="flex items-center justify-between h-16 md:h-20">
-      <!-- logo -->
-      <a href="#home" class="flex items-center gap-2.5 shrink-0">
-        <span class="flex items-center justify-center rounded-md" style="width:38px;height:38px;background:linear-gradient(135deg,var(--emerald) 0%,#0a8a54 100%);">
-          <i data-lucide="shield-check" style="color:#0B1424;" class="w-5 h-5"></i>
-        </span>
-        <span class="flex flex-col items-start leading-none">
-          <span class="text-lg md:text-xl font-bold tracking-tight text-white font-display" style="letter-spacing:.02em;">VECTOR</span>
-          <span class="hidden sm:block text-[10px] tracking-widest uppercase" style="color:var(--emerald);" data-i18n="brandTag">უსაფრთხოება & ელექტრო სერვისი</span>
-        </span>
-      </a>
-
-      <!-- desktop nav -->
-      <nav class="hidden lg:flex items-center gap-8">
-        <a href="#home" class="nav-link text-sm font-medium tracking-wide" data-i18n="nav.home">მთავარი</a>
-        <a href="#services" class="nav-link text-sm font-medium tracking-wide" data-i18n="nav.services">სერვისები</a>
-        <a href="#why" class="nav-link text-sm font-medium tracking-wide" data-i18n="nav.why">რატომ ჩვენ</a>
-        <a href="#contact" class="nav-link text-sm font-medium tracking-wide" data-i18n="nav.contact">კონტაქტი</a>
-      </nav>
-
-      <!-- right cluster -->
-      <div class="flex items-center gap-3">
-        <div class="flex items-center rounded-full p-1" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);">
-          <button class="lang-btn" data-lang="ge">GE</button>
-          <button class="lang-btn" data-lang="en">EN</button>
-          <button class="lang-btn" data-lang="ru">RU</button>
-        </div>
-        <a href="tel:595708300" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold btn-primary">
-          <i data-lucide="phone" class="w-4 h-4"></i>
-          <span>595 70 83 00</span>
-        </a>
-        <button id="menu-toggle" class="lg:hidden text-white p-1.5" aria-label="menu">
-          <i data-lucide="menu" class="w-6 h-6" id="menu-icon-open"></i>
-          <i data-lucide="x" class="w-6 h-6 hidden" id="menu-icon-close"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- mobile nav -->
-  <div id="mobile-menu" class="lg:hidden hidden border-t" style="background:rgba(10,18,32,0.98);border-color:rgba(255,255,255,0.08);">
-    <div class="px-5 py-4 flex flex-col gap-1">
-      <a href="#home" class="mobile-link text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="nav.home">მთავარი</a>
-      <a href="#services" class="mobile-link text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="nav.services">სერვისები</a>
-      <a href="#why" class="mobile-link text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="nav.why">რატომ ჩვენ</a>
-      <a href="#contact" class="mobile-link text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="nav.contact">კონტაქტი</a>
-      <a href="tel:595708300" class="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-primary">
-        <i data-lucide="phone" class="w-4 h-4"></i><span>595 70 83 00</span>
-      </a>
-    </div>
-  </div>
-</header>
+<div id="app-header"></div>
 
 <!-- ================= HERO ================= -->
 <section id="home" class="relative overflow-hidden hero-bg">
   <div class="blueprint-grid"></div>
   <div class="max-w-7xl mx-auto px-5 md:px-8 pt-32 pb-20 md:pt-40 md:pb-28 relative">
     <div class="grid lg:grid-cols-2 gap-14 items-center">
-      <!-- left -->
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6" style="background:rgba(18,183,106,0.12);border:1px solid rgba(18,183,106,0.35);">
           <span class="badge-dot"><span class="ping"></span><span class="dot"></span></span>
-          <span class="text-xs font-medium tracking-wide" style="color:var(--emerald);" data-i18n="hero.badgeLive">მონიტორინგი აქტიურია</span>
+          <span class="text-xs font-medium tracking-wide" style="color:var(--emerald);" data-i18n="home.hero.badgeLive"></span>
         </div>
 
         <div class="flex items-center gap-2 mb-3">
           <span class="eyebrow-dash"></span>
-          <span class="text-xs font-semibold tracking-widest uppercase font-display" style="color:var(--emerald);" data-i18n="hero.eyebrow">დაცვა & ელექტრო ინსტალაციები</span>
+          <span class="text-xs font-semibold tracking-widest uppercase font-display" style="color:var(--emerald);" data-i18n="home.hero.eyebrow"></span>
         </div>
 
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] text-white mb-6 font-display" style="letter-spacing:-0.01em;">
-          <span data-i18n="hero.title1">თქვენი ობიექტის</span><br>
-          <span style="color:var(--emerald);" data-i18n="hero.title2">სრული უსაფრთხოება</span>
+          <span data-i18n="home.hero.title1"></span><br>
+          <span style="color:var(--emerald);" data-i18n="home.hero.title2"></span>
         </h1>
 
-        <p class="text-base md:text-lg leading-relaxed mb-9 max-w-lg" style="color:rgba(255,255,255,0.68);" data-i18n="hero.subtitle">
-          ვაპროექტებთ და ვმონტაჟებთ სამეთვალყურეო, სიგნალიზაციის, სახანძრო და ელექტრო სისტემებს — საცხოვრებელი და კომერციული ობიექტებისთვის, თბილისსა და შემოგარენში.
-        </p>
+        <p class="text-base md:text-lg leading-relaxed mb-9 max-w-lg" style="color:rgba(255,255,255,0.68);" data-i18n="home.hero.subtitle"></p>
 
         <div class="flex flex-wrap items-center gap-4 mb-14">
           <a href="tel:595708300" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full text-sm font-semibold btn-primary">
             <i data-lucide="phone" class="w-4 h-4"></i>
-            <span data-i18n="hero.ctaCall">დაგვირეკეთ: 595 70 83 00</span>
+            <span data-i18n="home.hero.ctaCall"></span>
           </a>
           <a href="#services" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold btn-outline">
-            <span data-i18n="hero.ctaServices">სერვისების ნახვა</span>
+            <span data-i18n="home.hero.ctaServices"></span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
 
         <div class="grid grid-cols-3 gap-6 max-w-md">
           <div>
-            <div class="text-2xl md:text-3xl font-bold text-white font-display" data-i18n="hero.stat1">500+</div>
-            <div class="text-[11px] md:text-xs mt-1 leading-snug" style="color:rgba(255,255,255,0.5);" data-i18n="hero.stat1Label">დამონტაჟებული ობიექტი</div>
+            <div class="text-2xl md:text-3xl font-bold text-white font-display" data-i18n="home.hero.stat1"></div>
+            <div class="text-[11px] md:text-xs mt-1 leading-snug" style="color:rgba(255,255,255,0.5);" data-i18n="home.hero.stat1Label"></div>
           </div>
           <div style="border-left:1px solid rgba(255,255,255,0.12);padding-left:20px;">
-            <div class="text-2xl md:text-3xl font-bold text-white font-display" data-i18n="hero.stat2">11</div>
-            <div class="text-[11px] md:text-xs mt-1 leading-snug" style="color:rgba(255,255,255,0.5);" data-i18n="hero.stat2Label">წლის გამოცდილება</div>
+            <div class="text-2xl md:text-3xl font-bold text-white font-display" data-i18n="home.hero.stat2"></div>
+            <div class="text-[11px] md:text-xs mt-1 leading-snug" style="color:rgba(255,255,255,0.5);" data-i18n="home.hero.stat2Label"></div>
           </div>
           <div style="border-left:1px solid rgba(255,255,255,0.12);padding-left:20px;">
-            <div class="text-2xl md:text-3xl font-bold text-white font-display" data-i18n="hero.stat3">24/7</div>
-            <div class="text-[11px] md:text-xs mt-1 leading-snug" style="color:rgba(255,255,255,0.5);" data-i18n="hero.stat3Label">გამოძახება და მხარდაჭერა</div>
+            <div class="text-2xl md:text-3xl font-bold text-white font-display" data-i18n="home.hero.stat3"></div>
+            <div class="text-[11px] md:text-xs mt-1 leading-snug" style="color:rgba(255,255,255,0.5);" data-i18n="home.hero.stat3Label"></div>
           </div>
         </div>
       </div>
 
-      <!-- right scan frame -->
       <div class="relative hidden lg:block">
         <div class="scan-frame">
-          <div class="svc-img-wrap">
+          <div class="img-wrap">
             <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80" alt="CCTV monitoring" onerror="this.classList.add('broken')">
-            <div class="svc-img-fallback"><i data-lucide="camera" style="width:56px;height:56px;color:var(--emerald);" stroke-width="1.25"></i></div>
+            <div class="img-fallback"><i data-lucide="camera" style="width:56px;height:56px;color:var(--emerald);" stroke-width="1.25"></i></div>
           </div>
           <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(11,20,36,0.15) 0%,rgba(11,20,36,0.55) 100%);"></div>
           <div class="corner" style="top:12px;left:12px;border-top:2px solid;border-left:2px solid;"></div>
@@ -216,475 +87,54 @@
       </div>
     </div>
   </div>
-
-  <svg viewBox="0 0 1200 40" class="w-full block relative" preserveAspectRatio="none" style="height:32px;">
-    <line x1="0" y1="20" x2="1200" y2="20" stroke="rgba(18,183,106,0.25)" stroke-width="1" stroke-dasharray="2 8"/>
-    <circle cx="80" cy="20" r="3" fill="rgba(18,183,106,0.45)"/>
-    <circle cx="260" cy="20" r="3" fill="rgba(18,183,106,0.45)"/>
-    <circle cx="440" cy="20" r="3" fill="rgba(18,183,106,0.45)"/>
-    <circle cx="620" cy="20" r="3" fill="rgba(18,183,106,0.45)"/>
-    <circle cx="800" cy="20" r="3" fill="rgba(18,183,106,0.45)"/>
-    <circle cx="980" cy="20" r="3" fill="rgba(18,183,106,0.45)"/>
-    <circle cx="1150" cy="20" r="3" fill="rgba(18,183,106,0.45)"/>
-  </svg>
 </section>
 
-<!-- ================= SERVICES ================= -->
-<section id="services" class="py-24 md:py-32" style="background:var(--paper);">
+<!-- ================= SERVICES GRID ================= -->
+<section id="services" class="py-24 md:py-28" style="background:var(--paper);">
   <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-2xl mb-16 md:mb-20">
+    <div class="max-w-2xl mb-14">
       <div class="flex items-center gap-2 mb-3">
         <span class="eyebrow-dash"></span>
-        <span class="text-xs font-semibold tracking-widest uppercase font-display" style="color:var(--emerald);" data-i18n="servicesIntro.eyebrow">სერვისები</span>
+        <span class="text-xs font-semibold tracking-widest uppercase font-display" style="color:var(--emerald);" data-i18n="home.servicesIntro.eyebrow"></span>
       </div>
-      <h2 class="text-3xl md:text-5xl font-bold mb-4 font-display" style="color:var(--navy);" data-i18n="servicesIntro.title">ყველაფერი ერთ სისტემაში</h2>
-      <p class="text-base md:text-lg" style="color:var(--text-muted);" data-i18n="servicesIntro.subtitle">დაცვის, ხანძარსაწინააღმდეგო და ელექტრო ინფრასტრუქტურის სრული სპექტრი — ერთი გუნდისგან.</p>
+      <h2 class="text-3xl md:text-5xl font-bold mb-4 font-display" style="color:var(--navy);" data-i18n="home.servicesIntro.title"></h2>
+      <p class="text-base md:text-lg" style="color:var(--text-muted);" data-i18n="home.servicesIntro.subtitle"></p>
     </div>
 
-    <div id="service-pills" class="flex flex-wrap gap-2 mb-16 md:mb-20"></div>
-
-    <div id="service-list" class="flex flex-col gap-20 md:gap-28"></div>
-  </div>
-</section>
-
-<!-- ================= WHY US ================= -->
-<section id="why" class="py-24 md:py-28" style="background:var(--charcoal);">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-xl mb-14">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="eyebrow-dash"></span>
-        <span class="text-xs font-semibold tracking-widest uppercase font-display" style="color:var(--emerald);" data-i18n="whyUs.eyebrow">რატომ ჩვენ</span>
-      </div>
-      <h2 class="text-3xl md:text-5xl font-bold text-white font-display" data-i18n="whyUs.title">საიმედო პარტნიორი უსაფრთხოებაში</h2>
-    </div>
-    <div id="why-list" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-  </div>
-</section>
-
-<!-- ================= CTA BANNER ================= -->
-<section class="relative overflow-hidden" style="background:linear-gradient(120deg,#0B1424 0%,#123A2C 130%);">
-  <div class="blueprint-grid subtle"></div>
-  <div class="max-w-5xl mx-auto px-5 md:px-8 py-16 md:py-20 relative flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-    <div>
-      <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 font-display" data-i18n="ctaBanner.title">მზად ხართ დაცვის სისტემისთვის?</h3>
-      <p style="color:rgba(255,255,255,0.65);" data-i18n="ctaBanner.subtitle">დაგვირეკეთ უფასო კონსულტაციისა და ობიექტზე შეფასებისთვის.</p>
-    </div>
-    <a href="tel:595708300" class="inline-flex items-center gap-2.5 px-7 py-4 rounded-full text-sm font-semibold shrink-0 btn-primary">
-      <i data-lucide="phone" class="w-4 h-4"></i>
-      <span data-i18n="ctaBanner.button">დარეკვა: 595 70 83 00</span>
-    </a>
+    <div id="services-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 </section>
 
 <!-- ================= CONTACT ================= -->
-<section id="contact" class="py-24 md:py-28" style="background:var(--paper);">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-xl mb-14">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="eyebrow-dash"></span>
-        <span class="text-xs font-semibold tracking-widest uppercase font-display" style="color:var(--emerald);" data-i18n="contact.eyebrow">კონტაქტი</span>
-      </div>
-      <h2 class="text-3xl md:text-5xl font-bold font-display" style="color:var(--navy);" data-i18n="contact.title">დაგვიკავშირდით</h2>
+<section id="contact" class="relative overflow-hidden py-24 md:py-28" style="background:linear-gradient(160deg,#0B1424 0%,#0F1E38 55%,#0B1424 100%);">
+  <div class="blueprint-grid subtle"></div>
+  <div class="max-w-4xl mx-auto px-5 md:px-8 relative text-center">
+    <div class="flex items-center justify-center gap-2 mb-3">
+      <span class="eyebrow-dash"></span>
+      <span class="text-xs font-semibold tracking-widest uppercase font-display" style="color:var(--emerald);" data-i18n="home.contactSection.eyebrow"></span>
+      <span class="eyebrow-dash"></span>
     </div>
+    <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 font-display" data-i18n="home.contactSection.title"></h2>
+    <p class="text-base md:text-lg mb-3" style="color:rgba(255,255,255,0.68);" data-i18n="home.contactSection.subtitle"></p>
+    <p class="text-sm mb-10" style="color:var(--emerald);" data-i18n="common.contact.area"></p>
 
-    <div class="grid sm:grid-cols-3 gap-6">
-      <div class="p-6 rounded-2xl bg-white" style="border:1px solid #E3E7EC;">
-        <div class="flex items-center justify-center rounded-xl mb-4" style="width:40px;height:40px;background:rgba(18,183,106,0.1);">
-          <i data-lucide="phone" style="width:18px;height:18px;color:var(--emerald-dark);"></i>
-        </div>
-        <div class="text-xs font-semibold tracking-wide uppercase mb-2" style="color:var(--text-muted);" data-i18n="contact.phoneLabel">ტელეფონი</div>
-        <a href="tel:595708300" class="text-lg font-semibold hover:underline" style="color:var(--navy);">595 70 83 00</a>
-      </div>
+    <div class="text-4xl md:text-5xl font-bold text-white mb-8 font-display">595 70 83 00</div>
 
-      <div class="p-6 rounded-2xl bg-white" style="border:1px solid #E3E7EC;">
-        <div class="flex items-center justify-center rounded-xl mb-4" style="width:40px;height:40px;background:rgba(18,183,106,0.1);">
-          <i data-lucide="map-pin" style="width:18px;height:18px;color:var(--emerald-dark);"></i>
-        </div>
-        <div class="text-xs font-semibold tracking-wide uppercase mb-2" style="color:var(--text-muted);" data-i18n="contact.areaLabel">მომსახურების არეალი</div>
-        <span class="text-sm leading-relaxed" style="color:var(--charcoal);" data-i18n="contact.area">მომსახურება მთელ თბილისსა და შემოგარენში</span>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-white" style="border:1px solid #E3E7EC;">
-        <div class="flex items-center justify-center rounded-xl mb-4" style="width:40px;height:40px;background:rgba(18,183,106,0.1);">
-          <i data-lucide="clock" style="width:18px;height:18px;color:var(--emerald-dark);"></i>
-        </div>
-        <div class="text-xs font-semibold tracking-wide uppercase mb-2" style="color:var(--text-muted);" data-i18n="contact.hoursLabel">სამუშაო საათები</div>
-        <span class="text-sm block" style="color:var(--charcoal);" data-i18n="contact.hoursWeek">ორშ–შაბ: 09:00 – 19:00</span>
-        <span class="text-sm block mt-1 font-medium" style="color:var(--emerald-dark);" data-i18n="contact.hoursEmergency">ავარიული გამოძახება: 24/7</span>
-      </div>
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      <a href="tel:595708300" class="inline-flex items-center gap-2.5 px-7 py-4 rounded-full text-sm font-semibold btn-primary">
+        <i data-lucide="phone" class="w-4 h-4"></i><span data-i18n="common.callNow"></span>
+      </a>
+      <a href="https://wa.me/995595708300" target="_blank" rel="noopener" class="inline-flex items-center gap-2.5 px-7 py-4 rounded-full text-sm font-semibold btn-whatsapp">
+        <i data-lucide="message-circle" class="w-4 h-4"></i><span data-i18n="common.whatsapp"></span>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
-<footer style="background:#0B1424;">
-  <div class="max-w-7xl mx-auto px-5 md:px-8 pt-16 pb-8">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-      <div>
-        <div class="flex items-center gap-2.5 mb-4">
-          <span class="flex items-center justify-center rounded-md" style="width:34px;height:34px;background:linear-gradient(135deg,var(--emerald) 0%,#0a8a54 100%);">
-            <i data-lucide="shield-check" style="width:18px;height:18px;color:#0B1424;"></i>
-          </span>
-          <span class="text-lg font-bold text-white font-display">VECTOR</span>
-        </div>
-        <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.45);" data-i18n="footer.about">VECTOR — უსაფრთხოებისა და ელექტრო სისტემების პროფესიონალური მონტაჟი თბილისსა და შემოგარენში. კამერებიდან სრულ ელექტრო გაყვანილობამდე.</p>
-      </div>
+<div id="app-footer"></div>
 
-      <div>
-        <h5 class="text-white text-sm font-semibold tracking-wide uppercase mb-4" data-i18n="footer.quickLinks">ნავიგაცია</h5>
-        <ul class="flex flex-col gap-2.5">
-          <li><a href="#home" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="nav.home">მთავარი</span></a></li>
-          <li><a href="#services" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="nav.services">სერვისები</span></a></li>
-          <li><a href="#why" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="nav.why">რატომ ჩვენ</span></a></li>
-          <li><a href="#contact" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="nav.contact">კონტაქტი</span></a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h5 class="text-white text-sm font-semibold tracking-wide uppercase mb-4" data-i18n="footer.servicesTitle">სერვისები</h5>
-        <ul id="footer-services" class="flex flex-col gap-2.5"></ul>
-      </div>
-
-      <div>
-        <h5 class="text-white text-sm font-semibold tracking-wide uppercase mb-4" data-i18n="footer.contactTitle">კონტაქტი</h5>
-        <ul class="flex flex-col gap-3">
-          <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.5);">
-            <i data-lucide="phone" class="w-3.5 h-3.5 mt-0.5 shrink-0" style="color:var(--emerald);"></i>
-            <a href="tel:595708300" class="hover:text-white">595 70 83 00</a>
-          </li>
-          <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.5);">
-            <i data-lucide="map-pin" class="w-3.5 h-3.5 mt-0.5 shrink-0" style="color:var(--emerald);"></i>
-            <span data-i18n="contact.area">მომსახურება მთელ თბილისსა და შემოგარენში</span>
-          </li>
-          <li class="flex items-start gap-2.5 text-sm" style="color:rgba(255,255,255,0.5);">
-            <i data-lucide="clock" class="w-3.5 h-3.5 mt-0.5 shrink-0" style="color:var(--emerald);"></i>
-            <span data-i18n="contact.hoursWeek">ორშ–შაბ: 09:00 – 19:00</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top:1px solid rgba(255,255,255,0.08);">
-      <span class="text-xs" style="color:rgba(255,255,255,0.35);">© <span id="year"></span> VECTOR. <span data-i18n="footer.rights">ყველა უფლება დაცულია.</span></span>
-      <div class="flex items-center gap-1.5">
-        <button class="lang-btn-footer lang-btn" data-lang="ge">GE</button>
-        <button class="lang-btn-footer lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn-footer lang-btn" data-lang="ru">RU</button>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- ================= SCRIPT ================= -->
-<script>
-/* ---------------------------------------------------------------- */
-/* TRANSLATIONS                                                      */
-/* ---------------------------------------------------------------- */
-const translations = {
-  ge: {
-    brandTag: "უსაფრთხოება & ელექტრო სერვისი",
-    nav: { home: "მთავარი", services: "სერვისები", why: "რატომ ჩვენ", contact: "კონტაქტი" },
-    hero: {
-      badgeLive: "მონიტორინგი აქტიურია",
-      eyebrow: "დაცვა & ელექტრო ინსტალაციები",
-      title1: "თქვენი ობიექტის",
-      title2: "სრული უსაფრთხოება",
-      subtitle: "ვაპროექტებთ და ვმონტაჟებთ სამეთვალყურეო, სიგნალიზაციის, სახანძრო და ელექტრო სისტემებს — საცხოვრებელი და კომერციული ობიექტებისთვის, თბილისსა და შემოგარენში.",
-      ctaCall: "დაგვირეკეთ: 595 70 83 00",
-      ctaServices: "სერვისების ნახვა",
-      stat1: "500+", stat1Label: "დამონტაჟებული ობიექტი",
-      stat2: "11", stat2Label: "წლის გამოცდილება",
-      stat3: "24/7", stat3Label: "გამოძახება და მხარდაჭერა"
-    },
-    servicesIntro: {
-      eyebrow: "სერვისები",
-      title: "ყველაფერი ერთ სისტემაში",
-      subtitle: "დაცვის, ხანძარსაწინააღმდეგო და ელექტრო ინფრასტრუქტურის სრული სპექტრი — ერთი გუნდისგან."
-    },
-    services: {
-      cctv: { title: "კამერები (CCTV)", short: "ვიდეო სამეთვალყურეო სისტემები",
-        desc: "ვაინსტალირებთ IP და HD/4K კამერებს დისტანციური მონიტორინგის შესაძლებლობით — ნახეთ თქვენი ობიექტი ტელეფონიდან ნებისმიერ დროს, ნებისმიერი წერტილიდან. სისტემები აღჭურვილია ღამის ხედვით, მოძრაობის დეტექციითა და უსაფრთხო არქივირებით (ლოკალური ან ღრუბლოვანი).",
-        features: ["IP და HD/4K კამერები", "დისტანციური მონიტორინგი მობილურიდან", "ღამის ხედვა და მოძრაობის დეტექცია", "არქივის უსაფრთხო შენახვა (DVR/Cloud)"] },
-      alarm: { title: "სიგნალიზაცია", short: "საგანგაშო სისტემები",
-        desc: "მოძრაობის სენსორები, კარ-ფანჯრის კონტაქტები და ჭკვიანი შეტყობინებები დაგეხმარებათ ობიექტის დაცვაში ნებისმიერ დროს. სისტემა შეიძლება იყოს სადენიანი ან უსადენო და ინტეგრირდეს 24-საათიან საგუშაგო ცენტრთან.",
-        features: ["მოძრაობის და კარ-ფანჯრის სენსორები", "სადენიანი და უსადენო ვარიანტები", "მყისიერი შეტყობინება მობილურზე", "ინტეგრაცია საგუშაგო ცენტრთან"] },
-      fire: { title: "სახანძრო სისტემები", short: "ხანძარსაწინააღმდეგო დაცვა",
-        desc: "ვაპროექტებთ და ვამონტაჟებთ კვამლის დეტექტორებს, სახანძრო სიგნალიზაციის პანელებსა და შეტყობინების სისტემებს სახანძრო უსაფრთხოების ნორმების სრული დაცვით — საცხოვრებელი და კომერციული ობიექტებისთვის.",
-        features: ["კვამლისა და სითბოს დეტექტორები", "სახანძრო სიგნალიზაციის პანელები", "ავტომატური შეტყობინება", "ნორმებთან შესაბამისობა და შემოწმება"] },
-      locks: { title: "ელექტრო საკეტები", short: "ჭკვიანი დაკეტვის სისტემები",
-        desc: "მაგნიტური საკეტები, კოდური და ბარათიანი სისტემები კარისა და ჭიშკრისთვის, დისტანციური მართვის ფუნქციით. სრულყოფილად ერწყმის დაშვების კონტროლის სისტემებს ერთიან, უსაფრთხო გადაწყვეტად.",
-        features: ["მაგნიტური (Magnetic) საკეტები", "კოდური და ბარათიანი საკეტები", "დისტანციური / აპლიკაციით მართვა", "ინტეგრაცია დაშვების სისტემებთან"] },
-      access: { title: "დაშვების სისტემები", short: "წვდომის კონტროლი",
-        desc: "ტურნიკეტები, RFID ბარათის მკითხველები და ბიომეტრიული (თითის ანაბეჭდი/სახის ამოცნობა) იდენტიფიკაცია ოფისების, ქარხნებისა და საცხოვრებელი კომპლექსებისთვის, სამუშაო დროის აღრიცხვის ინტეგრაციით.",
-        features: ["ტურნიკეტები და ბარიერები", "RFID ბარათის მკითხველები", "ბიომეტრიული იდენტიფიკაცია", "სამუშაო დროის აღრიცხვის სისტემა"] },
-      network: { title: "ქსელური მონტაჟი", short: "ქსელის ინფრასტრუქტურა",
-        desc: "სტრუქტურირებული საკაბელო სისტემები, როუტერების და სვიჩების კონფიგურაცია, პაჩ-პანელების მონტაჟი და Wi-Fi ქსელის ოპტიმიზაცია — სტაბილური და სწრაფი ინტერნეტისთვის ოფისსა თუ სახლში.",
-        features: ["სტრუქტურირებული საკაბელო სისტემა", "როუტერების და სვიჩების მონტაჟი", "პაჩ-პანელების აწყობა", "Wi-Fi დაფარვის ოპტიმიზაცია"] },
-      electrical: { title: "ელექტრო გაყვანილობა", short: "სრული ელექტრო მონტაჟი",
-        desc: "საცხოვრებელი და კომერციული ობიექტების სრული ელექტრო გაყვანილობა, საკომუტაციო კარადების აწყობა, ძველი გაყვანილობის ჩანაცვლება და უსაფრთხოების ტექნიკური შემოწმება საერთაშორისო სტანდარტების მიხედვით.",
-        features: ["საცხოვრებელი და კომერციული გაყვანილობა", "საკომუტაციო კარადების აწყობა", "უსაფრთხოების ტექნიკური შემოწმება", "ავარიული გამოძახების სერვისი"] }
-    },
-    whyUs: {
-      eyebrow: "რატომ ჩვენ",
-      title: "საიმედო პარტნიორი უსაფრთხოებაში",
-      items: [
-        { icon: "zap", title: "სწრაფი რეაგირება", desc: "გამოძახებაზე გამოვდივართ დროულად — ავარიული შემთხვევებისთვის 24/7 რეჟიმში." },
-        { icon: "wrench", title: "გამოცდილი ტექნიკოსები", desc: "სერტიფიცირებული სპეციალისტები, პროფესიონალური აღჭურვილობითა და გამოცდილებით." },
-        { icon: "award", title: "გარანტია ყველა სამუშაოზე", desc: "ვამონტაჟებთ ხარისხიან, სერტიფიცირებულ მოწყობილობებს — წერილობითი გარანტიით." },
-        { icon: "map-pin", title: "თბილისი და შემოგარენი", desc: "ვმუშაობთ ქალაქის ყველა უბანსა და მიმდებარე რეგიონებში." }
-      ]
-    },
-    ctaBanner: { title: "მზად ხართ დაცვის სისტემისთვის?", subtitle: "დაგვირეკეთ უფასო კონსულტაციისა და ობიექტზე შეფასებისთვის.", button: "დარეკვა: 595 70 83 00" },
-    contact: { eyebrow: "კონტაქტი", title: "დაგვიკავშირდით", phoneLabel: "ტელეფონი", areaLabel: "მომსახურების არეალი", area: "მომსახურება მთელ თბილისსა და შემოგარენში", hoursLabel: "სამუშაო საათები", hoursWeek: "ორშ–შაბ: 09:00 – 19:00", hoursEmergency: "ავარიული გამოძახება: 24/7" },
-    footer: { about: "VECTOR — უსაფრთხოებისა და ელექტრო სისტემების პროფესიონალური მონტაჟი თბილისსა და შემოგარენში. კამერებიდან სრულ ელექტრო გაყვანილობამდე.", quickLinks: "ნავიგაცია", servicesTitle: "სერვისები", contactTitle: "კონტაქტი", rights: "ყველა უფლება დაცულია." }
-  },
-
-  en: {
-    brandTag: "Security & Electrical Services",
-    nav: { home: "Home", services: "Services", why: "Why Us", contact: "Contact" },
-    hero: {
-      badgeLive: "Monitoring Active",
-      eyebrow: "Security & Electrical Installations",
-      title1: "Complete Protection",
-      title2: "For Your Property",
-      subtitle: "We design and install surveillance, alarm, fire-safety and electrical systems for residential and commercial properties across Tbilisi and the surrounding area.",
-      ctaCall: "Call us: 595 70 83 00",
-      ctaServices: "View Services",
-      stat1: "500+", stat1Label: "Installed Sites",
-      stat2: "11", stat2Label: "Years of Experience",
-      stat3: "24/7", stat3Label: "Emergency Support"
-    },
-    servicesIntro: { eyebrow: "Services", title: "Everything, one system", subtitle: "The full spectrum of security, fire-safety and electrical infrastructure — from a single team." },
-    services: {
-      cctv: { title: "CCTV & Video Surveillance", short: "Video surveillance systems",
-        desc: "We install IP and HD/4K cameras with remote monitoring — check your property from your phone, anytime, anywhere. Systems come with night vision, motion detection, and secure local or cloud storage.",
-        features: ["IP and HD/4K cameras", "Remote monitoring from mobile", "Night vision & motion detection", "Secure archive storage (DVR/Cloud)"] },
-      alarm: { title: "Alarm Systems", short: "Intrusion & alert systems",
-        desc: "Motion sensors, door and window contacts, and smart alerts keep your property protected around the clock. Systems can be wired or wireless and integrate with a 24-hour monitoring center.",
-        features: ["Motion and door/window sensors", "Wired and wireless options", "Instant mobile alerts", "Monitoring center integration"] },
-      fire: { title: "Fire Safety Systems", short: "Fire detection & alarm",
-        desc: "We design and install smoke detectors, fire alarm control panels and notification systems in full compliance with fire safety standards — for both residential and commercial properties.",
-        features: ["Smoke and heat detectors", "Fire alarm control panels", "Automatic notification", "Compliance inspection & sign-off"] },
-      locks: { title: "Smart & Electric Locks", short: "Smart locking solutions",
-        desc: "Magnetic locks, keypad and card-based systems for doors and gates, with remote control capability. Integrates seamlessly with access-control systems for one secure solution.",
-        features: ["Magnetic door locks", "Keypad and card-based locks", "Remote / app control", "Access-control system integration"] },
-      access: { title: "Access Control Systems", short: "Access & identification",
-        desc: "Turnstiles, RFID card readers and biometric (fingerprint / face) identification for offices, factories and residential complexes, with time-and-attendance integration.",
-        features: ["Turnstiles and barriers", "RFID card readers", "Biometric identification", "Time & attendance integration"] },
-      network: { title: "Network Infrastructure", short: "Structured network setup",
-        desc: "Structured cabling, router and switch configuration, patch panel installation, and Wi-Fi coverage optimization — for stable, fast connectivity at home or in the office.",
-        features: ["Structured cabling systems", "Router and switch setup", "Patch panel installation", "Wi-Fi coverage optimization"] },
-      electrical: { title: "Electrical Wiring", short: "Full electrical installation",
-        desc: "Complete residential and commercial electrical wiring, distribution panel assembly, replacement of old wiring, and safety inspections carried out to international standards.",
-        features: ["Residential & commercial wiring", "Distribution panel assembly", "Safety inspection & testing", "Emergency call-out service"] }
-    },
-    whyUs: {
-      eyebrow: "Why Us", title: "A trusted partner in security",
-      items: [
-        { icon: "zap", title: "Fast Response", desc: "We respond promptly to every call-out — with 24/7 coverage for emergencies." },
-        { icon: "wrench", title: "Experienced Technicians", desc: "Certified specialists with professional equipment and years of hands-on experience." },
-        { icon: "award", title: "Warranty on Every Job", desc: "We install certified, quality hardware — backed by a written warranty." },
-        { icon: "map-pin", title: "Tbilisi & Surroundings", desc: "We work across every district of the city and the neighboring region." }
-      ]
-    },
-    ctaBanner: { title: "Ready to secure your property?", subtitle: "Call us for a free consultation and on-site assessment.", button: "Call: 595 70 83 00" },
-    contact: { eyebrow: "Contact", title: "Get in Touch", phoneLabel: "Phone", areaLabel: "Service Area", area: "Services available across Tbilisi and surrounding areas", hoursLabel: "Working Hours", hoursWeek: "Mon–Sat: 09:00 – 19:00", hoursEmergency: "Emergency call-out: 24/7" },
-    footer: { about: "VECTOR — professional security and electrical systems installation across Tbilisi and the surrounding area. From CCTV to full electrical wiring.", quickLinks: "Navigation", servicesTitle: "Services", contactTitle: "Contact", rights: "All rights reserved." }
-  },
-
-  ru: {
-    brandTag: "Охранные и электромонтажные услуги",
-    nav: { home: "Главная", services: "Услуги", why: "Почему мы", contact: "Контакты" },
-    hero: {
-      badgeLive: "Мониторинг активен",
-      eyebrow: "Охрана и электромонтаж",
-      title1: "Полная защита",
-      title2: "вашего объекта",
-      subtitle: "Проектируем и устанавливаем системы видеонаблюдения, сигнализации, пожарной безопасности и электрики для жилых и коммерческих объектов в Тбилиси и окрестностях.",
-      ctaCall: "Позвонить: 595 70 83 00",
-      ctaServices: "Смотреть услуги",
-      stat1: "500+", stat1Label: "Установленных объектов",
-      stat2: "11", stat2Label: "Лет опыта",
-      stat3: "24/7", stat3Label: "Экстренный вызов"
-    },
-    servicesIntro: { eyebrow: "Услуги", title: "Всё в одной системе", subtitle: "Полный спектр охранной, противопожарной и электрической инфраструктуры — от одной команды." },
-    services: {
-      cctv: { title: "Видеонаблюдение (CCTV)", short: "Системы видеонаблюдения",
-        desc: "Устанавливаем IP- и HD/4K-камеры с удалённым мониторингом — следите за объектом с телефона в любое время и из любой точки. Системы оснащены ночным видением, детекцией движения и надёжным хранением архива.",
-        features: ["IP и HD/4K камеры", "Удалённый мониторинг с телефона", "Ночное видение и детекция движения", "Надёжное хранение архива (DVR/Cloud)"] },
-      alarm: { title: "Сигнализация", short: "Охранные системы",
-        desc: "Датчики движения, контакты на двери и окна, а также умные уведомления защищают объект круглосуточно. Система может быть проводной или беспроводной, с интеграцией в пульт охраны.",
-        features: ["Датчики движения и на двери/окна", "Проводные и беспроводные варианты", "Мгновенные уведомления на телефон", "Интеграция с пультом охраны"] },
-      fire: { title: "Пожарная безопасность", short: "Противопожарные системы",
-        desc: "Проектируем и устанавливаем дымовые извещатели, пожарные панели и системы оповещения с полным соблюдением норм пожарной безопасности — для жилых и коммерческих объектов.",
-        features: ["Дымовые и тепловые извещатели", "Пожарные контрольные панели", "Автоматическое оповещение", "Проверка на соответствие нормам"] },
-      locks: { title: "Электронные замки", short: "Умные системы запирания",
-        desc: "Магнитные замки, кодовые и карточные системы для дверей и ворот с функцией удалённого управления. Полностью интегрируются с системами контроля доступа в единое решение.",
-        features: ["Магнитные замки", "Кодовые и карточные замки", "Удалённое / мобильное управление", "Интеграция с системами доступа"] },
-      access: { title: "Системы контроля доступа", short: "Контроль и идентификация",
-        desc: "Турникеты, RFID-считыватели и биометрическая идентификация (отпечаток пальца / лицо) для офисов, заводов и жилых комплексов, с интеграцией учёта рабочего времени.",
-        features: ["Турникеты и барьеры", "RFID-считыватели карт", "Биометрическая идентификация", "Учёт рабочего времени"] },
-      network: { title: "Сетевая инфраструктура", short: "Монтаж сетей",
-        desc: "Структурированные кабельные системы, настройка роутеров и коммутаторов, монтаж патч-панелей и оптимизация покрытия Wi-Fi — для стабильного и быстрого интернета дома и в офисе.",
-        features: ["Структурированные кабельные системы", "Настройка роутеров и коммутаторов", "Монтаж патч-панелей", "Оптимизация покрытия Wi-Fi"] },
-      electrical: { title: "Электропроводка", short: "Полный электромонтаж",
-        desc: "Полный электромонтаж жилых и коммерческих объектов, сборка распределительных щитов, замена старой проводки и проверка безопасности по международным стандартам.",
-        features: ["Жилой и коммерческий электромонтаж", "Сборка распределительных щитов", "Проверка безопасности", "Аварийный вызов"] }
-    },
-    whyUs: {
-      eyebrow: "Почему мы", title: "Надёжный партнёр в безопасности",
-      items: [
-        { icon: "zap", title: "Быстрый отклик", desc: "Оперативно выезжаем на вызовы — аварийная служба работает в режиме 24/7." },
-        { icon: "wrench", title: "Опытные техники", desc: "Сертифицированные специалисты с профессиональным оборудованием и опытом." },
-        { icon: "award", title: "Гарантия на все работы", desc: "Устанавливаем сертифицированное оборудование с письменной гарантией." },
-        { icon: "map-pin", title: "Тбилиси и окрестности", desc: "Работаем во всех районах города и в прилегающих регионах." }
-      ]
-    },
-    ctaBanner: { title: "Готовы установить систему безопасности?", subtitle: "Позвоните нам для бесплатной консультации и оценки объекта.", button: "Позвонить: 595 70 83 00" },
-    contact: { eyebrow: "Контакты", title: "Свяжитесь с нами", phoneLabel: "Телефон", areaLabel: "Зона обслуживания", area: "Услуги доступны по всему Тбилиси и в пригородах", hoursLabel: "Часы работы", hoursWeek: "Пн–Сб: 09:00 – 19:00", hoursEmergency: "Аварийный вызов: 24/7" },
-    footer: { about: "VECTOR — профессиональный монтаж охранных и электрических систем в Тбилиси и окрестностях. От видеонаблюдения до полного электромонтажа.", quickLinks: "Навигация", servicesTitle: "Услуги", contactTitle: "Контакты", rights: "Все права защищены." }
-  }
-};
-
-const SERVICE_ORDER = ["cctv","alarm","fire","locks","access","network","electrical"];
-const SERVICE_META = {
-  cctv:       { icon: "camera",     img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80" },
-  alarm:      { icon: "bell-ring",  img: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" },
-  fire:       { icon: "flame",      img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1200&q=80" },
-  locks:      { icon: "key-round",  img: "https://images.unsplash.com/photo-1558617320-a56d5bcd8bde?auto=format&fit=crop&w=1200&q=80" },
-  access:     { icon: "fingerprint",img: "https://images.unsplash.com/photo-1633265486064-086b219458ec?auto=format&fit=crop&w=1200&q=80" },
-  network:    { icon: "network",    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" },
-  electrical: { icon: "zap",        img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1200&q=80" }
-};
-
-let currentLang = "ge";
-
-/* ---------------------------------------------------------------- */
-/* HELPERS                                                           */
-/* ---------------------------------------------------------------- */
-function t(path){
-  return path.split(".").reduce((acc,key)=> (acc && acc[key] !== undefined) ? acc[key] : null, translations[currentLang]);
-}
-
-function renderServicePills(){
-  const wrap = document.getElementById("service-pills");
-  wrap.innerHTML = SERVICE_ORDER.map(id=>{
-    const s = translations[currentLang].services[id];
-    const meta = SERVICE_META[id];
-    return `<button onclick="document.getElementById('svc-${id}').scrollIntoView({behavior:'smooth'})"
-      class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium bg-white transition-colors"
-      style="border:1px solid #E3E7EC;color:var(--charcoal);"
-      onmouseenter="this.style.borderColor='var(--emerald)';this.style.color='#0a8a54';"
-      onmouseleave="this.style.borderColor='#E3E7EC';this.style.color='var(--charcoal)';">
-      <i data-lucide="${meta.icon}" class="w-3.5 h-3.5"></i>${s.short}
-    </button>`;
-  }).join("");
-}
-
-function renderServiceList(){
-  const wrap = document.getElementById("service-list");
-  wrap.innerHTML = SERVICE_ORDER.map((id, idx)=>{
-    const s = translations[currentLang].services[id];
-    const meta = SERVICE_META[id];
-    const imgFirst = idx % 2 === 0;
-    const imgBlock = `
-      <div class="relative rounded-2xl overflow-hidden" style="order:${imgFirst?1:2};aspect-ratio:4/3;box-shadow:0 20px 45px -20px rgba(11,20,36,0.35);">
-        <div class="svc-img-wrap">
-          <img src="${meta.img}" alt="${s.title}" onerror="this.classList.add('broken')">
-          <div class="svc-img-fallback"><i data-lucide="${meta.icon}" style="width:56px;height:56px;color:var(--emerald);" stroke-width="1.25"></i></div>
-        </div>
-        <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 55%,rgba(11,20,36,0.55) 100%);"></div>
-        <div class="absolute bottom-4 left-4 flex items-center justify-center rounded-xl" style="width:44px;height:44px;background:rgba(11,20,36,0.85);backdrop-filter:blur(6px);">
-          <i data-lucide="${meta.icon}" style="width:20px;height:20px;color:var(--emerald);"></i>
-        </div>
-      </div>`;
-    const textBlock = `
-      <div style="order:${imgFirst?2:1};">
-        <h3 class="text-2xl md:text-3xl font-bold mb-4 font-display" style="color:var(--navy);">${s.title}</h3>
-        <p class="text-base leading-relaxed mb-6" style="color:var(--text-muted);">${s.desc}</p>
-        <ul class="flex flex-col gap-2.5">
-          ${s.features.map(f=>`<li class="flex items-start gap-2.5 text-sm" style="color:var(--charcoal);"><i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 shrink-0" style="color:var(--emerald);"></i><span>${f}</span></li>`).join("")}
-        </ul>
-      </div>`;
-    return `<div id="svc-${id}" class="grid lg:grid-cols-2 gap-10 md:gap-14 items-center" style="scroll-margin-top:88px;">${imgBlock}${textBlock}</div>`;
-  }).join("");
-}
-
-function renderWhyUs(){
-  const wrap = document.getElementById("why-list");
-  wrap.innerHTML = translations[currentLang].whyUs.items.map(item=>`
-    <div class="p-6 rounded-2xl" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
-      <div class="flex items-center justify-center rounded-xl mb-5" style="width:44px;height:44px;background:rgba(18,183,106,0.14);">
-        <i data-lucide="${item.icon}" style="width:20px;height:20px;color:var(--emerald);"></i>
-      </div>
-      <h4 class="text-white font-semibold mb-2 font-display">${item.title}</h4>
-      <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.55);">${item.desc}</p>
-    </div>`).join("");
-}
-
-function renderFooterServices(){
-  const wrap = document.getElementById("footer-services");
-  wrap.innerHTML = SERVICE_ORDER.slice(0,5).map(id=>{
-    const s = translations[currentLang].services[id];
-    return `<li><a href="#svc-${id}" onclick="document.getElementById('svc-${id}').scrollIntoView({behavior:'smooth'});return false;" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>${s.short}</a></li>`;
-  }).join("");
-}
-
-function applyStaticText(){
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const val = t(el.getAttribute("data-i18n"));
-    if(val !== null) el.textContent = val;
-  });
-}
-
-function setLanguage(lang){
-  currentLang = lang;
-  document.documentElement.lang = lang === "ge" ? "ka" : lang;
-  applyStaticText();
-  renderServicePills();
-  renderServiceList();
-  renderWhyUs();
-  renderFooterServices();
-  document.querySelectorAll(".lang-btn").forEach(btn=>{
-    btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
-  });
-  if(window.lucide) lucide.createIcons();
-}
-
-/* ---------------------------------------------------------------- */
-/* EVENTS                                                            */
-/* ---------------------------------------------------------------- */
-document.querySelectorAll(".lang-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=> setLanguage(btn.getAttribute("data-lang")));
-});
-
-const header = document.getElementById("site-header");
-window.addEventListener("scroll", ()=>{
-  header.classList.toggle("scrolled", window.scrollY > 12);
-});
-
-const menuToggle = document.getElementById("menu-toggle");
-const mobileMenu = document.getElementById("mobile-menu");
-const menuIconOpen = document.getElementById("menu-icon-open");
-const menuIconClose = document.getElementById("menu-icon-close");
-menuToggle.addEventListener("click", ()=>{
-  const isOpen = !mobileMenu.classList.contains("hidden");
-  mobileMenu.classList.toggle("hidden");
-  menuIconOpen.classList.toggle("hidden", !isOpen);
-  menuIconClose.classList.toggle("hidden", isOpen);
-});
-document.querySelectorAll(".mobile-link").forEach(link=>{
-  link.addEventListener("click", ()=>{
-    mobileMenu.classList.add("hidden");
-    menuIconOpen.classList.remove("hidden");
-    menuIconClose.classList.add("hidden");
-  });
-});
-
-document.getElementById("year").textContent = new Date().getFullYear();
-
-/* init */
-setLanguage("ge");
-</script>
+<script src="assets/js/i18n.js"></script>
+<script>window.CURRENT_PAGE = "home";</script>
+<script src="assets/js/app.js"></script>
 </body>
 </html>
