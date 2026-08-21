@@ -191,6 +191,73 @@ function renderHomeServicesGrid() {
 }
 
 /* ------------------------------------------------------------------ */
+/* HOMEPAGE — why us / process / faq / floating actions                */
+/* ------------------------------------------------------------------ */
+
+function renderHomeWhyUs() {
+  const wrap = document.getElementById("why-grid");
+  if (!wrap) return;
+  const data = t("home.whyUs");
+  wrap.innerHTML = data.items.map(item => `
+    <div class="p-6 rounded-2xl" style="background:var(--paper);border:1px solid #E3E7EC;">
+      <div class="flex items-center justify-center rounded-xl mb-5" style="width:44px;height:44px;background:rgba(18,183,106,0.12);">
+        <i data-lucide="${item.icon}" style="width:20px;height:20px;color:var(--emerald-dark);"></i>
+      </div>
+      <h4 class="font-semibold mb-2 font-display" style="color:var(--navy);">${item.title}</h4>
+      <p class="text-sm leading-relaxed" style="color:var(--text-muted);">${item.desc}</p>
+    </div>`).join("");
+}
+
+function renderHomeProcess() {
+  const wrap = document.getElementById("process-steps");
+  if (!wrap) return;
+  const data = t("home.process");
+  wrap.innerHTML = data.steps.map((step, i) => `
+    <div class="relative flex-1 flex flex-col items-start">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="flex items-center justify-center rounded-full shrink-0" style="width:44px;height:44px;background:var(--navy);">
+          <i data-lucide="${step.icon}" style="width:19px;height:19px;color:var(--emerald);"></i>
+        </span>
+        <span class="text-xs font-bold tracking-widest uppercase font-display" style="color:var(--emerald);">0${i + 1}</span>
+      </div>
+      <h4 class="font-semibold mb-2 font-display" style="color:var(--navy);">${step.title}</h4>
+      <p class="text-sm leading-relaxed" style="color:var(--text-muted);">${step.desc}</p>
+    </div>`).join("");
+}
+
+function renderHomeFAQ() {
+  const wrap = document.getElementById("faq-list");
+  if (!wrap) return;
+  const data = t("home.faq");
+  wrap.innerHTML = data.items.map((item, i) => `
+    <div class="rounded-xl bg-white overflow-hidden" style="border:1px solid #E3E7EC;">
+      <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-5 py-4" data-faq="${i}">
+        <span class="text-sm md:text-base font-medium" style="color:var(--navy);">${item.q}</span>
+        <i data-lucide="chevron-down" class="faq-icon w-4 h-4 shrink-0 transition-transform" style="color:var(--emerald-dark);"></i>
+      </button>
+      <div class="faq-answer hidden px-5 pb-4">
+        <p class="text-sm leading-relaxed" style="color:var(--text-muted);">${item.a}</p>
+      </div>
+    </div>`).join("");
+}
+
+function renderFloatingActions() {
+  const el = document.getElementById("floating-actions");
+  if (!el) return;
+  el.innerHTML = `
+  <div class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+    <a href="${WHATSAPP_URL}" target="_blank" rel="noopener" aria-label="${t('common.whatsapp')}"
+       class="flex items-center justify-center rounded-full btn-whatsapp shadow-lg" style="width:52px;height:52px;">
+      <i data-lucide="message-circle" class="w-5 h-5"></i>
+    </a>
+    <a href="tel:${PHONE_TEL}" aria-label="${t('common.callNow')}"
+       class="flex items-center justify-center rounded-full btn-primary shadow-lg" style="width:52px;height:52px;">
+      <i data-lucide="phone" class="w-5 h-5"></i>
+    </a>
+  </div>`;
+}
+
+/* ------------------------------------------------------------------ */
 /* SERVICE DETAIL PAGE                                                 */
 /* ------------------------------------------------------------------ */
 
@@ -325,7 +392,13 @@ function setLanguage(lang) {
 
   applyStaticText();
   renderFooterServices();
-  if (window.CURRENT_PAGE === "home") renderHomeServicesGrid();
+  renderFloatingActions();
+  if (window.CURRENT_PAGE === "home") {
+    renderHomeServicesGrid();
+    renderHomeWhyUs();
+    renderHomeProcess();
+    renderHomeFAQ();
+  }
   if (window.CURRENT_SERVICE) renderServiceDetail();
 
   document.querySelectorAll(".lang-btn").forEach(btn => {
@@ -345,7 +418,16 @@ document.addEventListener("DOMContentLoaded", () => {
   setLanguage(getLang());
 
   document.body.addEventListener("click", e => {
-    const btn = e.target.closest(".lang-btn");
-    if (btn) setLanguage(btn.getAttribute("data-lang"));
+    const langBtn = e.target.closest(".lang-btn");
+    if (langBtn) { setLanguage(langBtn.getAttribute("data-lang")); return; }
+
+    const faqBtn = e.target.closest(".faq-toggle");
+    if (faqBtn) {
+      const answer = faqBtn.nextElementSibling;
+      const icon = faqBtn.querySelector(".faq-icon");
+      const isOpen = !answer.classList.contains("hidden");
+      answer.classList.toggle("hidden", isOpen);
+      icon.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
+    }
   });
 });

@@ -55,6 +55,36 @@ const translations = {
         stat3: "24/7", stat3Label: "გამოძახება და მხარდაჭერა"
       },
       servicesIntro: { eyebrow: "სერვისები", title: "ყველაფერი ერთ სისტემაში", subtitle: "დაცვის, ხანძარსაწინააღმდეგო და ელექტრო ინფრასტრუქტურის სრული სპექტრი — ერთი გუნდისგან." },
+      whyUs: {
+        eyebrow: "რატომ ჩვენ",
+        title: "რატომ აირჩიონ VECTOR",
+        items: [
+          { icon: "badge-check", title: "ხარისხის გარანტია", desc: "ვამონტაჟებთ მხოლოდ სერტიფიცირებულ, ხარისხიან მოწყობილობებს." },
+          { icon: "timer", title: "სწრაფი მომსახურება თბილისსა და შემოგარენში", desc: "ოპერატიულად ვრეაგირებთ გამოძახებაზე ქალაქისა და მიმდებარე რეგიონის ნებისმიერ წერტილში." },
+          { icon: "file-check", title: "ოფიციალური გარანტია", desc: "ყველა სამუშაოზე გაიცემა წერილობითი გარანტია." },
+          { icon: "wrench", title: "პროფესიონალური მონტაჟი", desc: "გამოცდილი ტექნიკოსები, სწორი ინსტრუმენტები და სუფთა შესრულება." }
+        ]
+      },
+      process: {
+        eyebrow: "როგორ ვმუშაობთ",
+        title: "მარტივი 3 ნაბიჯი",
+        subtitle: "დარეკვიდან სრულ გამართვამდე — გამჭვირვალე და სწრაფი პროცესი.",
+        steps: [
+          { icon: "phone-call", title: "დარეკვა / კონსულტაცია", desc: "დაგვიკავშირდით ტელეფონით ან WhatsApp-ით — გავეცნობით თქვენს საჭიროებებს." },
+          { icon: "search", title: "ობიექტის დათვალიერება", desc: "სპეციალისტი ეწვევა ობიექტს და შემოგთავაზებთ ოპტიმალურ გადაწყვეტას." },
+          { icon: "settings", title: "მონტაჟი და გამართვა", desc: "ვამონტაჟებთ სისტემას პროფესიონალურად და გასწავლით მის გამოყენებას." }
+        ]
+      },
+      faq: {
+        eyebrow: "კითხვები",
+        title: "ხშირად დასმული კითხვები",
+        items: [
+          { q: "რომელ რაიონებში მუშაობთ?", a: "ვმუშაობთ მთელ თბილისსა და შემოგარენში — ქალაქის ყველა უბანში და მიმდებარე დასახლებულ პუნქტებში." },
+          { q: "გაქვთ თუ არა გარანტია მომსახურებაზე?", a: "დიახ, ყველა სამონტაჟო სამუშაოსა და მოწყობილობაზე გაიცემა ოფიციალური წერილობითი გარანტია." },
+          { q: "საჭიროა თუ არა ობიექტის წინასწარი დათვალიერება?", a: "დიდი ან რთული პროექტებისთვის გირჩევთ უფასო დათვალიერებას — ეს გვეხმარება ზუსტი შეფასების მომზადებაში." },
+          { q: "რამდენ ხანში სრულდება მონტაჟი?", a: "სტანდარტული ობიექტისთვის მონტაჟი სრულდება 1-3 დღეში, პროექტის მასშტაბიდან გამომდინარე." }
+        ]
+      },
       contactSection: { eyebrow: "კონტაქტი", title: "დაგვიკავშირდით", subtitle: "დაგვირეკეთ ან მოგვწერეთ WhatsApp-ზე — გიპასუხებთ სწრაფად." }
     },
     services: {
@@ -151,6 +181,36 @@ const translations = {
         stat3: "24/7", stat3Label: "Emergency Support"
       },
       servicesIntro: { eyebrow: "Services", title: "Everything, one system", subtitle: "The full spectrum of security, fire-safety and electrical infrastructure — from a single team." },
+      whyUs: {
+        eyebrow: "Why Us",
+        title: "Why choose VECTOR",
+        items: [
+          { icon: "badge-check", title: "Quality Guarantee", desc: "We install only certified, high-quality hardware." },
+          { icon: "timer", title: "Fast Service in Tbilisi & Area", desc: "We respond promptly anywhere in the city and surrounding region." },
+          { icon: "file-check", title: "Official Warranty", desc: "Every job comes with a written warranty." },
+          { icon: "wrench", title: "Professional Installation", desc: "Experienced technicians, the right tools, and clean workmanship." }
+        ]
+      },
+      process: {
+        eyebrow: "How We Work",
+        title: "Three simple steps",
+        subtitle: "From the first call to full setup — a transparent, fast process.",
+        steps: [
+          { icon: "phone-call", title: "Call / Consultation", desc: "Reach us by phone or WhatsApp — we'll learn about your needs." },
+          { icon: "search", title: "Site Inspection", desc: "A specialist visits your property and proposes the best solution." },
+          { icon: "settings", title: "Installation & Setup", desc: "We install the system professionally and walk you through using it." }
+        ]
+      },
+      faq: {
+        eyebrow: "FAQ",
+        title: "Frequently Asked Questions",
+        items: [
+          { q: "Which areas do you cover?", a: "We work across all of Tbilisi and the surrounding area — every district and nearby settlement." },
+          { q: "Do you offer a warranty on your work?", a: "Yes, every installation and piece of equipment comes with an official written warranty." },
+          { q: "Is a site inspection required beforehand?", a: "For larger or complex projects we recommend a free inspection — it helps us prepare an accurate assessment." },
+          { q: "How long does installation take?", a: "A standard property is typically completed in 1–3 days, depending on the scope of the project." }
+        ]
+      },
       contactSection: { eyebrow: "Contact", title: "Get in Touch", subtitle: "Call us or message us on WhatsApp — we reply quickly." }
     },
     services: {
@@ -247,6 +307,36 @@ const translations = {
         stat3: "24/7", stat3Label: "Экстренный вызов"
       },
       servicesIntro: { eyebrow: "Услуги", title: "Всё в одной системе", subtitle: "Полный спектр охранной, противопожарной и электрической инфраструктуры — от одной команды." },
+      whyUs: {
+        eyebrow: "Почему мы",
+        title: "Почему выбирают VECTOR",
+        items: [
+          { icon: "badge-check", title: "Гарантия качества", desc: "Устанавливаем только сертифицированное, качественное оборудование." },
+          { icon: "timer", title: "Быстрое обслуживание в Тбилиси и окрестностях", desc: "Оперативно реагируем на вызовы в любой точке города и региона." },
+          { icon: "file-check", title: "Официальная гарантия", desc: "На каждую работу выдаётся письменная гарантия." },
+          { icon: "wrench", title: "Профессиональный монтаж", desc: "Опытные техники, правильные инструменты и аккуратное исполнение." }
+        ]
+      },
+      process: {
+        eyebrow: "Как мы работаем",
+        title: "Три простых шага",
+        subtitle: "От звонка до полной настройки — прозрачный и быстрый процесс.",
+        steps: [
+          { icon: "phone-call", title: "Звонок / Консультация", desc: "Свяжитесь с нами по телефону или WhatsApp — узнаем о ваших потребностях." },
+          { icon: "search", title: "Осмотр объекта", desc: "Специалист посетит объект и предложит оптимальное решение." },
+          { icon: "settings", title: "Монтаж и настройка", desc: "Профессионально устанавливаем систему и обучаем пользованию." }
+        ]
+      },
+      faq: {
+        eyebrow: "Вопросы",
+        title: "Часто задаваемые вопросы",
+        items: [
+          { q: "В каких районах вы работаете?", a: "Работаем по всему Тбилиси и в пригородах — во всех районах города и ближайших населённых пунктах." },
+          { q: "Предоставляете ли вы гарантию на работу?", a: "Да, на все монтажные работы и оборудование выдаётся официальная письменная гарантия." },
+          { q: "Нужен ли предварительный осмотр объекта?", a: "Для крупных или сложных проектов рекомендуем бесплатный осмотр — это помогает подготовить точную оценку." },
+          { q: "Сколько времени занимает монтаж?", a: "Стандартный объект обычно завершается за 1–3 дня, в зависимости от масштаба проекта." }
+        ]
+      },
       contactSection: { eyebrow: "Контакты", title: "Свяжитесь с нами", subtitle: "Позвоните или напишите нам в WhatsApp — ответим быстро." }
     },
     services: {
