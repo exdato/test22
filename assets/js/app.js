@@ -41,6 +41,7 @@ function renderHeader() {
         <nav class="hidden lg:flex items-center gap-8">
           <a href="index.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.home"></a>
           <a href="index.html#services" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.services"></a>
+          <a href="blog.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.blog"></a>
           <a href="index.html#contact" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.contact"></a>
         </nav>
 
@@ -63,6 +64,7 @@ function renderHeader() {
       <div class="px-5 py-4 flex flex-col gap-1">
         <a href="index.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.home"></a>
         <a href="index.html#services" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.services"></a>
+        <a href="blog.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.blog"></a>
         <a href="index.html#contact" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.contact"></a>
         <a href="tel:${PHONE_TEL}" class="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-primary">
           <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
@@ -108,6 +110,7 @@ function renderFooter() {
           <ul class="flex flex-col gap-2.5">
             <li><a href="index.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.home"></span></a></li>
             <li><a href="index.html#services" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.services"></span></a></li>
+            <li><a href="blog.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.blog"></span></a></li>
             <li><a href="index.html#contact" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.contact"></span></a></li>
           </ul>
         </div>
@@ -258,6 +261,110 @@ function renderFloatingActions() {
 }
 
 /* ------------------------------------------------------------------ */
+/* BLOG — hub grid + individual post                                   */
+/* ------------------------------------------------------------------ */
+
+function renderBlogGrid() {
+  const wrap = document.getElementById("blog-grid");
+  if (!wrap) return;
+  wrap.innerHTML = BLOG_ORDER.map(id => {
+    const post = t(`blog.posts.${id}`);
+    const meta = BLOG_META[id];
+    const svcMeta = SERVICE_META[meta.service];
+    return `
+    <div class="rounded-2xl overflow-hidden bg-white flex flex-col" style="border:1px solid #E3E7EC;box-shadow:0 12px 30px -18px rgba(11,20,36,0.18);">
+      <div class="relative" style="aspect-ratio:16/10;">
+        <div class="img-wrap">
+          <img src="${meta.img}" alt="${post.title}" loading="lazy" onerror="this.classList.add('broken')">
+          <div class="img-fallback"><i data-lucide="${svcMeta.icon}" style="width:40px;height:40px;color:var(--emerald);" stroke-width="1.25"></i></div>
+        </div>
+        <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 55%,rgba(11,20,36,0.5) 100%);"></div>
+        <div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(11,20,36,0.8);">
+          <i data-lucide="clock" style="width:11px;height:11px;color:var(--emerald);"></i>
+          <span class="text-[10px] font-semibold text-white">${meta.minutes} ${t("blog.minReadSuffix")}</span>
+        </div>
+      </div>
+      <div class="p-6 flex flex-col flex-1">
+        <h3 class="text-base font-bold mb-2 font-display leading-snug" style="color:var(--navy);">${post.title}</h3>
+        <p class="text-sm leading-relaxed mb-5 flex-1" style="color:var(--text-muted);">${post.excerpt}</p>
+        <a href="${meta.page}" class="inline-flex items-center gap-1.5 text-sm font-semibold" style="color:var(--emerald-dark);">
+          ${t("blog.readMore")} <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderBlogPost() {
+  const id = window.CURRENT_POST;
+  const root = document.getElementById("blog-post");
+  if (!id || !root) return;
+  const post = t(`blog.posts.${id}`);
+  const meta = BLOG_META[id];
+  const svcMeta = SERVICE_META[meta.service];
+  const svc = t(`services.${meta.service}`);
+
+  root.innerHTML = `
+  <!-- banner -->
+  <section class="svc-banner" style="background-image:url('${meta.img}');">
+    <div class="max-w-4xl mx-auto px-5 md:px-8 pt-32 pb-16 md:pt-40 md:pb-20 svc-banner-content">
+      <div class="flex items-center gap-2 text-xs mb-5" style="color:rgba(255,255,255,0.6);">
+        <a href="index.html" class="hover:text-white">${t("common.breadcrumbHome")}</a>
+        <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        <a href="blog.html" class="hover:text-white">${t("blog.eyebrow")}</a>
+      </div>
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5" style="background:rgba(18,183,106,0.15);border:1px solid rgba(18,183,106,0.3);">
+        <i data-lucide="${svcMeta.icon}" style="width:14px;height:14px;color:var(--emerald);"></i>
+        <span class="text-xs font-medium" style="color:var(--emerald);">${svc.title}</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 font-display max-w-2xl leading-tight">${post.title}</h1>
+      <div class="flex items-center gap-2 text-xs" style="color:rgba(255,255,255,0.55);">
+        <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+        <span>${meta.minutes} ${t("blog.minReadSuffix")}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- article -->
+  <section class="py-16 md:py-20" style="background:var(--paper);">
+    <div class="max-w-3xl mx-auto px-5 md:px-8">
+      <p class="text-lg leading-relaxed mb-10" style="color:var(--charcoal);">${post.intro}</p>
+      <div class="flex flex-col gap-8">
+        ${post.sections.map(s => `
+        <div>
+          <h2 class="text-xl font-bold mb-2 font-display" style="color:var(--navy);">${s.h}</h2>
+          <p class="text-base leading-relaxed" style="color:var(--text-muted);">${s.p}</p>
+        </div>`).join("")}
+      </div>
+      <p class="text-base leading-relaxed mt-10 pt-8" style="color:var(--charcoal);border-top:1px solid #E3E7EC;">${post.conclusion}</p>
+
+      <a href="blog.html" class="inline-flex items-center gap-1.5 mt-8 text-sm font-semibold" style="color:var(--emerald-dark);">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> ${t("blog.backToBlog")}
+      </a>
+    </div>
+  </section>
+
+  <!-- related service cta -->
+  <section class="relative overflow-hidden" style="background:linear-gradient(120deg,#0B1424 0%,#123A2C 130%);">
+    <div class="blueprint-grid subtle"></div>
+    <div class="max-w-4xl mx-auto px-5 md:px-8 py-14 md:py-16 relative flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+      <div>
+        <div class="text-xs uppercase tracking-widest font-semibold mb-2" style="color:var(--emerald);">${svc.title}</div>
+        <p style="color:rgba(255,255,255,0.65);">${svc.summary}</p>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="${svcMeta.page}" class="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold btn-outline">
+          <span>${t("common.viewService")}</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="tel:${PHONE_TEL}" class="inline-flex items-center gap-2.5 px-5 py-3 rounded-full text-sm font-semibold btn-primary">
+          <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
+        </a>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ------------------------------------------------------------------ */
 /* SERVICE DETAIL PAGE                                                 */
 /* ------------------------------------------------------------------ */
 
@@ -399,7 +506,9 @@ function setLanguage(lang) {
     renderHomeProcess();
     renderHomeFAQ();
   }
+  if (window.CURRENT_PAGE === "blog") renderBlogGrid();
   if (window.CURRENT_SERVICE) renderServiceDetail();
+  if (window.CURRENT_POST) renderBlogPost();
 
   document.querySelectorAll(".lang-btn").forEach(btn => {
     btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);

@@ -8,16 +8,30 @@ const PHONE_DISPLAY = "595 70 83 00";
 const PHONE_TEL = "595708300";
 const WHATSAPP_URL = "https://wa.me/995595708300";
 
-const SERVICE_ORDER = ["cctv", "alarm", "fire", "locks", "access", "network", "electrical"];
+const SERVICE_ORDER = ["cctv", "alarm", "fire", "locks", "access", "network", "electrical", "smart"];
 
 const SERVICE_META = {
-  cctv:       { icon: "camera",      page: "cameras.html", img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1600&q=80" },
-  alarm:      { icon: "bell-ring",   page: "alarm.html",   img: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1600&q=80" },
-  fire:       { icon: "flame",       page: "fire.html",    img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1600&q=80" },
-  locks:      { icon: "key-round",   page: "locks.html",   img: "https://images.unsplash.com/photo-1558617320-a56d5bcd8bde?auto=format&fit=crop&w=1600&q=80" },
-  access:     { icon: "fingerprint", page: "access.html",  img: "https://images.unsplash.com/photo-1633265486064-086b219458ec?auto=format&fit=crop&w=1600&q=80" },
-  network:    { icon: "network",     page: "network.html", img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80" },
-  electrical: { icon: "zap",         page: "wiring.html",  img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1600&q=80" }
+  cctv:       { icon: "camera",      page: "cameras.html",       img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1600&q=80" },
+  alarm:      { icon: "bell-ring",   page: "alarm.html",         img: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1600&q=80" },
+  fire:       { icon: "flame",       page: "fire.html",          img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1600&q=80" },
+  locks:      { icon: "key-round",   page: "locks.html",         img: "https://images.unsplash.com/photo-1558617320-a56d5bcd8bde?auto=format&fit=crop&w=1600&q=80" },
+  access:     { icon: "fingerprint", page: "access.html",        img: "https://images.unsplash.com/photo-1633265486064-086b219458ec?auto=format&fit=crop&w=1600&q=80" },
+  network:    { icon: "network",     page: "network.html",       img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80" },
+  electrical: { icon: "zap",         page: "wiring.html",        img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1600&q=80" },
+  smart:      { icon: "cpu",         page: "smart-devices.html", img: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&w=1600&q=80" }
+};
+
+const BLOG_ORDER = ["post1", "post2", "post3", "post4", "post5", "post6", "post7", "post8"];
+
+const BLOG_META = {
+  post1: { page: "blog-post-1.html", service: "cctv",       minutes: 4, img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80" },
+  post2: { page: "blog-post-2.html", service: "alarm",      minutes: 5, img: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" },
+  post3: { page: "blog-post-3.html", service: "fire",       minutes: 4, img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1200&q=80" },
+  post4: { page: "blog-post-4.html", service: "locks",      minutes: 4, img: "https://images.unsplash.com/photo-1558617320-a56d5bcd8bde?auto=format&fit=crop&w=1200&q=80" },
+  post5: { page: "blog-post-5.html", service: "access",     minutes: 5, img: "https://images.unsplash.com/photo-1633265486064-086b219458ec?auto=format&fit=crop&w=1200&q=80" },
+  post6: { page: "blog-post-6.html", service: "network",    minutes: 5, img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" },
+  post7: { page: "blog-post-7.html", service: "electrical", minutes: 4, img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1200&q=80" },
+  post8: { page: "blog-post-8.html", service: "smart",      minutes: 5, img: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&w=1200&q=80" }
 };
 
 const translations = {
@@ -25,12 +39,13 @@ const translations = {
   ge: {
     common: {
       brandTag: "უსაფრთხოება & ელექტრო სერვისი",
-      nav: { home: "მთავარი", services: "სერვისები", contact: "კონტაქტი" },
+      nav: { home: "მთავარი", services: "სერვისები", blog: "ბლოგი", contact: "კონტაქტი" },
       callNow: "დარეკვა ახლავე",
       learnMore: "ვრცლად",
       consultBtn: "მოითხოვეთ კონსულტაცია",
       whatsapp: "WhatsApp",
       backToServices: "ყველა სერვისი",
+      viewService: "სერვისის ნახვა",
       breadcrumbHome: "მთავარი",
       breadcrumbServices: "სერვისები",
       featuresTitle: "თვისებები",
@@ -143,6 +158,112 @@ const translations = {
         features: ["საცხოვრებელი და კომერციული გაყვანილობა", "საკომუტაციო კარადების აწყობა", "ძველი გაყვანილობის ჩანაცვლება", "დამიწება და ჭარბი ძაბვისგან დაცვა", "უსაფრთხოების შემოწმება და სერტიფიცირება"],
         equipment: ["სპილენძის კაბელი და გუბკები (Conduit)", "საკომუტაციო კარადა/ამომრთველები", "ავტომატები და დიფავტომატები (RCD)", "როზეტები და გამომრთველები", "დამიწების სისტემა"],
         process: ["დატვირთვის შეფასება და დაგეგმვა", "გუბკის და კაბელის გაყვანა", "კარადის აწყობა და ამომრთველების მონტაჟი", "სანათებისა და როზეტების შეერთება", "უსაფრთხოების ტესტირება და სერტიფიცირება"]
+      },
+      smart: {
+        title: "ჭკვიანი მოწყობილობები", tag: "თქვენი სახლი, თქვენი კონტროლით",
+        summary: "ჭკვიანი რელეები და კონტროლერები განათების, გათბობისა და ელექტრომოწყობილობების დისტანციური მართვისთვის. სრული ავტომატიზაცია სმარტფონიდან.",
+        overview: "ვაინსტალირებთ ჭკვიან რელეებსა და მიკროკონტროლერებს (Sonoff, Shelly, Tuya, Ajax), რომლებიც საშუალებას გაძლევთ მართოთ განათება, გათბობა, კარიბჭეები და ელექტრომოწყობილობები ტელეფონიდან, ნებისმიერი წერტილიდან.",
+        features: ["განათების დისტანციური მართვა", "ელექტრომოწყობილობების ჩართვა/გამორთვა აპლიკაციით", "ავტომატური კარიბჭისა და ჭიშკრის მართვა", "ჭკვიანი კლიმატ-კონტროლი (თერმოსტატები)", "სცენარები და განრიგის დაპროგრამება"],
+        equipment: ["ჭკვიანი რელეები (Sonoff/Shelly)", "Wi-Fi/Zigbee კონტროლერები", "ჭკვიანი ჩამრთველები და როზეტები", "სენსორები (ტემპერატურა/გახსნა/მოძრაობა)", "ცენტრალური ჰაბი (Ajax/Tuya)"],
+        process: ["საჭიროებების ანალიზი და მოწყობილობების შერჩევა", "რელეებისა და კონტროლერების მონტაჟი", "Wi-Fi/Zigbee ქსელთან დაკავშირება", "აპლიკაციისა და სცენარების კონფიგურაცია", "ტესტირება და მომხმარებლის გაწვრთნა"]
+      }
+    },
+    blog: {
+      eyebrow: "ბლოგი",
+      title: "სასარგებლო სტატიები",
+      subtitle: "რჩევები და გზამკვლევები უსაფრთხოებისა და ელექტრო სისტემების შესახებ.",
+      readMore: "სრულად წაკითხვა",
+      minReadSuffix: "წუთის საკითხავი",
+      backToBlog: "ყველა სტატია",
+      posts: {
+        post1: {
+          title: "როგორ ავირჩიოთ IP კამერები სახლისა და ოფისისთვის",
+          excerpt: "გაიგეთ, რაზე მიაქციოთ ყურადღება კამერის შერჩევისას — გარჩევადობა, ღამის ხედვა და შენახვის ვარიანტები.",
+          intro: "სწორი კამერის შერჩევა დამოკიდებულია ობიექტის ზომაზე, განათებასა და უსაფრთხოების მოთხოვნებზე. ამ სტატიაში განვიხილავთ მთავარ კრიტერიუმებს.",
+          sections: [
+            { h: "გარჩევადობა და ხარისხი", p: "HD (2MP) საკმარისია პატარა სივრცისთვის, ხოლო 4K რეკომენდირებულია დიდი ტერიტორიის ან სახის ამოცნობისთვის." },
+            { h: "ღამის ხედვა", p: "IR ან ფერადი ღამის ხედვის მქონე კამერები უზრუნველყოფენ მკაფიო გამოსახულებას სუსტი განათების პირობებშიც." },
+            { h: "შენახვის ვარიანტი", p: "აირჩიეთ ლოკალური NVR/DVR ან ღრუბლოვანი შენახვა — თითოეულს აქვს თავისი უპირატესობები ბიუჯეტისა და წვდომის მიხედვით." }
+          ],
+          conclusion: "სწორად შერჩეული სისტემა უზრუნველყოფს გრძელვადიან, საიმედო დაცვას. საჭიროების შემთხვევაში, ჩვენი გუნდი დაგეხმარებათ ოპტიმალური გადაწყვეტის შერჩევაში."
+        },
+        post2: {
+          title: "უსადენო vs სადენიანი სიგნალიზაცია: რომელია უკეთესი?",
+          excerpt: "შევადაროთ უსადენო და სადენიანი სიგნალიზაციის სისტემები — რომელი მოირგება თქვენს ობიექტს.",
+          intro: "სიგნალიზაციის არჩევისას მთავარი დილემაა — უსადენო თუ სადენიანი სისტემა. თითოეულს აქვს დადებითი და უარყოფითი მხარეები.",
+          sections: [
+            { h: "დამონტაჟების სისწრაფე", p: "უსადენო სისტემები მარტივად და სწრაფად მონტაჟდება, განსაკუთრებით უკვე დასრულებულ შენობებში." },
+            { h: "საიმედოობა", p: "სადენიანი სისტემები ნაკლებად მგრძნობიარეა ინტერფერენციისადმი და გამორთვის რისკისადმი, რაც მათ საიმედოს ხდის დიდი ობიექტებისთვის." },
+            { h: "ფასი და მასშტაბირება", p: "უსადენო სისტემების გაფართოება უფრო ეკონომიურია, თუმცა სადენიანი გრძელვადიან პერსპექტივაში უფრო სტაბილურია." }
+          ],
+          conclusion: "არჩევანი დამოკიდებულია ობიექტის ტიპსა და ბიუჯეტზე — ჩვენ დაგეხმარებით სწორი გადაწყვეტილების მიღებაში."
+        },
+        post3: {
+          title: "სახანძრო უსაფრთხოების თანამედროვე სტანდარტები",
+          excerpt: "რას მოითხოვს თანამედროვე სახანძრო უსაფრთხოების ნორმები კომერციული და საცხოვრებელი ობიექტებისთვის.",
+          intro: "სახანძრო უსაფრთხოება მოითხოვს სისტემურ მიდგომას — დეტექციიდან ევაკუაციამდე. განვიხილოთ ძირითადი მოთხოვნები.",
+          sections: [
+            { h: "ადრეული გამოვლენა", p: "კვამლისა და სითბოს დეტექტორები უნდა განთავსდეს სტრატეგიულ წერტილებში სწრაფი რეაგირებისთვის." },
+            { h: "შეტყობინების სისტემა", p: "სირენები და შუქური სიგნალიზატორები უზრუნველყოფენ დროულ ევაკუაციას, განსაკუთრებით მაღალხმაურიან გარემოში." },
+            { h: "რეგულარული შემოწმება", p: "სისტემების პერიოდული ტესტირება და სერტიფიცირება აუცილებელია მუდმივი ეფექტურობისთვის." }
+          ],
+          conclusion: "ნორმებთან შესაბამისობა იცავს როგორც ადამიანებს, ისე ქონებას — ჩვენ ვუზრუნველყოფთ სრულ ციკლს დაგეგმვიდან სერტიფიცირებამდე."
+        },
+        post4: {
+          title: "ჭკვიანი ელექტრო საკეტები — უსაფრთხოება და კომფორტი",
+          excerpt: "როგორ აუმჯობესებენ ჭკვიანი საკეტები როგორც უსაფრთხოებას, ისე ყოველდღიურ კომფორტს.",
+          intro: "ჭკვიანი საკეტები ცვლის ტრადიციულ გასაღებებს დისტანციური და კოდური წვდომით, რაც მნიშვნელოვნად ზრდის მოხერხებულობას.",
+          sections: [
+            { h: "წვდომის კონტროლი", p: "კოდები და ბარათები საშუალებას გაძლევთ მართოთ ვინ და როდის შედის თქვენს ობიექტზე." },
+            { h: "დისტანციური მართვა", p: "აპლიკაციის საშუალებით შეგიძლიათ გახსნათ ან დაკეტოთ კარი ნებისმიერი ადგილიდან." },
+            { h: "ინტეგრაცია", p: "ჭკვიანი საკეტები ერწყმის დაშვების კონტროლისა და სიგნალიზაციის სისტემებს ერთიან ეკოსისტემად." }
+          ],
+          conclusion: "ინვესტიცია ჭკვიან საკეტებში ზრდის როგორც უსაფრთხოებას, ისე ყოველდღიურ კომფორტს."
+        },
+        post5: {
+          title: "დაშვების სისტემების (Access Control) მნიშვნელობა ბიზნესში",
+          excerpt: "რატომ საჭიროებს თანამედროვე ბიზნესი წვდომის კონტროლის სისტემას.",
+          intro: "თანამშრომელთა და სტუმართა ნაკადის მართვა კრიტიკულია ბიზნესის უსაფრთხოებისა და ეფექტურობისთვის.",
+          sections: [
+            { h: "უსაფრთხოების გაძლიერება", p: "წვდომის შეზღუდვა მხოლოდ ავტორიზებული პირებისთვის ამცირებს არასანქცირებული შეღწევის რისკს." },
+            { h: "სამუშაო დროის აღრიცხვა", p: "სისტემა ავტომატურად აღრიცხავს თანამშრომელთა შემოსვლა-გასვლის დროს, რაც ამარტივებს HR პროცესებს." },
+            { h: "მასშტაბირებადობა", p: "სისტემა ადვილად ფართოვდება ახალი მომხმარებლებისა და შესასვლელი წერტილების დამატებით." }
+          ],
+          conclusion: "წვდომის კონტროლი არის ინვესტიცია, რომელიც იხდის თავს უსაფრთხოებასა და ორგანიზებულობაში."
+        },
+        post6: {
+          title: "სწორი სტრუქტურირებული საკაბელო სისტემის (LAN) დაგეგმვა",
+          excerpt: "საკაბელო ინფრასტრუქტურის დაგეგმვის ძირითადი პრინციპები სტაბილური ქსელისთვის.",
+          intro: "სტრუქტურირებული საკაბელო სისტემა საფუძველია სტაბილური და სწრაფი ინტერნეტისთვის ნებისმიერ ოფისში.",
+          sections: [
+            { h: "სწორი კაბელის შერჩევა", p: "Cat6/Cat6a კაბელები უზრუნველყოფენ მაღალ გამტარუნარიანობას მომავალი საჭიროებებისთვის." },
+            { h: "სტრუქტურა და მარკირება", p: "სწორად მარკირებული პორტები და პანელები ამარტივებენ მომავალ დიაგნოსტიკასა და გაფართოებას." },
+            { h: "Wi-Fi დაფარვა", p: "წვდომის წერტილების სწორი განლაგება უზრუნველყოფს თანაბარ სიგნალს მთელ ოფისში." }
+          ],
+          conclusion: "გააზრებული დაგეგმვა დღეს ზოგავს დროსა და ხარჯებს მომავალში."
+        },
+        post7: {
+          title: "უსაფრთხო ელექტრო გაყვანილობა — რას მივაქციოთ ყურადღება",
+          excerpt: "ძირითადი უსაფრთხოების პრინციპები ელექტრო გაყვანილობის დაგეგმვისა და მონტაჟისას.",
+          intro: "ელექტრო გაყვანილობა პირდაპირ გავლენას ახდენს ობიექტის უსაფრთხოებაზე — არასწორი მონტაჟი სერიოზული რისკია.",
+          sections: [
+            { h: "სწორი დატვირთვის გაანგარიშება", p: "კაბელისა და ავტომატების შერჩევა უნდა შეესაბამებოდეს რეალურ დატვირთვას გადახურების თავიდან ასაცილებლად." },
+            { h: "დამიწება", p: "სათანადო დამიწების სისტემა იცავს მოწყობილობებსა და ადამიანებს დენის დარტყმისგან." },
+            { h: "რეგულარული შემოწმება", p: "პერიოდული ტექნიკური დათვალიერება ვლენს ცვეთას და პოტენციურ საფრთხეებს დროულად." }
+          ],
+          conclusion: "პროფესიონალური მონტაჟი და რეგულარული შემოწმება უზრუნველყოფს უსაფრთხო და საიმედო ელექტრო სისტემას."
+        },
+        post8: {
+          title: "როგორ ვაქციოთ სახლი ან ოფისი ჭკვიანად რელეების საშუალებით",
+          excerpt: "მარტივი გზები, თუ როგორ დაიწყოთ სახლის ავტომატიზაცია ჭკვიანი რელეებით.",
+          intro: "სახლის ავტომატიზაცია აღარ არის ძვირადღირებული ან რთული — ჭკვიანი რელეები საშუალებას გაძლევთ ეტაპობრივად დანერგოთ ავტომატიზაცია.",
+          sections: [
+            { h: "საიდან დავიწყოთ", p: "დაიწყეთ ერთი ან ორი ოთახის განათებისა თუ როზეტების ავტომატიზაციით და თანდათან გააფართოვეთ სისტემა." },
+            { h: "აპლიკაციები და ინტეგრაცია", p: "Tuya, Sonoff და Shelly გთავაზობთ მარტივ აპლიკაციებს ერთი სივრციდან ყველა მოწყობილობის სამართავად." },
+            { h: "სცენარები და ავტომატიზაცია", p: "დააპროგრამეთ სცენარები — მაგალითად, განათების ავტომატური ჩართვა მოძრაობის დეტექციისას." }
+          ],
+          conclusion: "მცირე ინვესტიციით შეგიძლიათ მნიშვნელოვნად გაზარდოთ კომფორტი და ენერგოეფექტურობა."
+        }
       }
     }
   },
@@ -151,12 +272,13 @@ const translations = {
   en: {
     common: {
       brandTag: "Security & Electrical Services",
-      nav: { home: "Home", services: "Services", contact: "Contact" },
+      nav: { home: "Home", services: "Services", blog: "Blog", contact: "Contact" },
       callNow: "Call Now",
       learnMore: "Learn More",
       consultBtn: "Request a Consultation",
       whatsapp: "WhatsApp",
       backToServices: "All Services",
+      viewService: "View Service",
       breadcrumbHome: "Home",
       breadcrumbServices: "Services",
       featuresTitle: "Features",
@@ -269,6 +391,112 @@ const translations = {
         features: ["Residential and commercial wiring", "Distribution panel assembly", "Replacement of old wiring", "Grounding and surge protection", "Safety inspection and certification"],
         equipment: ["Copper cable and conduit", "Distribution panel / breakers", "Circuit breakers and RCDs", "Sockets and switches", "Grounding system"],
         process: ["Load assessment and planning", "Conduit and cable routing", "Panel assembly and breaker installation", "Fixture and socket connection", "Safety testing and certification"]
+      },
+      smart: {
+        title: "Smart Devices", tag: "Your home, your control",
+        summary: "Smart relays and controllers for remote control of lighting, heating and appliances. Full automation from your smartphone.",
+        overview: "We install smart relays and micro-controllers (Sonoff, Shelly, Tuya, Ajax) that let you control lighting, heating, gates and appliances from your phone, from anywhere.",
+        features: ["Remote lighting control", "Turn appliances on/off via app", "Automated gate and barrier control", "Smart climate control (thermostats)", "Scenes and schedule programming"],
+        equipment: ["Smart relays (Sonoff/Shelly)", "Wi-Fi/Zigbee controllers", "Smart switches and sockets", "Sensors (temperature/open/motion)", "Central hub (Ajax/Tuya)"],
+        process: ["Needs analysis and device selection", "Relay and controller installation", "Connecting to Wi-Fi/Zigbee network", "App and scene configuration", "Testing and user training"]
+      }
+    },
+    blog: {
+      eyebrow: "Blog",
+      title: "Helpful Articles",
+      subtitle: "Tips and guides on security and electrical systems.",
+      readMore: "Read More",
+      minReadSuffix: "min read",
+      backToBlog: "All Articles",
+      posts: {
+        post1: {
+          title: "How to Choose IP Cameras for Home and Office",
+          excerpt: "Learn what to look for when choosing a camera — resolution, night vision, and storage options.",
+          intro: "Choosing the right camera depends on the size of the property, lighting conditions, and security requirements. This article covers the key criteria.",
+          sections: [
+            { h: "Resolution & Quality", p: "HD (2MP) is enough for small spaces, while 4K is recommended for larger areas or facial recognition." },
+            { h: "Night Vision", p: "Cameras with IR or color night vision provide clear footage even in low-light conditions." },
+            { h: "Storage Options", p: "Choose between local NVR/DVR storage or cloud storage — each has its advantages depending on budget and access needs." }
+          ],
+          conclusion: "A well-chosen system provides long-term, reliable protection. Our team can help you find the optimal solution if needed."
+        },
+        post2: {
+          title: "Wireless vs Wired Alarm Systems: Which Is Better?",
+          excerpt: "Comparing wireless and wired alarm systems to help you choose what fits your property.",
+          intro: "When choosing an alarm system, the main choice is between wireless and wired setups. Each has its own pros and cons.",
+          sections: [
+            { h: "Installation Speed", p: "Wireless systems are quick and easy to install, especially in already-finished buildings." },
+            { h: "Reliability", p: "Wired systems are less susceptible to interference or signal loss, making them dependable for larger properties." },
+            { h: "Cost & Scalability", p: "Expanding a wireless system is more economical, though wired systems tend to be more stable long-term." }
+          ],
+          conclusion: "The right choice depends on your property type and budget — we can help you decide."
+        },
+        post3: {
+          title: "Modern Fire Safety Standards",
+          excerpt: "What today's fire safety regulations require for commercial and residential properties.",
+          intro: "Fire safety requires a systematic approach — from detection to evacuation. Let's look at the key requirements.",
+          sections: [
+            { h: "Early Detection", p: "Smoke and heat detectors should be placed at strategic points for a fast response." },
+            { h: "Notification Systems", p: "Sirens and strobe signals ensure timely evacuation, especially in high-noise environments." },
+            { h: "Regular Inspection", p: "Periodic testing and certification of systems is essential for continued effectiveness." }
+          ],
+          conclusion: "Compliance protects both people and property — we handle the full cycle, from planning to certification."
+        },
+        post4: {
+          title: "Smart Electric Locks — Security and Convenience",
+          excerpt: "How smart locks improve both security and everyday convenience.",
+          intro: "Smart locks replace traditional keys with remote and code-based access, significantly increasing convenience.",
+          sections: [
+            { h: "Access Control", p: "Codes and cards let you control who enters your property and when." },
+            { h: "Remote Control", p: "An app lets you lock or unlock your door from anywhere." },
+            { h: "Integration", p: "Smart locks integrate with access-control and alarm systems into one unified ecosystem." }
+          ],
+          conclusion: "Investing in smart locks improves both security and daily convenience."
+        },
+        post5: {
+          title: "The Importance of Access Control Systems in Business",
+          excerpt: "Why modern businesses need an access-control system.",
+          intro: "Managing employee and visitor flow is critical for business security and efficiency.",
+          sections: [
+            { h: "Stronger Security", p: "Restricting access to authorized personnel only reduces the risk of unauthorized entry." },
+            { h: "Time & Attendance Tracking", p: "The system automatically logs employee entry and exit times, simplifying HR processes." },
+            { h: "Scalability", p: "The system expands easily as you add new users and entry points." }
+          ],
+          conclusion: "Access control is an investment that pays off in security and organization."
+        },
+        post6: {
+          title: "Planning the Right Structured Cabling (LAN) System",
+          excerpt: "Key principles for planning a cabling infrastructure that keeps your network stable.",
+          intro: "Structured cabling is the foundation of a stable, fast network in any office.",
+          sections: [
+            { h: "Choosing the Right Cable", p: "Cat6/Cat6a cabling provides the bandwidth needed for future requirements." },
+            { h: "Structure & Labeling", p: "Properly labeled ports and panels make future diagnostics and expansion much easier." },
+            { h: "Wi-Fi Coverage", p: "Correct access point placement ensures even signal strength throughout the office." }
+          ],
+          conclusion: "Thoughtful planning today saves time and money down the road."
+        },
+        post7: {
+          title: "Safe Electrical Wiring — What to Pay Attention To",
+          excerpt: "Key safety principles for planning and installing electrical wiring.",
+          intro: "Electrical wiring directly affects a property's safety — improper installation is a serious risk.",
+          sections: [
+            { h: "Correct Load Calculation", p: "Cable and breaker selection must match the actual load to prevent overheating." },
+            { h: "Grounding", p: "A proper grounding system protects both equipment and people from electric shock." },
+            { h: "Regular Inspection", p: "Periodic technical inspection reveals wear and potential hazards early." }
+          ],
+          conclusion: "Professional installation and regular inspection ensure a safe, reliable electrical system."
+        },
+        post8: {
+          title: "How to Make Your Home or Office Smart with Relays",
+          excerpt: "Simple ways to start automating your home with smart relays.",
+          intro: "Home automation is no longer expensive or complicated — smart relays let you roll out automation step by step.",
+          sections: [
+            { h: "Where to Start", p: "Start by automating the lighting or sockets in one or two rooms, then gradually expand the system." },
+            { h: "Apps & Integration", p: "Tuya, Sonoff, and Shelly offer simple apps to control every device from one place." },
+            { h: "Scenes & Automation", p: "Program scenes — for example, automatically turning on lights when motion is detected." }
+          ],
+          conclusion: "With a small investment you can significantly boost comfort and energy efficiency."
+        }
       }
     }
   },
@@ -277,12 +505,13 @@ const translations = {
   ru: {
     common: {
       brandTag: "Охранные и электромонтажные услуги",
-      nav: { home: "Главная", services: "Услуги", contact: "Контакты" },
+      nav: { home: "Главная", services: "Услуги", blog: "Блог", contact: "Контакты" },
       callNow: "Позвонить",
       learnMore: "Подробнее",
       consultBtn: "Запросить консультацию",
       whatsapp: "WhatsApp",
       backToServices: "Все услуги",
+      viewService: "Смотреть услугу",
       breadcrumbHome: "Главная",
       breadcrumbServices: "Услуги",
       featuresTitle: "Особенности",
@@ -395,6 +624,112 @@ const translations = {
         features: ["Жилой и коммерческий электромонтаж", "Сборка распределительных щитов", "Замена старой проводки", "Заземление и защита от перенапряжения", "Проверка безопасности и сертификация"],
         equipment: ["Медный кабель и кабель-канал", "Распределительный щит / автоматы", "Автоматические выключатели и УЗО", "Розетки и выключатели", "Система заземления"],
         process: ["Оценка нагрузки и планирование", "Прокладка кабель-канала и кабеля", "Сборка щита и монтаж автоматов", "Подключение светильников и розеток", "Тестирование безопасности и сертификация"]
+      },
+      smart: {
+        title: "Умные устройства", tag: "Ваш дом под вашим контролем",
+        summary: "Умные реле и контроллеры для дистанционного управления освещением, отоплением и техникой. Полная автоматизация со смартфона.",
+        overview: "Устанавливаем умные реле и микроконтроллеры (Sonoff, Shelly, Tuya, Ajax), которые позволяют управлять освещением, отоплением, воротами и техникой с телефона из любой точки.",
+        features: ["Дистанционное управление освещением", "Включение/выключение техники через приложение", "Автоматическое управление воротами и шлагбаумом", "Умный климат-контроль (термостаты)", "Программирование сценариев и расписаний"],
+        equipment: ["Умные реле (Sonoff/Shelly)", "Wi-Fi/Zigbee контроллеры", "Умные выключатели и розетки", "Датчики (температура/открытие/движение)", "Центральный хаб (Ajax/Tuya)"],
+        process: ["Анализ потребностей и подбор устройств", "Монтаж реле и контроллеров", "Подключение к сети Wi-Fi/Zigbee", "Настройка приложения и сценариев", "Тестирование и обучение пользователя"]
+      }
+    },
+    blog: {
+      eyebrow: "Блог",
+      title: "Полезные статьи",
+      subtitle: "Советы и руководства по охранным и электрическим системам.",
+      readMore: "Читать полностью",
+      minReadSuffix: "мин чтения",
+      backToBlog: "Все статьи",
+      posts: {
+        post1: {
+          title: "Как выбрать IP-камеры для дома и офиса",
+          excerpt: "Узнайте, на что обратить внимание при выборе камеры — разрешение, ночное видение и варианты хранения.",
+          intro: "Выбор подходящей камеры зависит от размера объекта, освещения и требований безопасности. В этой статье рассмотрим ключевые критерии.",
+          sections: [
+            { h: "Разрешение и качество", p: "HD (2MP) достаточно для небольших помещений, а 4K рекомендуется для больших площадей или распознавания лиц." },
+            { h: "Ночное видение", p: "Камеры с ИК или цветным ночным видением обеспечивают чёткое изображение даже при слабом освещении." },
+            { h: "Варианты хранения", p: "Выбирайте между локальным NVR/DVR или облачным хранением — у каждого варианта свои преимущества в зависимости от бюджета и доступа." }
+          ],
+          conclusion: "Правильно подобранная система обеспечивает надёжную защиту на долгие годы. При необходимости наша команда поможет подобрать оптимальное решение."
+        },
+        post2: {
+          title: "Беспроводная vs проводная сигнализация: что лучше?",
+          excerpt: "Сравниваем беспроводные и проводные системы сигнализации, чтобы помочь выбрать подходящую для вашего объекта.",
+          intro: "При выборе сигнализации главная дилемма — беспроводная или проводная система. У каждой есть свои плюсы и минусы.",
+          sections: [
+            { h: "Скорость установки", p: "Беспроводные системы устанавливаются быстро и просто, особенно в уже готовых зданиях." },
+            { h: "Надёжность", p: "Проводные системы менее подвержены помехам и потере сигнала, что делает их надёжными для крупных объектов." },
+            { h: "Стоимость и масштабируемость", p: "Расширение беспроводной системы экономичнее, хотя проводная в долгосрочной перспективе более стабильна." }
+          ],
+          conclusion: "Выбор зависит от типа объекта и бюджета — мы поможем принять правильное решение."
+        },
+        post3: {
+          title: "Современные стандарты пожарной безопасности",
+          excerpt: "Что требуют современные нормы пожарной безопасности для коммерческих и жилых объектов.",
+          intro: "Пожарная безопасность требует системного подхода — от обнаружения до эвакуации. Рассмотрим ключевые требования.",
+          sections: [
+            { h: "Раннее обнаружение", p: "Дымовые и тепловые извещатели должны размещаться в стратегических точках для быстрого реагирования." },
+            { h: "Система оповещения", p: "Сирены и световые сигнализаторы обеспечивают своевременную эвакуацию, особенно в шумной среде." },
+            { h: "Регулярная проверка", p: "Периодическое тестирование и сертификация систем необходимы для постоянной эффективности." }
+          ],
+          conclusion: "Соответствие нормам защищает и людей, и имущество — мы обеспечиваем полный цикл от планирования до сертификации."
+        },
+        post4: {
+          title: "Умные электронные замки — безопасность и комфорт",
+          excerpt: "Как умные замки повышают безопасность и повседневный комфорт.",
+          intro: "Умные замки заменяют традиционные ключи дистанционным и кодовым доступом, значительно повышая удобство.",
+          sections: [
+            { h: "Контроль доступа", p: "Коды и карты позволяют контролировать, кто и когда входит на объект." },
+            { h: "Дистанционное управление", p: "Приложение позволяет открывать или закрывать дверь из любой точки." },
+            { h: "Интеграция", p: "Умные замки объединяются с системами контроля доступа и сигнализацией в единую экосистему." }
+          ],
+          conclusion: "Инвестиция в умные замки повышает как безопасность, так и повседневный комфорт."
+        },
+        post5: {
+          title: "Важность систем контроля доступа для бизнеса",
+          excerpt: "Почему современному бизнесу нужна система контроля доступа.",
+          intro: "Управление потоком сотрудников и посетителей критически важно для безопасности и эффективности бизнеса.",
+          sections: [
+            { h: "Усиление безопасности", p: "Ограничение доступа только авторизованным лицам снижает риск несанкционированного проникновения." },
+            { h: "Учёт рабочего времени", p: "Система автоматически фиксирует время прихода и ухода сотрудников, упрощая HR-процессы." },
+            { h: "Масштабируемость", p: "Система легко расширяется с добавлением новых пользователей и точек входа." }
+          ],
+          conclusion: "Контроль доступа — это инвестиция, которая окупается безопасностью и организованностью."
+        },
+        post6: {
+          title: "Правильное планирование структурированной кабельной системы (LAN)",
+          excerpt: "Ключевые принципы планирования кабельной инфраструктуры для стабильной сети.",
+          intro: "Структурированная кабельная система — основа стабильной и быстрой сети в любом офисе.",
+          sections: [
+            { h: "Выбор правильного кабеля", p: "Кабели Cat6/Cat6a обеспечивают пропускную способность, необходимую для будущих потребностей." },
+            { h: "Структура и маркировка", p: "Правильно маркированные порты и панели значительно упрощают будущую диагностику и расширение." },
+            { h: "Покрытие Wi-Fi", p: "Правильное размещение точек доступа обеспечивает равномерный сигнал по всему офису." }
+          ],
+          conclusion: "Продуманное планирование сегодня экономит время и деньги в будущем."
+        },
+        post7: {
+          title: "Безопасная электропроводка — на что обратить внимание",
+          excerpt: "Ключевые принципы безопасности при планировании и монтаже электропроводки.",
+          intro: "Электропроводка напрямую влияет на безопасность объекта — неправильный монтаж представляет серьёзный риск.",
+          sections: [
+            { h: "Правильный расчёт нагрузки", p: "Выбор кабеля и автоматов должен соответствовать реальной нагрузке во избежание перегрева." },
+            { h: "Заземление", p: "Правильная система заземления защищает оборудование и людей от поражения электрическим током." },
+            { h: "Регулярная проверка", p: "Периодический технический осмотр своевременно выявляет износ и потенциальные угрозы." }
+          ],
+          conclusion: "Профессиональный монтаж и регулярная проверка обеспечивают безопасную и надёжную электросистему."
+        },
+        post8: {
+          title: "Как сделать дом или офис умным с помощью реле",
+          excerpt: "Простые способы начать автоматизацию дома с помощью умных реле.",
+          intro: "Автоматизация дома больше не дорогая и не сложная — умные реле позволяют внедрять автоматизацию поэтапно.",
+          sections: [
+            { h: "С чего начать", p: "Начните с автоматизации освещения или розеток в одной-двух комнатах, затем постепенно расширяйте систему." },
+            { h: "Приложения и интеграция", p: "Tuya, Sonoff и Shelly предлагают простые приложения для управления всеми устройствами из одного места." },
+            { h: "Сценарии и автоматизация", p: "Запрограммируйте сценарии — например, автоматическое включение света при обнаружении движения." }
+          ],
+          conclusion: "При небольших вложениях вы можете значительно повысить комфорт и энергоэффективность."
+        }
       }
     }
   }
