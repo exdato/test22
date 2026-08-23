@@ -49,6 +49,9 @@ function renderHeader() {
           <div class="flex items-center rounded-full p-1" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);">
             ${LANGS.map(l => `<button class="lang-btn" data-lang="${l.code}">${l.label}</button>`).join("")}
           </div>
+          <button id="open-contact-modal" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold btn-outline">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i><span data-i18n="common.requestCallback"></span>
+          </button>
           <a href="tel:${PHONE_TEL}" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold btn-primary">
             <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
           </a>
@@ -66,7 +69,10 @@ function renderHeader() {
         <a href="index.html#services" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.services"></a>
         <a href="blog.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.blog"></a>
         <a href="index.html#contact" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.contact"></a>
-        <a href="tel:${PHONE_TEL}" class="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-primary">
+        <button id="open-contact-modal-mobile" class="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-outline">
+          <i data-lucide="send" class="w-4 h-4"></i><span data-i18n="common.requestCallback"></span>
+        </button>
+        <a href="tel:${PHONE_TEL}" class="mt-2 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-primary">
           <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
         </a>
       </div>
@@ -82,6 +88,14 @@ function renderHeader() {
     menu.classList.toggle("hidden");
     openIcon.classList.toggle("hidden", !isOpen);
     closeIcon.classList.toggle("hidden", isOpen);
+  });
+
+  document.getElementById("open-contact-modal").addEventListener("click", openContactModal);
+  document.getElementById("open-contact-modal-mobile").addEventListener("click", () => {
+    menu.classList.add("hidden");
+    openIcon.classList.remove("hidden");
+    closeIcon.classList.add("hidden");
+    openContactModal();
   });
 
   const header = document.getElementById("site-header");
@@ -174,7 +188,7 @@ function renderHomeServicesGrid() {
     <div class="rounded-2xl overflow-hidden bg-white flex flex-col" style="border:1px solid #E3E7EC;box-shadow:0 12px 30px -18px rgba(11,20,36,0.18);">
       <div class="relative" style="aspect-ratio:16/10;">
         <div class="img-wrap">
-          <img src="${meta.img}" alt="${s.title}" loading="lazy" onerror="this.classList.add('broken')">
+          <img src="${meta.img}" alt="${s.title} ${t('common.locationSuffix')}" loading="lazy" width="800" height="500" onerror="this.classList.add('broken')">
           <div class="img-fallback"><i data-lucide="${meta.icon}" style="width:40px;height:40px;color:var(--emerald);" stroke-width="1.25"></i></div>
         </div>
         <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 50%,rgba(11,20,36,0.5) 100%);"></div>
@@ -244,9 +258,18 @@ function renderHomeFAQ() {
     </div>`).join("");
 }
 
+function ensureContainer(id) {
+  let el = document.getElementById(id);
+  if (!el) {
+    el = document.createElement("div");
+    el.id = id;
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
 function renderFloatingActions() {
-  const el = document.getElementById("floating-actions");
-  if (!el) return;
+  const el = ensureContainer("floating-actions");
   el.innerHTML = `
   <div class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
     <a href="${WHATSAPP_URL}" target="_blank" rel="noopener" aria-label="${t('common.whatsapp')}"
@@ -258,6 +281,101 @@ function renderFloatingActions() {
       <i data-lucide="phone" class="w-5 h-5"></i>
     </a>
   </div>`;
+}
+
+/* ------------------------------------------------------------------ */
+/* CONTACT MODAL — lead-gen form (client-side, submits via WhatsApp)   */
+/* ------------------------------------------------------------------ */
+
+function renderContactModal() {
+  const el = ensureContainer("contact-modal-root");
+  const m = t("common.modal");
+  const serviceOptions = SERVICE_ORDER.map(id => `<option value="${id}">${t(`services.${id}.title`)}</option>`).join("");
+
+  el.innerHTML = `
+  <div id="contact-modal-overlay" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" style="background:rgba(11,20,36,0.7);backdrop-filter:blur(4px);">
+    <div class="w-full rounded-2xl bg-white relative" style="max-width:440px;box-shadow:0 30px 70px -20px rgba(0,0,0,0.4);">
+      <button id="close-contact-modal" aria-label="${m.closeLabel}" class="absolute top-4 right-4 p-1.5 rounded-full" style="color:var(--text-muted);">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div class="p-6 md:p-8">
+        <h3 class="text-xl font-bold mb-1 font-display" style="color:var(--navy);">${m.title}</h3>
+        <p class="text-sm mb-6" style="color:var(--text-muted);">${m.subtitle}</p>
+
+        <form id="contact-form" novalidate>
+          <div class="mb-4">
+            <label class="block text-xs font-semibold uppercase tracking-wide mb-1.5" style="color:var(--text-muted);">${m.nameLabel}</label>
+            <input type="text" id="cf-name" placeholder="${m.namePlaceholder}" class="w-full px-4 py-2.5 rounded-lg text-sm" style="border:1px solid #E3E7EC;">
+            <p class="cf-error text-xs mt-1 hidden" style="color:#DC2626;" data-for="name">${m.errorName}</p>
+          </div>
+          <div class="mb-4">
+            <label class="block text-xs font-semibold uppercase tracking-wide mb-1.5" style="color:var(--text-muted);">${m.phoneLabel}</label>
+            <input type="tel" id="cf-phone" placeholder="${m.phonePlaceholder}" class="w-full px-4 py-2.5 rounded-lg text-sm" style="border:1px solid #E3E7EC;">
+            <p class="cf-error text-xs mt-1 hidden" style="color:#DC2626;" data-for="phone">${m.errorPhone}</p>
+          </div>
+          <div class="mb-6">
+            <label class="block text-xs font-semibold uppercase tracking-wide mb-1.5" style="color:var(--text-muted);">${m.serviceLabel}</label>
+            <select id="cf-service" class="w-full px-4 py-2.5 rounded-lg text-sm bg-white" style="border:1px solid #E3E7EC;">
+              <option value="">${m.serviceDefault}</option>
+              ${serviceOptions}
+            </select>
+            <p class="cf-error text-xs mt-1 hidden" style="color:#DC2626;" data-for="service">${m.errorService}</p>
+          </div>
+          <button type="submit" class="w-full inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold btn-primary">
+            <i data-lucide="send" class="w-4 h-4"></i><span>${m.submitBtn}</span>
+          </button>
+          <p class="text-xs text-center mt-3" style="color:var(--text-muted);">${m.note}</p>
+        </form>
+      </div>
+    </div>
+  </div>`;
+
+  const overlay = document.getElementById("contact-modal-overlay");
+  document.getElementById("close-contact-modal").addEventListener("click", closeContactModal);
+  overlay.addEventListener("click", e => { if (e.target === overlay) closeContactModal(); });
+
+  document.getElementById("contact-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const nameEl = document.getElementById("cf-name");
+    const phoneEl = document.getElementById("cf-phone");
+    const serviceEl = document.getElementById("cf-service");
+    const name = nameEl.value.trim();
+    const phone = phoneEl.value.trim();
+    const serviceId = serviceEl.value;
+
+    let valid = true;
+    const showError = (field, ok) => {
+      const errEl = overlay.querySelector(`.cf-error[data-for="${field}"]`);
+      if (errEl) errEl.classList.toggle("hidden", ok);
+      if (!ok) valid = false;
+    };
+    showError("name", name.length >= 2);
+    showError("phone", /^[0-9+\s\-()]{6,}$/.test(phone));
+    showError("service", serviceId !== "");
+    if (!valid) return;
+
+    const serviceTitle = t(`services.${serviceId}.title`);
+    const msg = `${t("common.modal.title")}\n${t("common.modal.nameLabel")}: ${name}\n${t("common.modal.phoneLabel")}: ${phone}\n${t("common.modal.serviceLabel")}: ${serviceTitle}`;
+    window.open(`https://wa.me/995595708300?text=${encodeURIComponent(msg)}`, "_blank");
+    closeContactModal();
+    e.target.reset();
+  });
+}
+
+function openContactModal() {
+  const overlay = document.getElementById("contact-modal-overlay");
+  if (!overlay) return;
+  overlay.classList.remove("hidden");
+  overlay.classList.add("flex");
+  document.body.style.overflow = "hidden";
+}
+
+function closeContactModal() {
+  const overlay = document.getElementById("contact-modal-overlay");
+  if (!overlay) return;
+  overlay.classList.add("hidden");
+  overlay.classList.remove("flex");
+  document.body.style.overflow = "";
 }
 
 /* ------------------------------------------------------------------ */
@@ -275,7 +393,7 @@ function renderBlogGrid() {
     <div class="rounded-2xl overflow-hidden bg-white flex flex-col" style="border:1px solid #E3E7EC;box-shadow:0 12px 30px -18px rgba(11,20,36,0.18);">
       <div class="relative" style="aspect-ratio:16/10;">
         <div class="img-wrap">
-          <img src="${meta.img}" alt="${post.title}" loading="lazy" onerror="this.classList.add('broken')">
+          <img src="${meta.img}" alt="${post.title} — VECTOR ${t('common.locationSuffix')}" loading="lazy" width="800" height="500" onerror="this.classList.add('broken')">
           <div class="img-fallback"><i data-lucide="${svcMeta.icon}" style="width:40px;height:40px;color:var(--emerald);" stroke-width="1.25"></i></div>
         </div>
         <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 55%,rgba(11,20,36,0.5) 100%);"></div>
@@ -341,6 +459,23 @@ function renderBlogPost() {
       <a href="blog.html" class="inline-flex items-center gap-1.5 mt-8 text-sm font-semibold" style="color:var(--emerald-dark);">
         <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> ${t("blog.backToBlog")}
       </a>
+
+      <!-- social share -->
+      <div class="mt-10 pt-6 flex items-center gap-3" style="border-top:1px solid #E3E7EC;">
+        <span class="text-xs font-semibold uppercase tracking-wide" style="color:var(--text-muted);">${t("common.shareLabel")}</span>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" target="_blank" rel="noopener" aria-label="Facebook"
+           class="flex items-center justify-center rounded-full" style="width:36px;height:36px;background:var(--paper);border:1px solid #E3E7EC;color:var(--navy);">
+          <i data-lucide="facebook" class="w-4 h-4"></i>
+        </a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}" target="_blank" rel="noopener" aria-label="LinkedIn"
+           class="flex items-center justify-center rounded-full" style="width:36px;height:36px;background:var(--paper);border:1px solid #E3E7EC;color:var(--navy);">
+          <i data-lucide="linkedin" class="w-4 h-4"></i>
+        </a>
+        <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' — ' + window.location.href)}" target="_blank" rel="noopener" aria-label="WhatsApp"
+           class="flex items-center justify-center rounded-full" style="width:36px;height:36px;background:var(--paper);border:1px solid #E3E7EC;color:var(--navy);">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -488,9 +623,31 @@ function applyStaticText() {
     const val = t(el.getAttribute("data-i18n"));
     if (val !== null) el.textContent = val;
   });
-  document.title = document.body.dataset.titleKey
-    ? `${t(document.body.dataset.titleKey)} — VECTOR`
-    : document.title;
+}
+
+function getPageSeo() {
+  if (window.CURRENT_SERVICE) return t(`seo.services.${window.CURRENT_SERVICE}`);
+  if (window.CURRENT_POST) return t(`seo.posts.${window.CURRENT_POST}`);
+  if (window.CURRENT_PAGE === "home") return t("seo.index");
+  if (window.CURRENT_PAGE === "blog") return t("seo.blog");
+  return null;
+}
+
+function updateMetaTags() {
+  const seo = getPageSeo();
+  if (!seo) return;
+  document.title = seo.title;
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement("meta");
+    metaDesc.setAttribute("name", "description");
+    document.head.appendChild(metaDesc);
+  }
+  metaDesc.setAttribute("content", seo.description);
+  // Note: og:title / og:description / og:image stay static (server-rendered GE
+  // copy) since social-media crawlers (Facebook/WhatsApp/LinkedIn) do not run
+  // JS — only the visible <title> and meta description update live with the
+  // in-page language switcher.
 }
 
 function setLanguage(lang) {
@@ -498,8 +655,10 @@ function setLanguage(lang) {
   document.documentElement.lang = lang === "ge" ? "ka" : lang;
 
   applyStaticText();
+  updateMetaTags();
   renderFooterServices();
   renderFloatingActions();
+  renderContactModal();
   if (window.CURRENT_PAGE === "home") {
     renderHomeServicesGrid();
     renderHomeWhyUs();

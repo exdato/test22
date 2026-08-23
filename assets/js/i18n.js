@@ -8,6 +8,11 @@ const PHONE_DISPLAY = "595 70 83 00";
 const PHONE_TEL = "595708300";
 const WHATSAPP_URL = "https://wa.me/995595708300";
 
+/* NOTE: replace with the real production domain before deploying.
+   Used for canonical tags, hreflang, JSON-LD and sitemap.xml. */
+const SITE_URL = "https://vector-security.ge";
+const OG_IMAGE = "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&h=630&q=80";
+
 const SERVICE_ORDER = ["cctv", "alarm", "fire", "locks", "access", "network", "electrical", "smart"];
 
 const SERVICE_META = {
@@ -24,14 +29,14 @@ const SERVICE_META = {
 const BLOG_ORDER = ["post1", "post2", "post3", "post4", "post5", "post6", "post7", "post8"];
 
 const BLOG_META = {
-  post1: { page: "blog-post-1.html", service: "cctv",       minutes: 4, img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80" },
-  post2: { page: "blog-post-2.html", service: "alarm",      minutes: 5, img: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" },
-  post3: { page: "blog-post-3.html", service: "fire",       minutes: 4, img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1200&q=80" },
-  post4: { page: "blog-post-4.html", service: "locks",      minutes: 4, img: "https://images.unsplash.com/photo-1558617320-a56d5bcd8bde?auto=format&fit=crop&w=1200&q=80" },
-  post5: { page: "blog-post-5.html", service: "access",     minutes: 5, img: "https://images.unsplash.com/photo-1633265486064-086b219458ec?auto=format&fit=crop&w=1200&q=80" },
-  post6: { page: "blog-post-6.html", service: "network",    minutes: 5, img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" },
-  post7: { page: "blog-post-7.html", service: "electrical", minutes: 4, img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1200&q=80" },
-  post8: { page: "blog-post-8.html", service: "smart",      minutes: 5, img: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&w=1200&q=80" }
+  post1: { page: "blog-post-1.html", service: "cctv",       minutes: 4, date: "2026-06-01", img: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80" },
+  post2: { page: "blog-post-2.html", service: "alarm",      minutes: 5, date: "2026-06-02", img: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" },
+  post3: { page: "blog-post-3.html", service: "fire",       minutes: 4, date: "2026-06-03", img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1200&q=80" },
+  post4: { page: "blog-post-4.html", service: "locks",      minutes: 4, date: "2026-06-04", img: "https://images.unsplash.com/photo-1558617320-a56d5bcd8bde?auto=format&fit=crop&w=1200&q=80" },
+  post5: { page: "blog-post-5.html", service: "access",     minutes: 5, date: "2026-06-05", img: "https://images.unsplash.com/photo-1633265486064-086b219458ec?auto=format&fit=crop&w=1200&q=80" },
+  post6: { page: "blog-post-6.html", service: "network",    minutes: 5, date: "2026-06-06", img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" },
+  post7: { page: "blog-post-7.html", service: "electrical", minutes: 4, date: "2026-06-07", img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1200&q=80" },
+  post8: { page: "blog-post-8.html", service: "smart",      minutes: 5, date: "2026-06-08", img: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&w=1200&q=80" }
 };
 
 const translations = {
@@ -46,13 +51,34 @@ const translations = {
       whatsapp: "WhatsApp",
       backToServices: "ყველა სერვისი",
       viewService: "სერვისის ნახვა",
+      requestCallback: "ფორმის შევსება",
+      shareLabel: "გააზიარეთ სტატია",
+      modal: {
+        title: "მოითხოვეთ უფასო კონსულტაცია",
+        subtitle: "შეავსეთ ფორმა და ჩვენი სპეციალისტი დაგიკავშირდებათ უახლოეს დროში.",
+        nameLabel: "სახელი და გვარი",
+        namePlaceholder: "თქვენი სახელი",
+        phoneLabel: "ტელეფონის ნომერი",
+        phonePlaceholder: "5XX XX XX XX",
+        serviceLabel: "სასურველი სერვისი",
+        serviceDefault: "აირჩიეთ სერვისი",
+        submitBtn: "მოთხოვნის გაგზავნა",
+        closeLabel: "დახურვა",
+        errorName: "გთხოვთ, მიუთითოთ სახელი",
+        errorPhone: "გთხოვთ, მიუთითოთ სწორი ტელეფონის ნომერი",
+        errorService: "გთხოვთ, აირჩიოთ სერვისი",
+        successMsg: "მადლობა! WhatsApp იხსნება თქვენი მოთხოვნით — გთხოვთ, გააგზავნოთ შეტყობინება.",
+        note: "განაცხადი იგზავნება WhatsApp-ის საშუალებით"
+      },
       breadcrumbHome: "მთავარი",
       breadcrumbServices: "სერვისები",
+      shareLabel: "გააზიარეთ:",
       featuresTitle: "თვისებები",
       equipmentTitle: "გამოყენებული აღჭურვილობა",
       processTitle: "სამონტაჟო პროცესი",
       ctaBannerTitle: "დაინტერესდით ამ სერვისით?",
       ctaBannerSubtitle: "დაგვირეკეთ უფასო კონსულტაციისა და ობიექტზე შეფასებისთვის.",
+      locationSuffix: "თბილისში",
       footer: { about: "VECTOR — უსაფრთხოებისა და ელექტრო სისტემების პროფესიონალური მონტაჟი თბილისსა და შემოგარენში. კამერებიდან სრულ ელექტრო გაყვანილობამდე.", quickLinks: "ნავიგაცია", servicesTitle: "სერვისები", contactTitle: "კონტაქტი", rights: "ყველა უფლება დაცულია." },
       contact: { phoneLabel: "ტელეფონი", whatsappLabel: "WhatsApp", areaLabel: "მომსახურების არეალი", area: "მომსახურება მთელ თბილისსა და შემოგარენში", hoursLabel: "სამუშაო საათები", hoursWeek: "ორშ–შაბ: 09:00 – 19:00", hoursEmergency: "ავარიული გამოძახება: 24/7" }
     },
@@ -265,6 +291,30 @@ const translations = {
           conclusion: "მცირე ინვესტიციით შეგიძლიათ მნიშვნელოვნად გაზარდოთ კომფორტი და ენერგოეფექტურობა."
         }
       }
+    },
+    seo: {
+      index: { title: "VECTOR — უსაფრთხოების სისტემები და ელექტრო მომსახურება თბილისში", description: "კამერების მონტაჟი, სიგნალიზაცია, სახანძრო უსაფრთხოება და ელექტრო გაყვანილობა თბილისსა და შემოგარენში. დარეკეთ: 595 70 83 00." },
+      services: {
+        cctv:       { title: "კამერების მონტაჟი თბილისში — CCTV სისტემები | VECTOR", description: "IP და HD/4K უსაფრთხოების კამერების პროფესიონალური მონტაჟი თბილისში. დისტანციური მონიტორინგი, ღამის ხედვა და გარანტია." },
+        alarm:      { title: "სიგნალიზაციის სისტემები თბილისში | VECTOR უსაფრთხოება", description: "საიმედო საგანგაშო სისტემების მონტაჟი სახლისა და ბიზნესისთვის თბილისში. მოძრაობის სენსორები, 24/7 მონიტორინგი და სწრაფი რეაგირება." },
+        fire:       { title: "სახანძრო უსაფრთხოების სისტემები თბილისში | VECTOR", description: "სახანძრო სიგნალიზაციისა და კვამლის დეტექტორების მონტაჟი ნორმებთან სრული შესაბამისობით თბილისში." },
+        locks:      { title: "ჭკვიანი ელექტრო საკეტები თბილისში | VECTOR", description: "მაგნიტური და კოდური ელექტრო საკეტების მონტაჟი დისტანციური მართვით. უსაფრთხო წვდომა თქვენს კარზე თბილისში." },
+        access:     { title: "დაშვების კონტროლის სისტემები (Access Control) თბილისში", description: "ტურნიკეტები, RFID და ბიომეტრიული იდენტიფიკაცია ბიზნესისთვის თბილისში. სამუშაო დროის აღრიცხვა და უსაფრთხო წვდომა." },
+        network:    { title: "ქსელური მონტაჟი და სტრუქტურირებული საკაბელო სისტემები | VECTOR", description: "LAN ქსელის დაგეგმვა და მონტაჟი, Cat6/Cat6a კაბელი და Wi-Fi ოპტიმიზაცია ოფისებისა და სახლებისთვის თბილისში." },
+        electrical: { title: "ელექტრო გაყვანილობა თბილისში — უსაფრთხო მონტაჟი | VECTOR", description: "საცხოვრებელი და კომერციული ობიექტების სრული ელექტრო გაყვანილობა, საკომუტაციო კარადები და უსაფრთხოების შემოწმება თბილისში." },
+        smart:      { title: "ჭკვიანი მოწყობილობები და სახლის ავტომატიზაცია | VECTOR", description: "ჭკვიანი რელეები (Sonoff, Shelly, Tuya) განათების, გათბობისა და კარიბჭეების დისტანციური მართვისთვის თბილისში." }
+      },
+      blog: { title: "ბლოგი — რჩევები უსაფრთხოებისა და ელექტროობის შესახებ | VECTOR", description: "სასარგებლო სტატიები კამერების, სიგნალიზაციის, ელექტრო გაყვანილობისა და ჭკვიანი სისტემების შესახებ თბილისელი ექსპერტებისგან." },
+      posts: {
+        post1: { title: "როგორ ავირჩიოთ IP კამერები სახლისა და ოფისისთვის | VECTOR ბლოგი", description: "გზამკვლევი IP კამერების შერჩევაში — გარჩევადობა, ღამის ხედვა და არქივის შენახვა. რჩევები VECTOR-ის ექსპერტებისგან თბილისში." },
+        post2: { title: "უსადენო vs სადენიანი სიგნალიზაცია — რომელია უკეთესი?", description: "შევადაროთ უსადენო და სადენიანი სიგნალიზაციის სისტემები, რათა აირჩიოთ საუკეთესო გადაწყვეტა თქვენი ობიექტისთვის თბილისში." },
+        post3: { title: "სახანძრო უსაფრთხოების თანამედროვე სტანდარტები | VECTOR ბლოგი", description: "რას მოითხოვს თანამედროვე სახანძრო უსაფრთხოების ნორმები კომერციული და საცხოვრებელი ობიექტებისთვის საქართველოში." },
+        post4: { title: "ჭკვიანი ელექტრო საკეტები — უსაფრთხოება და კომფორტი", description: "როგორ აუმჯობესებენ ჭკვიანი საკეტები უსაფრთხოებასა და ყოველდღიურ კომფორტს სახლსა თუ ოფისში." },
+        post5: { title: "დაშვების სისტემების მნიშვნელობა ბიზნესში | VECTOR ბლოგი", description: "რატომ საჭიროებს თანამედროვე ბიზნესი Access Control სისტემას — უსაფრთხოება, აღრიცხვა და ეფექტურობა." },
+        post6: { title: "სტრუქტურირებული საკაბელო სისტემის (LAN) დაგეგმვა", description: "ძირითადი პრინციპები სტაბილური ოფისის ქსელისთვის — კაბელის შერჩევიდან Wi-Fi ოპტიმიზაციამდე." },
+        post7: { title: "უსაფრთხო ელექტრო გაყვანილობა — რას მივაქციოთ ყურადღება", description: "ძირითადი უსაფრთხოების პრინციპები ელექტრო გაყვანილობის დაგეგმვისა და მონტაჟისას საცხოვრებელ და კომერციულ ობიექტებში." },
+        post8: { title: "როგორ ვაქციოთ სახლი ჭკვიანად რელეების საშუალებით", description: "მარტივი გზები სახლის ავტომატიზაციის დასაწყებად ჭკვიანი რელეებით — Sonoff, Shelly და Tuya." }
+      }
     }
   },
 
@@ -279,13 +329,34 @@ const translations = {
       whatsapp: "WhatsApp",
       backToServices: "All Services",
       viewService: "View Service",
+      requestCallback: "Request a Callback",
+      shareLabel: "Share this article",
+      modal: {
+        title: "Request a Free Consultation",
+        subtitle: "Fill out the form and our specialist will contact you shortly.",
+        nameLabel: "Full Name",
+        namePlaceholder: "Your name",
+        phoneLabel: "Phone Number",
+        phonePlaceholder: "5XX XX XX XX",
+        serviceLabel: "Service of Interest",
+        serviceDefault: "Select a service",
+        submitBtn: "Send Request",
+        closeLabel: "Close",
+        errorName: "Please enter your name",
+        errorPhone: "Please enter a valid phone number",
+        errorService: "Please select a service",
+        successMsg: "Thank you! WhatsApp is opening with your request — please send the message.",
+        note: "Your request is sent via WhatsApp"
+      },
       breadcrumbHome: "Home",
       breadcrumbServices: "Services",
+      shareLabel: "Share:",
       featuresTitle: "Features",
       equipmentTitle: "Equipment Used",
       processTitle: "Installation Process",
       ctaBannerTitle: "Interested in this service?",
       ctaBannerSubtitle: "Call us for a free consultation and on-site assessment.",
+      locationSuffix: "in Tbilisi",
       footer: { about: "VECTOR — professional security and electrical systems installation across Tbilisi and the surrounding area. From CCTV to full electrical wiring.", quickLinks: "Navigation", servicesTitle: "Services", contactTitle: "Contact", rights: "All rights reserved." },
       contact: { phoneLabel: "Phone", whatsappLabel: "WhatsApp", areaLabel: "Service Area", area: "Services available across Tbilisi and surrounding areas", hoursLabel: "Working Hours", hoursWeek: "Mon–Sat: 09:00 – 19:00", hoursEmergency: "Emergency call-out: 24/7" }
     },
@@ -498,6 +569,30 @@ const translations = {
           conclusion: "With a small investment you can significantly boost comfort and energy efficiency."
         }
       }
+    },
+    seo: {
+      index: { title: "VECTOR — Security Systems & Electrical Services in Tbilisi", description: "CCTV installation, alarms, fire safety and electrical wiring across Tbilisi and the surrounding area. Call: 595 70 83 00." },
+      services: {
+        cctv:       { title: "CCTV Camera Installation in Tbilisi | VECTOR", description: "Professional IP and HD/4K security camera installation in Tbilisi. Remote monitoring, night vision, and warranty included." },
+        alarm:      { title: "Alarm Systems in Tbilisi | VECTOR Security", description: "Reliable alarm system installation for homes and businesses in Tbilisi. Motion sensors, 24/7 monitoring and fast response." },
+        fire:       { title: "Fire Safety Systems in Tbilisi | VECTOR", description: "Fire alarm and smoke detector installation in full regulatory compliance. Protect your property from fire in Tbilisi." },
+        locks:      { title: "Smart Electric Locks in Tbilisi | VECTOR", description: "Magnetic and keypad smart lock installation with remote control. Secure, convenient access for your door in Tbilisi." },
+        access:     { title: "Access Control Systems in Tbilisi | VECTOR", description: "Turnstiles, RFID and biometric identification for businesses in Tbilisi. Time tracking and secure access." },
+        network:    { title: "Structured Cabling & Network Installation | VECTOR", description: "LAN network design and installation, Cat6/Cat6a cabling and Wi-Fi optimization for offices and homes in Tbilisi." },
+        electrical: { title: "Electrical Wiring in Tbilisi — Safe Installation | VECTOR", description: "Complete residential and commercial electrical wiring, distribution panels and safety inspection in Tbilisi." },
+        smart:      { title: "Smart Home Devices & Automation | VECTOR", description: "Smart relays (Sonoff, Shelly, Tuya) for remote control of lighting, heating and gates in Tbilisi." }
+      },
+      blog: { title: "Blog — Security & Electrical Tips | VECTOR", description: "Helpful articles on cameras, alarms, electrical wiring and smart systems from Tbilisi's security experts." },
+      posts: {
+        post1: { title: "How to Choose IP Cameras for Home & Office | VECTOR", description: "A guide to choosing IP cameras — resolution, night vision and storage. Expert tips from VECTOR in Tbilisi." },
+        post2: { title: "Wireless vs Wired Alarms — Which Is Better?", description: "Comparing wireless and wired alarm systems to help you pick the best solution for your property in Tbilisi." },
+        post3: { title: "Modern Fire Safety Standards | VECTOR Blog", description: "What today's fire safety regulations require for commercial and residential properties in Georgia." },
+        post4: { title: "Smart Electric Locks — Security and Convenience", description: "How smart locks improve both security and everyday convenience at home or in the office." },
+        post5: { title: "Importance of Access Control in Business | VECTOR", description: "Why modern businesses need an access control system — security, tracking and efficiency." },
+        post6: { title: "Planning a Structured Cabling (LAN) System", description: "Key principles for a stable office network — from cable choice to Wi-Fi optimization." },
+        post7: { title: "Safe Electrical Wiring — What to Watch For", description: "Key safety principles for planning and installing electrical wiring in residential and commercial properties." },
+        post8: { title: "Make Your Home Smart with Relays | VECTOR Blog", description: "Simple ways to start home automation with smart relays — Sonoff, Shelly and Tuya." }
+      }
     }
   },
 
@@ -512,13 +607,34 @@ const translations = {
       whatsapp: "WhatsApp",
       backToServices: "Все услуги",
       viewService: "Смотреть услугу",
+      requestCallback: "Оставить заявку",
+      shareLabel: "Поделиться статьёй",
+      modal: {
+        title: "Запросите бесплатную консультацию",
+        subtitle: "Заполните форму, и наш специалист свяжется с вами в ближайшее время.",
+        nameLabel: "Имя и фамилия",
+        namePlaceholder: "Ваше имя",
+        phoneLabel: "Номер телефона",
+        phonePlaceholder: "5XX XX XX XX",
+        serviceLabel: "Интересующая услуга",
+        serviceDefault: "Выберите услугу",
+        submitBtn: "Отправить заявку",
+        closeLabel: "Закрыть",
+        errorName: "Пожалуйста, укажите имя",
+        errorPhone: "Пожалуйста, укажите корректный номер телефона",
+        errorService: "Пожалуйста, выберите услугу",
+        successMsg: "Спасибо! Открывается WhatsApp с вашей заявкой — пожалуйста, отправьте сообщение.",
+        note: "Заявка отправляется через WhatsApp"
+      },
       breadcrumbHome: "Главная",
       breadcrumbServices: "Услуги",
+      shareLabel: "Поделиться:",
       featuresTitle: "Особенности",
       equipmentTitle: "Используемое оборудование",
       processTitle: "Процесс монтажа",
       ctaBannerTitle: "Заинтересовала услуга?",
       ctaBannerSubtitle: "Позвоните нам для бесплатной консультации и оценки объекта.",
+      locationSuffix: "в Тбилиси",
       footer: { about: "VECTOR — профессиональный монтаж охранных и электрических систем в Тбилиси и окрестностях. От видеонаблюдения до полного электромонтажа.", quickLinks: "Навигация", servicesTitle: "Услуги", contactTitle: "Контакты", rights: "Все права защищены." },
       contact: { phoneLabel: "Телефон", whatsappLabel: "WhatsApp", areaLabel: "Зона обслуживания", area: "Услуги доступны по всему Тбилиси и в пригородах", hoursLabel: "Часы работы", hoursWeek: "Пн–Сб: 09:00 – 19:00", hoursEmergency: "Аварийный вызов: 24/7" }
     },
@@ -730,6 +846,30 @@ const translations = {
           ],
           conclusion: "При небольших вложениях вы можете значительно повысить комфорт и энергоэффективность."
         }
+      }
+    },
+    seo: {
+      index: { title: "VECTOR — Охранные системы и электромонтаж в Тбилиси", description: "Установка видеонаблюдения, сигнализации, пожарной безопасности и электропроводки в Тбилиси и окрестностях. Звоните: 595 70 83 00." },
+      services: {
+        cctv:       { title: "Установка видеонаблюдения в Тбилиси | VECTOR", description: "Профессиональная установка IP и HD/4K камер в Тбилиси. Удалённый мониторинг, ночное видение и гарантия." },
+        alarm:      { title: "Системы сигнализации в Тбилиси | VECTOR", description: "Надёжная установка сигнализации для дома и бизнеса в Тбилиси. Датчики движения, мониторинг 24/7 и быстрый отклик." },
+        fire:       { title: "Системы пожарной безопасности в Тбилиси | VECTOR", description: "Установка пожарной сигнализации и дымовых извещателей с полным соответствием нормам. Защитите объект в Тбилиси." },
+        locks:      { title: "Умные электронные замки в Тбилиси | VECTOR", description: "Установка магнитных и кодовых умных замков с дистанционным управлением. Безопасный доступ в Тбилиси." },
+        access:     { title: "Системы контроля доступа в Тбилиси | VECTOR", description: "Турникеты, RFID и биометрическая идентификация для бизнеса в Тбилиси. Учёт времени и безопасный доступ." },
+        network:    { title: "Структурированные кабельные системы в Тбилиси | VECTOR", description: "Проектирование и монтаж LAN-сетей, кабель Cat6/Cat6a и оптимизация Wi-Fi в Тбилиси." },
+        electrical: { title: "Электропроводка в Тбилиси — безопасный монтаж | VECTOR", description: "Полная электропроводка жилых и коммерческих объектов, распределительные щиты и проверка безопасности в Тбилиси." },
+        smart:      { title: "Умные устройства и автоматизация дома | VECTOR", description: "Умные реле (Sonoff, Shelly, Tuya) для дистанционного управления освещением, отоплением и воротами в Тбилиси." }
+      },
+      blog: { title: "Блог — советы по безопасности и электрике | VECTOR", description: "Полезные статьи о камерах, сигнализации, электропроводке и умных системах от экспертов в Тбилиси." },
+      posts: {
+        post1: { title: "Как выбрать IP-камеры для дома и офиса | VECTOR", description: "Гид по выбору IP-камер — разрешение, ночное видение и хранение. Советы экспертов VECTOR в Тбилиси." },
+        post2: { title: "Беспроводная vs проводная сигнализация", description: "Сравниваем беспроводные и проводные системы сигнализации, чтобы выбрать решение для вашего объекта в Тбилиси." },
+        post3: { title: "Современные стандарты пожарной безопасности", description: "Что требуют современные нормы пожарной безопасности для коммерческих и жилых объектов в Грузии." },
+        post4: { title: "Умные электронные замки — безопасность и комфорт", description: "Как умные замки повышают безопасность и повседневный комфорт дома и в офисе." },
+        post5: { title: "Важность контроля доступа для бизнеса | VECTOR", description: "Почему современному бизнесу нужна система контроля доступа — безопасность, учёт и эффективность." },
+        post6: { title: "Планирование структурированной кабельной системы", description: "Ключевые принципы стабильной офисной сети — от выбора кабеля до оптимизации Wi-Fi." },
+        post7: { title: "Безопасная электропроводка — на что обратить внимание", description: "Ключевые принципы безопасности при планировании и монтаже электропроводки жилых и коммерческих объектов." },
+        post8: { title: "Сделайте дом умным с помощью реле | Блог VECTOR", description: "Простые способы начать автоматизацию дома с умными реле — Sonoff, Shelly и Tuya." }
       }
     }
   }

@@ -1,0 +1,8 @@
+# robots.txt — VECTOR Security & Electrical Services
+User-agent: *
+Allow: /
+
+# Static assets are safe to crawl (helps image/OG previews)
+Allow: /assets/
+
+Sitemap: https://www.vector-security.ge/sitemap.xml
