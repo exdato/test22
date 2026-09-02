@@ -258,6 +258,292 @@ function renderHomeFAQ() {
     </div>`).join("");
 }
 
+/* ------------------------------------------------------------------ */
+/* SPACE SELECTOR — 4-tab interactive kit recommender                  */
+/* ------------------------------------------------------------------ */
+
+let activeSpace = "home";
+
+function renderSpaceSelector() {
+  const wrap = document.getElementById("space-selector-root");
+  if (!wrap) return;
+  const data = t("home.selector");
+  const space = data.spaces[activeSpace];
+
+  wrap.innerHTML = `
+    <div class="flex flex-wrap justify-center gap-2 mb-10">
+      ${SPACE_ORDER.map(id => `
+        <button class="space-tab inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200"
+          data-space="${id}"
+          style="${id === activeSpace
+            ? "background:var(--emerald);color:#08111F;"
+            : "background:#fff;color:var(--charcoal);border:1px solid #E3E7EC;"}">
+          <i data-lucide="${SPACE_META[id].icon}" class="w-4 h-4"></i>
+          ${data.tabs[id]}
+        </button>`).join("")}
+    </div>
+    <div class="rounded-2xl p-7 md:p-10 transition-all duration-300" style="background:#fff;border:1px solid #E3E7EC;box-shadow:0 20px 45px -28px rgba(11,20,36,0.25);">
+      <div class="grid md:grid-cols-[1fr_1.3fr] gap-8 items-center">
+        <div>
+          <div class="inline-flex items-center justify-center rounded-xl mb-4" style="width:48px;height:48px;background:rgba(18,183,106,0.12);">
+            <i data-lucide="${SPACE_META[activeSpace].icon}" style="width:22px;height:22px;color:var(--emerald-dark);"></i>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2 font-display" style="color:var(--navy);">${space.title}</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-muted);">${space.desc}</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          ${space.kit.map(item => `
+            <div class="flex items-start gap-2.5 text-sm p-3 rounded-lg" style="background:var(--paper);color:var(--charcoal);">
+              <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 shrink-0" style="color:var(--emerald);"></i>
+              <span>${item}</span>
+            </div>`).join("")}
+        </div>
+      </div>
+    </div>`;
+  if (window.lucide) lucide.createIcons();
+}
+
+/* ------------------------------------------------------------------ */
+/* BUNDLED PACKAGES GRID                                               */
+/* ------------------------------------------------------------------ */
+
+function renderPackages() {
+  const wrap = document.getElementById("packages-grid");
+  if (!wrap) return;
+  const data = t("home.packages");
+  const order = ["home", "office", "smart"];
+  wrap.innerHTML = order.map(id => {
+    const pkg = data.items[id];
+    const icon = id === "home" ? "home" : id === "office" ? "building-2" : "cpu";
+    return `
+    <div class="relative rounded-2xl p-7 flex flex-col" style="background:#fff;border:${pkg.popular ? "2px solid var(--emerald)" : "1px solid #E3E7EC"};box-shadow:0 16px 36px -24px rgba(11,20,36,0.22);">
+      ${pkg.popular ? `<span class="absolute -top-3 left-7 px-3 py-1 rounded-full text-[11px] font-bold" style="background:var(--emerald);color:#08111F;">${data.popularBadge}</span>` : ""}
+      <div class="inline-flex items-center justify-center rounded-xl mb-5" style="width:48px;height:48px;background:rgba(18,183,106,0.12);">
+        <i data-lucide="${icon}" style="width:22px;height:22px;color:var(--emerald-dark);"></i>
+      </div>
+      <h3 class="text-lg font-bold mb-1.5 font-display" style="color:var(--navy);">${pkg.title}</h3>
+      <p class="text-sm mb-5" style="color:var(--text-muted);">${pkg.tagline}</p>
+      <ul class="flex flex-col gap-2.5 mb-6 flex-1">
+        ${pkg.equipment.map(e => `
+          <li class="flex items-start gap-2.5 text-sm" style="color:var(--charcoal);">
+            <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 shrink-0" style="color:var(--emerald);"></i>${e}
+          </li>`).join("")}
+      </ul>
+      <div class="flex items-center gap-1.5 text-xs font-medium mb-5" style="color:var(--emerald-dark);">
+        <i data-lucide="badge-check" class="w-3.5 h-3.5"></i>${data.freeInspection}
+      </div>
+      <button class="open-contact-modal-trigger inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold btn-primary">
+        <i data-lucide="send" class="w-4 h-4"></i>${data.ctaBtn}
+      </button>
+    </div>`;
+  }).join("");
+}
+
+/* ------------------------------------------------------------------ */
+/* INTERACTIVE PROPERTY MAP — building illustration with hotspots      */
+/* ------------------------------------------------------------------ */
+
+function renderHotspots() {
+  const wrap = document.getElementById("hotspots-root");
+  if (!wrap) return;
+  const data = t("home.hotspots");
+
+  const svg = `
+  <svg viewBox="0 0 480 400" class="w-full h-auto block" role="img" aria-label="Building illustration">
+    <line x1="0" y1="368" x2="480" y2="368" stroke="var(--navy)" stroke-opacity="0.15" stroke-width="2"/>
+    <rect x="70" y="100" width="300" height="268" fill="var(--paper)" stroke="var(--navy)" stroke-width="2"/>
+    <rect x="60" y="80" width="320" height="22" fill="var(--navy)"/>
+    <rect x="95" y="135" width="50" height="45" fill="#fff" stroke="var(--emerald)" stroke-width="2"/>
+    <rect x="200" y="135" width="50" height="45" fill="#fff" stroke="var(--emerald)" stroke-width="2"/>
+    <rect x="305" y="135" width="50" height="45" fill="#fff" stroke="var(--emerald)" stroke-width="2"/>
+    <rect x="95" y="195" width="50" height="45" fill="#fff" stroke="var(--emerald)" stroke-width="2"/>
+    <rect x="200" y="195" width="50" height="45" fill="#fff" stroke="var(--emerald)" stroke-width="2"/>
+    <rect x="305" y="195" width="50" height="45" fill="#fff" stroke="var(--emerald)" stroke-width="2"/>
+    <rect x="195" y="278" width="60" height="90" rx="4" fill="var(--navy)"/>
+    <circle cx="242" cy="323" r="2.5" fill="var(--emerald)"/>
+    <line x1="390" y1="80" x2="390" y2="45" stroke="var(--navy)" stroke-width="3"/>
+    <rect x="378" y="33" width="24" height="14" rx="2" fill="var(--navy)"/>
+    <rect x="15" y="300" width="45" height="68" fill="var(--navy)" fill-opacity="0.12" stroke="var(--navy)" stroke-width="2"/>
+    <line x1="28" y1="300" x2="28" y2="368" stroke="var(--navy)" stroke-opacity="0.4" stroke-width="2"/>
+    <line x1="47" y1="300" x2="47" y2="368" stroke="var(--navy)" stroke-opacity="0.4" stroke-width="2"/>
+    <rect x="385" y="310" width="40" height="58" fill="var(--navy)" fill-opacity="0.12" stroke="var(--navy)" stroke-width="2"/>
+    <rect x="397" y="325" width="16" height="20" fill="var(--navy)" fill-opacity="0.4"/>
+  </svg>`;
+
+  const dots = HOTSPOT_ORDER.map(id => {
+    const pos = HOTSPOT_META[id];
+    const item = data.items[id];
+    return `
+    <div class="absolute" style="left:${pos.x}%;top:${pos.y}%;transform:translate(-50%,-50%);">
+      <button class="hotspot-dot relative flex items-center justify-center" data-hotspot="${id}" aria-label="${item.title}">
+        <span class="badge-dot" style="transform:scale(2.2);"><span class="ping"></span><span class="dot"></span></span>
+      </button>
+      <div class="hotspot-tooltip hidden absolute z-10 rounded-xl p-4" data-tooltip="${id}"
+           style="width:220px; ${pos.y > 55 ? "bottom:22px;" : "top:22px;"} left:50%; transform:translateX(-50%); background:var(--navy); box-shadow:0 20px 45px -18px rgba(0,0,0,0.5);">
+        <div class="flex items-center gap-2 mb-1.5">
+          <i data-lucide="${pos.icon}" class="w-4 h-4" style="color:var(--emerald);"></i>
+          <span class="text-sm font-semibold text-white">${item.title}</span>
+        </div>
+        <p class="text-xs leading-relaxed" style="color:rgba(255,255,255,0.65);">${item.desc}</p>
+      </div>
+    </div>`;
+  }).join("");
+
+  wrap.innerHTML = `
+    <div class="relative max-w-2xl mx-auto rounded-2xl p-4 md:p-8" style="background:#fff;border:1px solid #E3E7EC;">
+      ${svg}
+      ${dots}
+    </div>`;
+  if (window.lucide) lucide.createIcons();
+}
+
+/* ------------------------------------------------------------------ */
+/* 30-SECOND SOLUTION QUIZ — modal with 2 questions + result            */
+/* ------------------------------------------------------------------ */
+
+let quizState = { step: 1, space: null, priority: null };
+
+function renderQuizBanner() {
+  const wrap = document.getElementById("quiz-banner-root");
+  if (!wrap) return;
+  const q = t("home.quiz");
+  wrap.innerHTML = `
+    <div class="rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left"
+         style="background:linear-gradient(120deg,#0B1424 0%,#123A2C 130%);">
+      <div>
+        <div class="text-xs font-semibold tracking-widest uppercase mb-2" style="color:var(--emerald);">${q.bannerEyebrow}</div>
+        <h3 class="text-xl md:text-2xl font-bold text-white mb-1.5 font-display">${q.bannerTitle}</h3>
+        <p class="text-sm" style="color:rgba(255,255,255,0.65);">${q.bannerSubtitle}</p>
+      </div>
+      <button id="open-quiz-modal" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full text-sm font-semibold btn-primary shrink-0">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>${q.bannerBtn}
+      </button>
+    </div>`;
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderQuizModal() {
+  const el = ensureContainer("quiz-modal-root");
+  const q = t("home.quiz");
+  const selectorTabs = t("home.selector").tabs;
+
+  el.innerHTML = `
+  <div id="quiz-modal-overlay" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" style="background:rgba(11,20,36,0.7);backdrop-filter:blur(4px);">
+    <div class="w-full rounded-2xl bg-white relative" style="max-width:460px;box-shadow:0 30px 70px -20px rgba(0,0,0,0.4);">
+      <button id="close-quiz-modal" aria-label="${q.closeLabel}" class="absolute top-4 right-4 p-1.5 rounded-full" style="color:var(--text-muted);">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div class="p-6 md:p-8">
+        <div class="flex items-center justify-center gap-2 mb-6">
+          <span class="quiz-dot h-1.5 rounded-full transition-all" data-dot="1" style="width:28px;background:var(--emerald);"></span>
+          <span class="quiz-dot h-1.5 rounded-full transition-all" data-dot="2" style="width:14px;background:#E3E7EC;"></span>
+          <span class="quiz-dot h-1.5 rounded-full transition-all" data-dot="3" style="width:14px;background:#E3E7EC;"></span>
+        </div>
+
+        <div class="quiz-step" data-step="1">
+          <h3 class="text-lg font-bold mb-5 text-center font-display" style="color:var(--navy);">${q.step1Title}</h3>
+          <div class="grid grid-cols-2 gap-3">
+            ${SPACE_ORDER.map(id => `
+              <button class="quiz-space-option flex flex-col items-center gap-2 p-4 rounded-xl text-center transition-colors" data-value="${id}" style="border:1px solid #E3E7EC;">
+                <i data-lucide="${SPACE_META[id].icon}" class="w-5 h-5" style="color:var(--emerald-dark);"></i>
+                <span class="text-xs font-medium" style="color:var(--charcoal);">${selectorTabs[id]}</span>
+              </button>`).join("")}
+          </div>
+        </div>
+
+        <div class="quiz-step hidden" data-step="2">
+          <h3 class="text-lg font-bold mb-5 text-center font-display" style="color:var(--navy);">${q.step2Title}</h3>
+          <div class="flex flex-col gap-2.5">
+            ${QUIZ_PRIORITY_ORDER.map(id => `
+              <button class="quiz-priority-option flex items-center gap-3 p-3.5 rounded-xl text-left transition-colors" data-value="${id}" style="border:1px solid #E3E7EC;">
+                <i data-lucide="${QUIZ_PRIORITY_META[id].icon}" class="w-4.5 h-4.5 shrink-0" style="color:var(--emerald-dark);"></i>
+                <span class="text-sm font-medium" style="color:var(--charcoal);">${q.priorities[id]}</span>
+              </button>`).join("")}
+          </div>
+        </div>
+
+        <div class="quiz-step hidden" data-step="3">
+          <div id="quiz-result-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById("close-quiz-modal").addEventListener("click", closeQuizModal);
+  const overlay = document.getElementById("quiz-modal-overlay");
+  overlay.addEventListener("click", e => { if (e.target === overlay) closeQuizModal(); });
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function updateQuizStep() {
+  document.querySelectorAll(".quiz-step").forEach(stepEl => {
+    stepEl.classList.toggle("hidden", Number(stepEl.getAttribute("data-step")) !== quizState.step);
+  });
+  document.querySelectorAll(".quiz-dot").forEach(dot => {
+    const n = Number(dot.getAttribute("data-dot"));
+    const active = n <= quizState.step;
+    dot.style.background = active ? "var(--emerald)" : "#E3E7EC";
+    dot.style.width = n === quizState.step ? "28px" : "14px";
+  });
+}
+
+function renderQuizResult() {
+  const wrap = document.getElementById("quiz-result-content");
+  if (!wrap || !quizState.space || !quizState.priority) return;
+  const q = t("home.quiz");
+  const spaceTitle = t("home.selector").tabs[quizState.space];
+  const priorityLabel = q.priorities[quizState.priority];
+  const recommendedIds = QUIZ_PRIORITY_META[quizState.priority].services;
+
+  const waMsg = `${q.waMessageIntro}\n${q.spaceLabel}: ${spaceTitle}\n${q.priorityLabel}: ${priorityLabel}`;
+
+  wrap.innerHTML = `
+    <div class="text-center mb-5">
+      <div class="inline-flex items-center justify-center rounded-full mb-3" style="width:48px;height:48px;background:rgba(18,183,106,0.14);">
+        <i data-lucide="check-check" style="width:22px;height:22px;color:var(--emerald-dark);"></i>
+      </div>
+      <h3 class="text-lg font-bold mb-1 font-display" style="color:var(--navy);">${q.resultTitle}</h3>
+      <p class="text-sm" style="color:var(--text-muted);">${q.resultSubtitle}</p>
+    </div>
+    <div class="flex flex-col gap-2.5 mb-6">
+      ${recommendedIds.map(id => {
+        const svc = t(`services.${id}`);
+        return `
+        <a href="${SERVICE_META[id].page}" class="flex items-center gap-3 p-3.5 rounded-xl transition-colors" style="background:var(--paper);">
+          <i data-lucide="${SERVICE_META[id].icon}" class="w-4.5 h-4.5 shrink-0" style="color:var(--emerald-dark);"></i>
+          <div>
+            <div class="text-sm font-semibold" style="color:var(--navy);">${svc.title}</div>
+          </div>
+        </a>`;
+      }).join("")}
+    </div>
+    <a href="https://wa.me/995595708300?text=${encodeURIComponent(waMsg)}" target="_blank" rel="noopener"
+       class="w-full inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold btn-whatsapp mb-3">
+      <i data-lucide="message-circle" class="w-4 h-4"></i>${q.waBtn}
+    </a>
+    <button id="quiz-restart" class="w-full text-xs font-medium text-center" style="color:var(--text-muted);">${q.restartBtn}</button>`;
+  if (window.lucide) lucide.createIcons();
+}
+
+function openQuizModal() {
+  quizState = { step: 1, space: null, priority: null };
+  updateQuizStep();
+  const overlay = document.getElementById("quiz-modal-overlay");
+  if (!overlay) return;
+  overlay.classList.remove("hidden");
+  overlay.classList.add("flex");
+  document.body.style.overflow = "hidden";
+}
+
+function closeQuizModal() {
+  const overlay = document.getElementById("quiz-modal-overlay");
+  if (!overlay) return;
+  overlay.classList.add("hidden");
+  overlay.classList.remove("flex");
+  document.body.style.overflow = "";
+}
+
 function ensureContainer(id) {
   let el = document.getElementById(id);
   if (!el) {
@@ -664,7 +950,12 @@ function setLanguage(lang) {
     renderHomeWhyUs();
     renderHomeProcess();
     renderHomeFAQ();
+    renderSpaceSelector();
+    renderPackages();
+    renderHotspots();
+    renderQuizBanner();
   }
+  renderQuizModal();
   if (window.CURRENT_PAGE === "blog") renderBlogGrid();
   if (window.CURRENT_SERVICE) renderServiceDetail();
   if (window.CURRENT_POST) renderBlogPost();
@@ -696,6 +987,36 @@ document.addEventListener("DOMContentLoaded", () => {
       const isOpen = !answer.classList.contains("hidden");
       answer.classList.toggle("hidden", isOpen);
       icon.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
+      return;
     }
+
+    const spaceTab = e.target.closest(".space-tab");
+    if (spaceTab) { activeSpace = spaceTab.getAttribute("data-space"); renderSpaceSelector(); return; }
+
+    const pkgCta = e.target.closest(".open-contact-modal-trigger");
+    if (pkgCta) { openContactModal(); return; }
+
+    const hotspotDot = e.target.closest(".hotspot-dot");
+    if (hotspotDot) {
+      const id = hotspotDot.getAttribute("data-hotspot");
+      const tooltip = document.querySelector(`.hotspot-tooltip[data-tooltip="${id}"]`);
+      const wasHidden = tooltip.classList.contains("hidden");
+      document.querySelectorAll(".hotspot-tooltip").forEach(tip => tip.classList.add("hidden"));
+      if (wasHidden) tooltip.classList.remove("hidden");
+      return;
+    }
+    if (!e.target.closest(".hotspot-tooltip")) {
+      document.querySelectorAll(".hotspot-tooltip").forEach(tip => tip.classList.add("hidden"));
+    }
+
+    if (e.target.closest("#open-quiz-modal")) { openQuizModal(); return; }
+    if (e.target.closest("#close-quiz-modal")) { closeQuizModal(); return; }
+    if (e.target.closest("#quiz-restart")) { quizState = { step: 1, space: null, priority: null }; updateQuizStep(); return; }
+
+    const spaceOpt = e.target.closest(".quiz-space-option");
+    if (spaceOpt) { quizState.space = spaceOpt.getAttribute("data-value"); quizState.step = 2; updateQuizStep(); return; }
+
+    const priorityOpt = e.target.closest(".quiz-priority-option");
+    if (priorityOpt) { quizState.priority = priorityOpt.getAttribute("data-value"); quizState.step = 3; updateQuizStep(); renderQuizResult(); return; }
   });
 });

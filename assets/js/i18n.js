@@ -39,6 +39,35 @@ const BLOG_META = {
   post8: { page: "blog-post-8.html", service: "smart",      minutes: 5, date: "2026-06-08", img: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&w=1200&q=80" }
 };
 
+/* Space-type selector: 4 tabs, icon + kit come from here (language-neutral) */
+const SPACE_ORDER = ["home", "office", "store", "construction"];
+const SPACE_META = {
+  home:         { icon: "home" },
+  office:       { icon: "building-2" },
+  store:        { icon: "store" },
+  construction: { icon: "hard-hat" },
+};
+
+/* Property-map hotspots: fixed x/y position (% of illustration), icon */
+const HOTSPOT_ORDER = ["entrance", "windows", "cameras", "gate", "interior", "utility"];
+const HOTSPOT_META = {
+  entrance: { icon: "key-round",   x: 47, y: 77 },
+  windows:  { icon: "bell-ring",   x: 25, y: 39 },
+  cameras:  { icon: "camera",      x: 81, y: 13 },
+  gate:     { icon: "door-open",   x: 8,  y: 83 },
+  interior: { icon: "cpu",         x: 47, y: 54 },
+  utility:  { icon: "flame",       x: 84, y: 84 },
+};
+
+/* Quiz: which services get recommended per priority answer (language-neutral) */
+const QUIZ_PRIORITY_ORDER = ["security", "fire", "remote", "monitoring"];
+const QUIZ_PRIORITY_META = {
+  security:   { icon: "shield-alert", services: ["alarm", "cctv"] },
+  fire:       { icon: "flame",        services: ["fire"] },
+  remote:     { icon: "smartphone",   services: ["smart"] },
+  monitoring: { icon: "eye",          services: ["access", "cctv"] },
+};
+
 const translations = {
   /* =================================================== GEORGIAN =================================================== */
   ge: {
@@ -125,6 +154,72 @@ const translations = {
           { q: "საჭიროა თუ არა ობიექტის წინასწარი დათვალიერება?", a: "დიდი ან რთული პროექტებისთვის გირჩევთ უფასო დათვალიერებას — ეს გვეხმარება ზუსტი შეფასების მომზადებაში." },
           { q: "რამდენ ხანში სრულდება მონტაჟი?", a: "სტანდარტული ობიექტისთვის მონტაჟი სრულდება 1-3 დღეში, პროექტის მასშტაბიდან გამომდინარე." }
         ]
+      },
+      selector: {
+        eyebrow: "შეარჩიეთ თქვენი სივრცე",
+        title: "რა გჭირდებათ თქვენი ობიექტისთვის?",
+        subtitle: "აირჩიეთ თქვენი სივრცის ტიპი და ნახეთ სპეციალურად მისთვის შერჩეული აღჭურვილობა.",
+        tabs: {
+          home: "სახლი / ბინა",
+          office: "ოფისი",
+          store: "მაღაზია",
+          construction: "მშენებარე ობიექტი"
+        },
+        spaces: {
+          home: { title: "საცხოვრებელი სახლი / ბინა", desc: "დაიცავით ოჯახი და ქონება ჭკვიანი და საიმედო სისტემებით.", kit: ["CCTV კამერები კარიბჭესთან და ეზოში", "სიგნალიზაცია მოძრაობის სენსორებით", "ჭკვიანი ელექტრო საკეტი შესასვლელზე", "ჭკვიანი როზეტები და განათება", "კვამლის დეტექტორი"] },
+          office: { title: "ოფისი", desc: "მართეთ თანამშრომელთა წვდომა და დაიცავით კორპორატიული ქონება.", kit: ["დაშვების კონტროლი (Access Control)", "CCTV კამერები საერთო სივრცეებში", "სიგნალიზაცია არასამუშაო საათებში", "ქსელური ინფრასტრუქტურა (LAN/Wi-Fi)", "სახანძრო სიგნალიზაცია"] },
+          store: { title: "მაღაზია / სავაჭრო სივრცე", desc: "შეამცირეთ დანაკარგები და გააუმჯობესეთ მომხმარებელთა უსაფრთხოება.", kit: ["CCTV კამერები სალაროსა და შესასვლელზე", "სიგნალიზაცია ღამის საათებისთვის", "ელექტრო საკეტი საწყობის კარზე", "ჭკვიანი განათების მართვა", "დაშვების კონტროლი პერსონალისთვის"] },
+          construction: { title: "მშენებარე ობიექტი", desc: "დაგეგმეთ ინფრასტრუქტურა მშენებლობის ეტაპზევე — დაზოგეთ დრო და ხარჯი.", kit: ["ელექტრო გაყვანილობის სრული დაპროექტება", "სტრუქტურირებული საკაბელო სისტემა", "სახანძრო სისტემის ადრეული ინტეგრაცია", "CCTV ინფრასტრუქტურის მომზადება", "ჭკვიანი სახლის წინასწარი მონტაჟი"] }
+        }
+      },
+      packages: {
+        eyebrow: "მზა პაკეტები",
+        title: "შერჩეული გადაწყვეტილებები",
+        subtitle: "სტანდარტული აღჭურვილობის კომპლექტები — მორგებადი თქვენს საჭიროებებზე.",
+        freeInspection: "უფასო ობიექტის დათვალიერება",
+        popularBadge: "პოპულარული",
+        ctaBtn: "მოითხოვეთ კონსულტაცია",
+        items: {
+          home: { title: "საშინაო უსაფრთხოება", tagline: "სრული დაცვა თქვენი სახლის ან ბინისთვის.", equipment: ["4x IP კამერა", "სიგნალიზაცია მოძრაობის სენსორით", "ჭკვიანი ელექტრო საკეტი", "კვამლის დეტექტორი", "24/7 მხარდაჭერა"], popular: true },
+          office: { title: "ოფისის დაცვა", tagline: "დაიცავით სამუშაო სივრცე და მართეთ წვდომა.", equipment: ["დაშვების კონტროლის სისტემა", "6x IP კამერა საერთო სივრცეებში", "სიგნალიზაცია არასამუშაო საათებში", "ქსელის ინფრასტრუქტურის აუდიტი", "სახანძრო სიგნალიზაციის შემოწმება"], popular: false },
+          smart: { title: "ჭკვიანი ავტომატიზაცია", tagline: "აქციეთ სივრცე ჭკვიან, დაკავშირებულ გარემოდ.", equipment: ["ჭკვიანი რელეები განათებისთვის", "ჭკვიანი თერმოსტატი", "დისტანციური ჭიშკრის მართვა", "სცენარები და განრიგი", "მობილური აპლიკაციის სრული ინტეგრაცია"], popular: false }
+        }
+      },
+      hotspots: {
+        eyebrow: "ინტერაქტიული რუკა",
+        title: "დააკლიკეთ და გაიცანით სისტემა",
+        subtitle: "ყოველი წერტილი წარმოადგენს ცალკე დაცვის ან ავტომატიზაციის ფუნქციას.",
+        items: {
+          entrance: { title: "ჭკვიანი შესასვლელი", desc: "ელექტრო საკეტი და დაშვების კონტროლი უსაფრთხო შესვლისთვის." },
+          windows: { title: "ფანჯრის სენსორები", desc: "სიგნალიზაციის კონტაქტები არასანქცირებული გახსნის აღმოსაჩენად." },
+          cameras: { title: "გარე ვიდეო მეთვალყურეობა", desc: "HD/4K კამერები პერიმეტრის სრული კონტროლისთვის." },
+          gate: { title: "ავტომატური ჭიშკარი", desc: "დისტანციურად მართვადი ჭიშკრის ავტომატიზაცია." },
+          interior: { title: "ჭკვიანი კლიმატი და განათება", desc: "რელეებით მართული განათება, გათბობა და მოწყობილობები." },
+          utility: { title: "ელექტრო და სახანძრო უსაფრთხოება", desc: "საკომუტაციო კარადა და კვამლის დეტექტორები." }
+        }
+      },
+      quiz: {
+        bannerEyebrow: "30-წამიანი ტესტი",
+        bannerTitle: "იპოვეთ თქვენთვის საუკეთესო გადაწყვეტა",
+        bannerSubtitle: "უპასუხეთ 2 მარტივ კითხვას და მიიღეთ პერსონალური რეკომენდაცია.",
+        bannerBtn: "ტესტის დაწყება",
+        modalTitle: "იპოვეთ თქვენი გადაწყვეტა",
+        step1Title: "რა ტიპის ობიექტი გაქვთ?",
+        step2Title: "რა არის თქვენთვის ყველაზე მნიშვნელოვანი?",
+        spaceLabel: "ობიექტის ტიპი",
+        priorityLabel: "პრიორიტეტი",
+        resultTitle: "თქვენი პერსონალური რეკომენდაცია",
+        resultSubtitle: "ჩვენი გუნდი გირჩევთ შემდეგ სერვისებს:",
+        waMessageIntro: "გამარჯობა! გავიარე თქვენი ტესტი საიტზე და მაინტერესებს კონსულტაცია:",
+        waBtn: "მიღება WhatsApp-ით",
+        restartBtn: "თავიდან დაწყება",
+        closeLabel: "დახურვა",
+        priorities: {
+          security: "უსაფრთხოება შემოსვლისგან",
+          fire: "ხანძრის რისკის შემცირება",
+          remote: "დისტანციური მართვა",
+          monitoring: "ბიზნესის მონიტორინგი"
+        }
       },
       contactSection: { eyebrow: "კონტაქტი", title: "დაგვიკავშირდით", subtitle: "დაგვირეკეთ ან მოგვწერეთ WhatsApp-ზე — გიპასუხებთ სწრაფად." }
     },
@@ -404,6 +499,72 @@ const translations = {
           { q: "How long does installation take?", a: "A standard property is typically completed in 1–3 days, depending on the scope of the project." }
         ]
       },
+      selector: {
+        eyebrow: "Choose Your Space",
+        title: "What does your property need?",
+        subtitle: "Pick your space type and see the equipment curated for it.",
+        tabs: {
+          home: "House / Apartment",
+          office: "Office",
+          store: "Retail Store",
+          construction: "Under Construction"
+        },
+        spaces: {
+          home: { title: "House / Apartment", desc: "Protect your family and property with smart, reliable systems.", kit: ["CCTV cameras at the entrance and yard", "Alarm system with motion sensors", "Smart electric lock on the front door", "Smart sockets and lighting", "Smoke detector"] },
+          office: { title: "Office", desc: "Manage employee access and protect corporate assets.", kit: ["Access control system", "CCTV cameras in shared spaces", "Alarm system for after-hours", "Network infrastructure (LAN/Wi-Fi)", "Fire alarm system"] },
+          store: { title: "Retail Store", desc: "Reduce losses and improve customer safety.", kit: ["CCTV cameras at checkout and entrance", "Alarm system for night hours", "Electric lock on the storage room", "Smart lighting control", "Access control for staff"] },
+          construction: { title: "Under Construction", desc: "Plan the infrastructure during construction — save time and cost.", kit: ["Full electrical wiring design", "Structured cabling system", "Early fire-system integration", "CCTV infrastructure preparation", "Smart home pre-wiring"] }
+        }
+      },
+      packages: {
+        eyebrow: "Curated Packages",
+        title: "Bundled Solutions",
+        subtitle: "Standard equipment kits — tailored to your needs.",
+        freeInspection: "Free site inspection included",
+        popularBadge: "Most Popular",
+        ctaBtn: "Request a Consultation",
+        items: {
+          home: { title: "Home Security", tagline: "Complete protection for your home or apartment.", equipment: ["4x IP cameras", "Alarm with motion sensor", "Smart electric lock", "Smoke detector", "24/7 support"], popular: true },
+          office: { title: "Office Protection", tagline: "Secure your workplace and control access.", equipment: ["Access control system", "6x IP cameras in shared areas", "After-hours alarm system", "Network infrastructure audit", "Fire alarm inspection"], popular: false },
+          smart: { title: "Smart Automation", tagline: "Turn your space into a smart, connected environment.", equipment: ["Smart relays for lighting", "Smart thermostat", "Remote gate control", "Scenes & scheduling", "Full mobile app integration"], popular: false }
+        }
+      },
+      hotspots: {
+        eyebrow: "Interactive Map",
+        title: "Click around and explore",
+        subtitle: "Each dot represents a separate security or automation feature.",
+        items: {
+          entrance: { title: "Smart Entrance", desc: "Electric lock and access control for secure entry." },
+          windows: { title: "Window Sensors", desc: "Alarm contacts that detect unauthorized opening." },
+          cameras: { title: "Outdoor Surveillance", desc: "HD/4K cameras for complete perimeter coverage." },
+          gate: { title: "Automated Gate", desc: "Remotely controlled gate automation." },
+          interior: { title: "Smart Climate & Lighting", desc: "Relay-controlled lighting, heating and appliances." },
+          utility: { title: "Electrical & Fire Safety", desc: "Distribution panel and smoke detectors." }
+        }
+      },
+      quiz: {
+        bannerEyebrow: "30-Second Quiz",
+        bannerTitle: "Find the best solution for you",
+        bannerSubtitle: "Answer 2 simple questions and get a personal recommendation.",
+        bannerBtn: "Start the Quiz",
+        modalTitle: "Find Your Solution",
+        step1Title: "What type of property do you have?",
+        step2Title: "What matters most to you?",
+        spaceLabel: "Property type",
+        priorityLabel: "Priority",
+        resultTitle: "Your Personal Recommendation",
+        resultSubtitle: "Our team recommends the following services:",
+        waMessageIntro: "Hello! I completed your quiz on the website and I'd like a consultation:",
+        waBtn: "Get it on WhatsApp",
+        restartBtn: "Start Over",
+        closeLabel: "Close",
+        priorities: {
+          security: "Protection from break-ins",
+          fire: "Reducing fire risk",
+          remote: "Remote / smart control",
+          monitoring: "Business monitoring"
+        }
+      },
       contactSection: { eyebrow: "Contact", title: "Get in Touch", subtitle: "Call us or message us on WhatsApp — we reply quickly." }
     },
     services: {
@@ -681,6 +842,72 @@ const translations = {
           { q: "Нужен ли предварительный осмотр объекта?", a: "Для крупных или сложных проектов рекомендуем бесплатный осмотр — это помогает подготовить точную оценку." },
           { q: "Сколько времени занимает монтаж?", a: "Стандартный объект обычно завершается за 1–3 дня, в зависимости от масштаба проекта." }
         ]
+      },
+      selector: {
+        eyebrow: "Выберите ваш объект",
+        title: "Что нужно вашему объекту?",
+        subtitle: "Выберите тип вашего пространства и посмотрите подобранное для него оборудование.",
+        tabs: {
+          home: "Дом / Квартира",
+          office: "Офис",
+          store: "Магазин",
+          construction: "Строящийся объект"
+        },
+        spaces: {
+          home: { title: "Дом / Квартира", desc: "Защитите семью и имущество надёжными умными системами.", kit: ["CCTV-камеры у входа и во дворе", "Сигнализация с датчиками движения", "Умный электронный замок на входной двери", "Умные розетки и освещение", "Датчик дыма"] },
+          office: { title: "Офис", desc: "Управляйте доступом сотрудников и защищайте корпоративное имущество.", kit: ["Система контроля доступа", "CCTV-камеры в общих зонах", "Сигнализация в нерабочее время", "Сетевая инфраструктура (LAN/Wi-Fi)", "Пожарная сигнализация"] },
+          store: { title: "Магазин", desc: "Снизьте потери и повысьте безопасность покупателей.", kit: ["CCTV-камеры у кассы и входа", "Сигнализация на ночное время", "Электронный замок на складе", "Умное управление освещением", "Контроль доступа для персонала"] },
+          construction: { title: "Строящийся объект", desc: "Спланируйте инфраструктуру ещё на этапе строительства — сэкономьте время и средства.", kit: ["Полное проектирование электропроводки", "Структурированная кабельная система", "Ранняя интеграция пожарной системы", "Подготовка инфраструктуры CCTV", "Предварительный монтаж умного дома"] }
+        }
+      },
+      packages: {
+        eyebrow: "Готовые пакеты",
+        title: "Комплексные решения",
+        subtitle: "Стандартные комплекты оборудования — адаптированные под ваши нужды.",
+        freeInspection: "Включён бесплатный осмотр объекта",
+        popularBadge: "Популярный выбор",
+        ctaBtn: "Запросить консультацию",
+        items: {
+          home: { title: "Домашняя безопасность", tagline: "Полная защита вашего дома или квартиры.", equipment: ["4x IP-камеры", "Сигнализация с датчиком движения", "Умный электронный замок", "Датчик дыма", "Поддержка 24/7"], popular: true },
+          office: { title: "Защита офиса", tagline: "Обеспечьте безопасность рабочего пространства и контроль доступа.", equipment: ["Система контроля доступа", "6x IP-камер в общих зонах", "Сигнализация в нерабочее время", "Аудит сетевой инфраструктуры", "Проверка пожарной сигнализации"], popular: false },
+          smart: { title: "Умная автоматизация", tagline: "Превратите пространство в умную, связанную среду.", equipment: ["Умные реле для освещения", "Умный термостат", "Дистанционное управление воротами", "Сценарии и расписание", "Полная интеграция с мобильным приложением"], popular: false }
+        }
+      },
+      hotspots: {
+        eyebrow: "Интерактивная карта",
+        title: "Кликните и изучите систему",
+        subtitle: "Каждая точка представляет отдельную функцию безопасности или автоматизации.",
+        items: {
+          entrance: { title: "Умный вход", desc: "Электронный замок и контроль доступа для безопасного входа." },
+          windows: { title: "Датчики на окнах", desc: "Контакты сигнализации, фиксирующие несанкционированное открытие." },
+          cameras: { title: "Наружное видеонаблюдение", desc: "HD/4K камеры для полного контроля периметра." },
+          gate: { title: "Автоматические ворота", desc: "Дистанционно управляемая автоматизация ворот." },
+          interior: { title: "Умный климат и освещение", desc: "Освещение, отопление и техника под управлением реле." },
+          utility: { title: "Электро- и пожарная безопасность", desc: "Распределительный щит и датчики дыма." }
+        }
+      },
+      quiz: {
+        bannerEyebrow: "Тест за 30 секунд",
+        bannerTitle: "Найдите лучшее решение для себя",
+        bannerSubtitle: "Ответьте на 2 простых вопроса и получите персональную рекомендацию.",
+        bannerBtn: "Начать тест",
+        modalTitle: "Найдите ваше решение",
+        step1Title: "Какой у вас тип объекта?",
+        step2Title: "Что для вас важнее всего?",
+        spaceLabel: "Тип объекта",
+        priorityLabel: "Приоритет",
+        resultTitle: "Ваша персональная рекомендация",
+        resultSubtitle: "Наша команда рекомендует следующие услуги:",
+        waMessageIntro: "Здравствуйте! Я прошёл ваш тест на сайте и хочу получить консультацию:",
+        waBtn: "Получить в WhatsApp",
+        restartBtn: "Начать заново",
+        closeLabel: "Закрыть",
+        priorities: {
+          security: "Защита от взлома",
+          fire: "Снижение риска пожара",
+          remote: "Дистанционное / умное управление",
+          monitoring: "Мониторинг бизнеса"
+        }
       },
       contactSection: { eyebrow: "Контакты", title: "Свяжитесь с нами", subtitle: "Позвоните или напишите нам в WhatsApp — ответим быстро." }
     },
