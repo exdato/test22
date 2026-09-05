@@ -18,66 +18,142 @@ function t(path, lang) {
 }
 
 /* ------------------------------------------------------------------ */
+/* SEARCH — live filter across services + blog posts                   */
+/* ------------------------------------------------------------------ */
+
+function buildSearchIndex() {
+  const items = [];
+  SERVICE_ORDER.forEach(id => {
+    const s = t(`services.${id}`);
+    items.push({ title: s.title, subtitle: t("common.nav.services"), href: SERVICE_META[id].page, icon: SERVICE_META[id].icon });
+  });
+  BLOG_ORDER.forEach(id => {
+    const p = t(`blog.posts.${id}`);
+    items.push({ title: p.title, subtitle: t("blog.eyebrow"), href: BLOG_META[id].page, icon: "file-text" });
+  });
+  return items;
+}
+
+function renderSearchResults(query) {
+  const resultsEl = document.getElementById("search-results");
+  if (!resultsEl) return;
+  const q = query.trim().toLowerCase();
+  if (!q) { resultsEl.innerHTML = ""; resultsEl.classList.add("hidden"); return; }
+  const matches = buildSearchIndex().filter(item => item.title.toLowerCase().includes(q)).slice(0, 6);
+  resultsEl.classList.remove("hidden");
+  resultsEl.innerHTML = matches.length
+    ? matches.map(m => `
+      <a href="${m.href}" class="flex items-center gap-3 px-4 py-3 transition-colors" style="border-bottom:1px solid #F0F2F5;">
+        <span class="flex items-center justify-center rounded-lg shrink-0" style="width:32px;height:32px;background:var(--paper);">
+          <i data-lucide="${m.icon}" class="w-4 h-4" style="color:var(--emerald-dark);"></i>
+        </span>
+        <div class="min-w-0">
+          <div class="text-sm font-medium truncate" style="color:var(--navy);">${m.title}</div>
+          <div class="text-xs" style="color:var(--text-muted);">${m.subtitle}</div>
+        </div>
+      </a>`).join("")
+    : `<div class="px-4 py-5 text-sm text-center" style="color:var(--text-muted);">${t("common.searchNoResults")}</div>`;
+  if (window.lucide) lucide.createIcons();
+}
+
+function closeSearchPanel() {
+  const panel = document.getElementById("search-panel");
+  if (panel) panel.classList.add("hidden");
+}
+
+/* ------------------------------------------------------------------ */
 /* HEADER / FOOTER                                                     */
 /* ------------------------------------------------------------------ */
 
 function renderHeader() {
   const el = document.getElementById("app-header");
   if (!el) return;
+  const ann = t("home.announcement");
+  const dismissed = localStorage.getItem("vector_announcement_dismissed") === "1";
+
   el.innerHTML = `
-  <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-7xl mx-auto px-5 md:px-8">
-      <div class="flex items-center justify-between h-16 md:h-20">
-        <a href="index.html" class="flex items-center gap-2.5 shrink-0">
-          <span class="flex items-center justify-center rounded-md" style="width:38px;height:38px;background:linear-gradient(135deg,var(--emerald) 0%,#0a8a54 100%);">
-            <i data-lucide="shield-check" style="color:#0B1424;" class="w-5 h-5"></i>
-          </span>
-          <span class="flex flex-col items-start leading-none">
-            <span class="text-lg md:text-xl font-bold tracking-tight text-white font-display" style="letter-spacing:.02em;">VECTOR</span>
-            <span class="hidden sm:block text-[10px] tracking-widest uppercase" style="color:var(--emerald);" data-i18n="common.brandTag"></span>
-          </span>
-        </a>
+  <div id="header-wrapper" class="fixed top-0 left-0 right-0 z-50">
+    <div id="announcement-bar" class="${dismissed ? "collapsed" : ""}" style="background:linear-gradient(90deg,#0a8a54,var(--emerald));">
+      <div class="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-center gap-3 text-center" style="height:40px;">
+        <span class="text-xs md:text-sm font-medium" style="color:#08111F;">${ann.text}</span>
+        <a href="tel:${PHONE_TEL}" class="hidden sm:inline-flex items-center gap-1 text-xs font-bold underline shrink-0" style="color:#08111F;">${ann.cta}</a>
+        <button id="dismiss-announcement" aria-label="close" class="shrink-0 p-0.5" style="color:#08111F;opacity:0.7;">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
 
-        <nav class="hidden lg:flex items-center gap-8">
-          <a href="index.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.home"></a>
-          <a href="index.html#services" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.services"></a>
-          <a href="blog.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.blog"></a>
-          <a href="index.html#contact" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.contact"></a>
-        </nav>
-
-        <div class="flex items-center gap-3">
-          <div class="flex items-center rounded-full p-1" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);">
-            ${LANGS.map(l => `<button class="lang-btn" data-lang="${l.code}">${l.label}</button>`).join("")}
-          </div>
-          <button id="open-contact-modal" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold btn-outline">
-            <i data-lucide="send" class="w-3.5 h-3.5"></i><span data-i18n="common.requestCallback"></span>
-          </button>
-          <a href="tel:${PHONE_TEL}" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold btn-primary">
-            <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
+    <header id="site-header" class="relative">
+      <div class="max-w-7xl mx-auto px-5 md:px-8">
+        <div class="flex items-center justify-between h-16 md:h-20">
+          <a href="index.html" class="flex items-center gap-2.5 shrink-0">
+            <span class="flex items-center justify-center rounded-md" style="width:38px;height:38px;background:linear-gradient(135deg,var(--emerald) 0%,#0a8a54 100%);">
+              <i data-lucide="shield-check" style="color:#0B1424;" class="w-5 h-5"></i>
+            </span>
+            <span class="flex flex-col items-start leading-none">
+              <span class="text-lg md:text-xl font-bold tracking-tight text-white font-display" style="letter-spacing:.02em;">VECTOR</span>
+              <span class="hidden sm:block text-[10px] tracking-widest uppercase" style="color:var(--emerald);" data-i18n="common.brandTag"></span>
+            </span>
           </a>
-          <button id="menu-toggle" class="lg:hidden text-white p-1.5" aria-label="menu">
-            <i data-lucide="menu" class="w-6 h-6" id="menu-icon-open"></i>
-            <i data-lucide="x" class="w-6 h-6 hidden" id="menu-icon-close"></i>
-          </button>
+
+          <nav class="hidden lg:flex items-center gap-8">
+            <a href="index.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.home"></a>
+            <a href="index.html#services" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.services"></a>
+            <a href="blog.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.blog"></a>
+            <a href="index.html#contact" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.contact"></a>
+          </nav>
+
+          <div class="flex items-center gap-2 md:gap-3">
+            <button id="search-toggle" aria-label="search" class="text-white p-1.5 rounded-full transition-colors" style="background:rgba(255,255,255,0.08);">
+              <i data-lucide="search" class="w-4 h-4"></i>
+            </button>
+            <div class="hidden md:flex items-center rounded-full p-1" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);">
+              ${LANGS.map(l => `<button class="lang-btn" data-lang="${l.code}">${l.label}</button>`).join("")}
+            </div>
+            <button id="open-contact-modal" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold btn-outline">
+              <i data-lucide="send" class="w-3.5 h-3.5"></i><span data-i18n="common.requestCallback"></span>
+            </button>
+            <a href="tel:${PHONE_TEL}" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold btn-primary">
+              <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
+            </a>
+            <button id="menu-toggle" class="lg:hidden text-white p-1.5" aria-label="menu">
+              <i data-lucide="menu" class="w-6 h-6" id="menu-icon-open"></i>
+              <i data-lucide="x" class="w-6 h-6 hidden" id="menu-icon-close"></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div id="mobile-menu" class="lg:hidden hidden border-t" style="background:rgba(10,18,32,0.98);border-color:rgba(255,255,255,0.08);">
-      <div class="px-5 py-4 flex flex-col gap-1">
-        <a href="index.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.home"></a>
-        <a href="index.html#services" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.services"></a>
-        <a href="blog.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.blog"></a>
-        <a href="index.html#contact" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.contact"></a>
-        <button id="open-contact-modal-mobile" class="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-outline">
-          <i data-lucide="send" class="w-4 h-4"></i><span data-i18n="common.requestCallback"></span>
-        </button>
-        <a href="tel:${PHONE_TEL}" class="mt-2 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-primary">
-          <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
-        </a>
+      <!-- search panel -->
+      <div id="search-panel" class="hidden absolute left-0 right-0 top-full px-5 md:px-0">
+        <div class="max-w-lg mx-auto rounded-2xl overflow-hidden mt-2" style="background:#fff;box-shadow:0 24px 55px -20px rgba(0,0,0,0.35);">
+          <div class="flex items-center gap-2 px-4 py-3" style="border-bottom:1px solid #F0F2F5;">
+            <i data-lucide="search" class="w-4 h-4 shrink-0" style="color:var(--text-muted);"></i>
+            <input id="search-input" type="text" autocomplete="off" placeholder="${t("common.searchPlaceholder")}" class="w-full text-sm outline-none" style="color:var(--navy);">
+          </div>
+          <div id="search-results" class="hidden max-h-80 overflow-y-auto"></div>
+        </div>
       </div>
-    </div>
-  </header>`;
+
+      <div id="mobile-menu" class="lg:hidden hidden border-t" style="background:rgba(10,18,32,0.98);border-color:rgba(255,255,255,0.08);">
+        <div class="px-5 py-4 flex flex-col gap-1">
+          <a href="index.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.home"></a>
+          <a href="index.html#services" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.services"></a>
+          <a href="blog.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.blog"></a>
+          <a href="index.html#contact" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.contact"></a>
+          <div class="flex items-center gap-1.5 mt-2">
+            ${LANGS.map(l => `<button class="lang-btn" data-lang="${l.code}" style="padding:6px 14px;">${l.label}</button>`).join("")}
+          </div>
+          <button id="open-contact-modal-mobile" class="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-outline">
+            <i data-lucide="send" class="w-4 h-4"></i><span data-i18n="common.requestCallback"></span>
+          </button>
+          <a href="tel:${PHONE_TEL}" class="mt-2 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold btn-primary">
+            <i data-lucide="phone" class="w-4 h-4"></i><span>${PHONE_DISPLAY}</span>
+          </a>
+        </div>
+      </div>
+    </header>
+  </div>`;
 
   const toggle = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
@@ -98,8 +174,32 @@ function renderHeader() {
     openContactModal();
   });
 
+  document.getElementById("dismiss-announcement").addEventListener("click", () => {
+    document.getElementById("announcement-bar").classList.add("collapsed");
+    localStorage.setItem("vector_announcement_dismissed", "1");
+  });
+
+  const searchToggle = document.getElementById("search-toggle");
+  const searchPanel = document.getElementById("search-panel");
+  const searchInput = document.getElementById("search-input");
+  searchToggle.addEventListener("click", e => {
+    e.stopPropagation();
+    searchPanel.classList.toggle("hidden");
+    if (!searchPanel.classList.contains("hidden")) searchInput.focus();
+  });
+  searchInput.addEventListener("input", () => renderSearchResults(searchInput.value));
+  searchPanel.addEventListener("click", e => e.stopPropagation());
+  document.addEventListener("click", () => closeSearchPanel());
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSearchPanel(); });
+
   const header = document.getElementById("site-header");
-  window.addEventListener("scroll", () => header.classList.toggle("scrolled", window.scrollY > 12));
+  const annBar = document.getElementById("announcement-bar");
+  window.addEventListener("scroll", () => {
+    const scrolled = window.scrollY > 12;
+    header.classList.toggle("scrolled", scrolled);
+    if (scrolled) annBar.classList.add("collapsed");
+    else if (localStorage.getItem("vector_announcement_dismissed") !== "1") annBar.classList.remove("collapsed");
+  });
 }
 
 function renderFooter() {
@@ -337,6 +437,145 @@ function renderPackages() {
       </button>
     </div>`;
   }).join("");
+}
+
+/* ------------------------------------------------------------------ */
+/* WARRANTY & SERVICE BADGES                                           */
+/* ------------------------------------------------------------------ */
+
+function renderWarrantyBadges() {
+  const wrap = document.getElementById("warranty-badges-root");
+  if (!wrap) return;
+  const data = t("home.warrantyBadges");
+  wrap.innerHTML = data.items.map(item => `
+    <div class="flex items-center gap-4 p-5 rounded-2xl" style="background:var(--paper);border:1px solid #E3E7EC;">
+      <span class="flex items-center justify-center rounded-xl shrink-0" style="width:48px;height:48px;background:rgba(18,183,106,0.14);">
+        <i data-lucide="${item.icon}" style="width:22px;height:22px;color:var(--emerald-dark);"></i>
+      </span>
+      <div>
+        <div class="text-sm font-bold font-display mb-0.5" style="color:var(--navy);">${item.title}</div>
+        <p class="text-xs leading-relaxed" style="color:var(--text-muted);">${item.desc}</p>
+      </div>
+    </div>`).join("");
+}
+
+/* ------------------------------------------------------------------ */
+/* EMERGENCY CALL-OUT BANNER                                           */
+/* ------------------------------------------------------------------ */
+
+function renderEmergencyBanner() {
+  const wrap = document.getElementById("emergency-banner-root");
+  if (!wrap) return;
+  const data = t("home.emergency");
+  wrap.innerHTML = `
+    <div class="flex flex-col md:flex-row items-center gap-5 md:gap-6 rounded-2xl p-6 md:p-7" style="background:#1A0F0F;border:1px solid rgba(239,68,68,0.35);">
+      <span class="flex items-center justify-center rounded-xl shrink-0" style="width:52px;height:52px;background:rgba(239,68,68,0.15);">
+        <i data-lucide="siren" style="width:24px;height:24px;color:#EF4444;"></i>
+      </span>
+      <div class="flex-1 text-center md:text-left">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#EF4444;">${data.eyebrow}</div>
+        <h3 class="text-base md:text-lg font-bold text-white mb-1 font-display">${data.title}</h3>
+        <p class="text-sm" style="color:rgba(255,255,255,0.6);">${data.subtitle}</p>
+      </div>
+      <a href="tel:${PHONE_TEL}" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full text-sm font-semibold shrink-0 transition-transform hover:scale-[1.03]" style="background:#EF4444;color:#fff;">
+        <i data-lucide="phone-call" class="w-4 h-4"></i>${data.cta}
+      </a>
+    </div>`;
+}
+
+/* ------------------------------------------------------------------ */
+/* BRAND TRUST SLIDER — auto-scrolling marquee                         */
+/* ------------------------------------------------------------------ */
+
+function renderBrandSlider() {
+  const wrap = document.getElementById("brand-slider-root");
+  if (!wrap) return;
+  const doubled = [...BRAND_LIST, ...BRAND_LIST];
+  wrap.innerHTML = `
+    <div class="brand-marquee-mask">
+      <div class="brand-marquee-track">
+        ${doubled.map(name => `<span class="brand-chip">${name}</span>`).join("")}
+      </div>
+    </div>`;
+}
+
+/* ------------------------------------------------------------------ */
+/* COST ESTIMATOR — size + service checkboxes -> rough price range     */
+/* ------------------------------------------------------------------ */
+
+let estimatorState = { size: "medium", services: ["cctv"] };
+
+function renderCostEstimator() {
+  const wrap = document.getElementById("estimator-root");
+  if (!wrap) return;
+  const data = t("home.estimator");
+  const sizeOrder = ["small", "medium", "large"];
+
+  wrap.innerHTML = `
+    <div class="rounded-2xl p-7 md:p-10" style="background:#fff;border:1px solid #E3E7EC;box-shadow:0 20px 45px -28px rgba(11,20,36,0.25);">
+      <div class="grid md:grid-cols-2 gap-10">
+        <div>
+          <div class="mb-7">
+            <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--text-muted);">${data.sizeLabel}</div>
+            <div class="flex flex-wrap gap-2">
+              ${sizeOrder.map(sz => `
+                <button class="estimator-size-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200" data-size="${sz}"
+                  style="${sz === estimatorState.size ? "background:var(--emerald);color:#08111F;" : "background:var(--paper);color:var(--charcoal);border:1px solid #E3E7EC;"}">
+                  ${data.sizeOptions[sz]}
+                </button>`).join("")}
+            </div>
+          </div>
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--text-muted);">${data.servicesLabel}</div>
+            <div class="grid grid-cols-2 gap-2">
+              ${SERVICE_ORDER.map(id => {
+                const svc = t(`services.${id}`);
+                const checked = estimatorState.services.includes(id);
+                return `
+                <button type="button" class="estimator-service-opt flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-medium text-left transition-all duration-150" data-service="${id}"
+                  style="${checked ? "background:rgba(18,183,106,0.1);border:1px solid var(--emerald);color:var(--navy);" : "background:var(--paper);border:1px solid #E3E7EC;color:var(--charcoal);"}">
+                  <i data-lucide="${checked ? "check-square" : "square"}" class="w-3.5 h-3.5 shrink-0" style="color:${checked ? "var(--emerald-dark)" : "var(--text-muted)"};"></i>
+                  <span class="truncate">${svc.title}</span>
+                </button>`;
+              }).join("")}
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl p-6 flex flex-col justify-center" style="background:var(--navy);">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-4 self-start" style="background:rgba(18,183,106,0.18);">
+            <i data-lucide="sparkles" class="w-3 h-3" style="color:var(--emerald);"></i>
+            <span class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--emerald);">${t("common.pricingBadge")}</span>
+          </div>
+          <div class="text-xs font-medium mb-1" style="color:rgba(255,255,255,0.55);">${data.resultLabel}</div>
+          <div id="estimator-result" class="text-3xl md:text-4xl font-bold text-white mb-4 font-display"></div>
+          <p class="text-xs leading-relaxed mb-6" style="color:rgba(255,255,255,0.45);">${t("common.pricingDisclaimer")}</p>
+          <button id="estimator-cta" class="open-contact-modal-trigger inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold btn-primary mb-2.5">
+            <i data-lucide="send" class="w-4 h-4"></i>${data.ctaBtn}
+          </button>
+          <a href="${PRICE_LIST_PDF}" download class="inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold" style="border:1px solid rgba(255,255,255,0.25);color:#fff;">
+            <i data-lucide="download" class="w-4 h-4"></i>${t("common.downloadPriceList")}
+          </a>
+        </div>
+      </div>
+    </div>`;
+  updateEstimatorResult();
+  if (window.lucide) lucide.createIcons();
+}
+
+function updateEstimatorResult() {
+  const resultEl = document.getElementById("estimator-result");
+  if (!resultEl) return;
+  const data = t("home.estimator");
+  if (!estimatorState.services.length) {
+    resultEl.textContent = "";
+    resultEl.innerHTML = `<span class="text-base font-medium" style="color:rgba(255,255,255,0.5);">${data.emptyState}</span>`;
+    return;
+  }
+  const multiplier = ESTIMATOR_SIZE_MULTIPLIER[estimatorState.size];
+  const total = estimatorState.services.reduce((sum, id) => sum + ESTIMATOR_BASE_PRICE[id], 0) * multiplier;
+  const rounded = Math.round(total / 10) * 10;
+  resultEl.textContent = `${rounded} GEL+`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -952,6 +1191,10 @@ function setLanguage(lang) {
     renderHomeFAQ();
     renderSpaceSelector();
     renderPackages();
+    renderWarrantyBadges();
+    renderEmergencyBanner();
+    renderBrandSlider();
+    renderCostEstimator();
     renderHotspots();
     renderQuizBanner();
   }
@@ -992,6 +1235,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const spaceTab = e.target.closest(".space-tab");
     if (spaceTab) { activeSpace = spaceTab.getAttribute("data-space"); renderSpaceSelector(); return; }
+
+    const sizeBtn = e.target.closest(".estimator-size-btn");
+    if (sizeBtn) { estimatorState.size = sizeBtn.getAttribute("data-size"); renderCostEstimator(); return; }
+
+    const serviceOpt = e.target.closest(".estimator-service-opt");
+    if (serviceOpt) {
+      const id = serviceOpt.getAttribute("data-service");
+      const idx = estimatorState.services.indexOf(id);
+      if (idx > -1) estimatorState.services.splice(idx, 1);
+      else estimatorState.services.push(id);
+      renderCostEstimator();
+      return;
+    }
 
     const pkgCta = e.target.closest(".open-contact-modal-trigger");
     if (pkgCta) { openContactModal(); return; }

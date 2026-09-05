@@ -10,8 +10,8 @@ const WHATSAPP_URL = "https://wa.me/995595708300";
 
 /* NOTE: replace with the real production domain before deploying.
    Used for canonical tags, hreflang, JSON-LD and sitemap.xml. */
-const SITE_URL = "https://vector-security.ge";
-const OG_IMAGE = "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&h=630&q=80";
+const SITE_URL = "https://www.vector-security.ge";
+const OG_IMAGE = "https://www.vector-security.ge/assets/img/og-image.jpg";
 
 const SERVICE_ORDER = ["cctv", "alarm", "fire", "locks", "access", "network", "electrical", "smart"];
 
@@ -68,6 +68,11 @@ const QUIZ_PRIORITY_META = {
   monitoring: { icon: "eye",          services: ["access", "cctv"] },
 };
 
+const ESTIMATOR_BASE_PRICE = { cctv: 150, alarm: 200, fire: 250, locks: 120, access: 300, network: 180, electrical: 220, smart: 100 };
+const ESTIMATOR_SIZE_MULTIPLIER = { small: 1, medium: 1.5, large: 2.2 };
+const BRAND_LIST = ["Hikvision", "Dahua", "Ajax", "Tuya", "Sonoff", "Shelly"];
+const PRICE_LIST_PDF = "assets/pdf/vector-price-list.pdf";
+
 const translations = {
   /* =================================================== GEORGIAN =================================================== */
   ge: {
@@ -102,6 +107,11 @@ const translations = {
       breadcrumbHome: "მთავარი",
       breadcrumbServices: "სერვისები",
       shareLabel: "გააზიარეთ:",
+      pricingBadge: "საორიენტაციო",
+      pricingDisclaimer: "ზუსტი ხარჯთაღრიცხვა დგინდება ობიექტის ადგილზე უფასო შეფასების შემდეგ.",
+      searchPlaceholder: "ძებნა სერვისებში და ბლოგში...",
+      searchNoResults: "შედეგი ვერ მოიძებნა",
+      downloadPriceList: "ფასების სია (PDF)",
       featuresTitle: "თვისებები",
       equipmentTitle: "გამოყენებული აღჭურვილობა",
       processTitle: "სამონტაჟო პროცესი",
@@ -125,6 +135,34 @@ const translations = {
         stat3: "24/7", stat3Label: "გამოძახება და მხარდაჭერა"
       },
       servicesIntro: { eyebrow: "სერვისები", title: "ყველაფერი ერთ სისტემაში", subtitle: "დაცვის, ხანძარსაწინააღმდეგო და ელექტრო ინფრასტრუქტურის სრული სპექტრი — ერთი გუნდისგან." },
+      announcement: { text: "🎁 უფასო ობიექტის შეფასება მთელ თბილისში!", cta: "დარეკვა" },
+      warrantyBadges: {
+        eyebrow: "გარანტია",
+        title: "ჩვენი ვალდებულება თქვენს წინაშე",
+        items: [
+          { icon: "shield-check", title: "2-წლიანი ოფიციალური გარანტია", desc: "ყველა მონტაჟსა და მოწყობილობაზე წერილობითი გარანტიით." },
+          { icon: "badge-check", title: "სერტიფიცირებული აღჭურვილობა", desc: "ვმუშაობთ მხოლოდ ცნობილ, სანდო ბრენდებთან." },
+          { icon: "headset", title: "24/7 მხარდაჭერა", desc: "მონტაჟის შემდეგაც ვართ ხელმისაწვდომნი ნებისმიერ დროს." }
+        ]
+      },
+      emergency: {
+        eyebrow: "სასწრაფო გამოძახება",
+        title: "გაქვთ გადაუდებელი ელექტრო ან უსაფრთხოების პრობლემა?",
+        subtitle: "დაგვირეკეთ ახლავე — ვმუშაობთ სასწრაფო შემთხვევებზეც.",
+        cta: "სასწრაფო გამოძახება"
+      },
+      brands: { eyebrow: "პარტნიორი ბრენდები", title: "ვმუშაობთ მსოფლიოში აღიარებულ ბრენდებთან" },
+      estimator: {
+        eyebrow: "კალკულატორი",
+        title: "დაითვალეთ საორიენტაციო ღირებულება",
+        subtitle: "აირჩიეთ ობიექტის ზომა და სასურველი სერვისები — მიიღეთ სავარაუდო ღირებულება წამებში.",
+        sizeLabel: "ობიექტის ზომა",
+        sizeOptions: { small: "მცირე (< 80 მ²)", medium: "საშუალო (80–200 მ²)", large: "დიდი (> 200 მ²)" },
+        servicesLabel: "სასურველი სერვისები",
+        resultLabel: "სავარაუდო ღირებულება",
+        emptyState: "აირჩიეთ მინიმუმ ერთი სერვისი",
+        ctaBtn: "ზუსტი შეთავაზების მოთხოვნა"
+      },
       whyUs: {
         eyebrow: "რატომ ჩვენ",
         title: "რატომ აირჩიონ VECTOR",
@@ -446,6 +484,11 @@ const translations = {
       breadcrumbHome: "Home",
       breadcrumbServices: "Services",
       shareLabel: "Share:",
+      pricingBadge: "Starting From",
+      pricingDisclaimer: "The exact cost is determined after a free on-site assessment.",
+      searchPlaceholder: "Search services & blog...",
+      searchNoResults: "No results found",
+      downloadPriceList: "Price List (PDF)",
       featuresTitle: "Features",
       equipmentTitle: "Equipment Used",
       processTitle: "Installation Process",
@@ -469,6 +512,34 @@ const translations = {
         stat3: "24/7", stat3Label: "Emergency Support"
       },
       servicesIntro: { eyebrow: "Services", title: "Everything, one system", subtitle: "The full spectrum of security, fire-safety and electrical infrastructure — from a single team." },
+      announcement: { text: "🎁 Free on-site assessment across Tbilisi!", cta: "Call Now" },
+      warrantyBadges: {
+        eyebrow: "Warranty",
+        title: "Our commitment to you",
+        items: [
+          { icon: "shield-check", title: "2-Year Official Warranty", desc: "A written warranty on every installation and piece of equipment." },
+          { icon: "badge-check", title: "Certified Hardware", desc: "We work only with well-known, trusted brands." },
+          { icon: "headset", title: "24/7 Support", desc: "Our team is available anytime, even after installation." }
+        ]
+      },
+      emergency: {
+        eyebrow: "Emergency Call-Out",
+        title: "Got an urgent electrical or security issue?",
+        subtitle: "Call us now — we also handle emergency call-outs.",
+        cta: "Emergency Call"
+      },
+      brands: { eyebrow: "Partner Brands", title: "We work with globally trusted brands" },
+      estimator: {
+        eyebrow: "Calculator",
+        title: "Estimate your starting cost",
+        subtitle: "Choose your property size and desired services to get an instant rough estimate.",
+        sizeLabel: "Property Size",
+        sizeOptions: { small: "Small (< 80 m²)", medium: "Medium (80–200 m²)", large: "Large (> 200 m²)" },
+        servicesLabel: "Desired Services",
+        resultLabel: "Estimated Cost",
+        emptyState: "Select at least one service",
+        ctaBtn: "Request Exact Quote"
+      },
       whyUs: {
         eyebrow: "Why Us",
         title: "Why choose VECTOR",
@@ -790,6 +861,11 @@ const translations = {
       breadcrumbHome: "Главная",
       breadcrumbServices: "Услуги",
       shareLabel: "Поделиться:",
+      pricingBadge: "Ориентировочно",
+      pricingDisclaimer: "Точная стоимость определяется после бесплатной оценки объекта.",
+      searchPlaceholder: "Поиск по услугам и блогу...",
+      searchNoResults: "Результаты не найдены",
+      downloadPriceList: "Прайс-лист (PDF)",
       featuresTitle: "Особенности",
       equipmentTitle: "Используемое оборудование",
       processTitle: "Процесс монтажа",
@@ -813,6 +889,34 @@ const translations = {
         stat3: "24/7", stat3Label: "Экстренный вызов"
       },
       servicesIntro: { eyebrow: "Услуги", title: "Всё в одной системе", subtitle: "Полный спектр охранной, противопожарной и электрической инфраструктуры — от одной команды." },
+      announcement: { text: "🎁 Бесплатная оценка объекта по всему Тбилиси!", cta: "Позвонить" },
+      warrantyBadges: {
+        eyebrow: "Гарантия",
+        title: "Наши обязательства перед вами",
+        items: [
+          { icon: "shield-check", title: "2-летняя официальная гарантия", desc: "Письменная гарантия на все монтажные работы и оборудование." },
+          { icon: "badge-check", title: "Сертифицированное оборудование", desc: "Работаем только с известными, надёжными брендами." },
+          { icon: "headset", title: "Поддержка 24/7", desc: "Мы на связи в любое время, даже после монтажа." }
+        ]
+      },
+      emergency: {
+        eyebrow: "Аварийный вызов",
+        title: "Срочная проблема с электрикой или безопасностью?",
+        subtitle: "Позвоните нам прямо сейчас — принимаем и аварийные вызовы.",
+        cta: "Аварийный вызов"
+      },
+      brands: { eyebrow: "Бренды-партнёры", title: "Работаем с признанными мировыми брендами" },
+      estimator: {
+        eyebrow: "Калькулятор",
+        title: "Рассчитайте ориентировочную стоимость",
+        subtitle: "Выберите размер объекта и нужные услуги — получите примерную стоимость за секунды.",
+        sizeLabel: "Размер объекта",
+        sizeOptions: { small: "Малый (< 80 м²)", medium: "Средний (80–200 м²)", large: "Большой (> 200 м²)" },
+        servicesLabel: "Нужные услуги",
+        resultLabel: "Примерная стоимость",
+        emptyState: "Выберите хотя бы одну услугу",
+        ctaBtn: "Запросить точную цену"
+      },
       whyUs: {
         eyebrow: "Почему мы",
         title: "Почему выбирают VECTOR",
