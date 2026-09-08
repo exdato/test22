@@ -259,6 +259,90 @@ const translations = {
           monitoring: "ბიზნესის მონიტორინგი"
         }
       },
+      hub: {
+        eyebrow: "VECTOR HUB",
+        title: "VECTOR-ის ინტერაქტიული უსაფრთხოების ცენტრი",
+        subtitle: "ავაშენოთ თქვენი კონფიგურაცია, გამოვცადოთ ტექნოლოგია და შევაფასოთ რისკი — სამივე ერთ ადგილას.",
+        tabs: { builder: "კონსტრუქტორი", simulator: "ტექ-სიმულატორი", audit: "რისკის აუდიტი" },
+        builder: {
+          propertyLabel: "ობიექტის ტიპი",
+          propertyTypes: { apartment: "ბინა", house: "სახლი / ვილა", office: "ოფისი", yard: "ეზო / საწყობი" },
+          paletteLabel: "მოწყობილობების პალიტრა",
+          devices: {
+            camera: "4K IP კამერა",
+            alarm: "უსადენო სიგნალიზაციის ჰაბი და სენსორები",
+            lock: "ჭკვიანი ბიომეტრიული საკეტი",
+            fire: "ხანძრის / გაზის დეტექტორი",
+            relay: "ჭკვიანი რელე / ჭიშკრის ავტომატიზაცია",
+            wifi: "Wi-Fi წვდომის წერტილი"
+          },
+          perUnit: "₾ / ერთეული",
+          bomTitle: "კონფიგურაციის შეჯამება (BOM)",
+          bomEmpty: "აირჩიეთ მოწყობილობები მარცხენა პანელიდან.",
+          timeframeLabel: "სავარაუდო ვადა",
+          budgetLabel: "საორიენტაციო ბიუჯეტი",
+          budgetBadge: "Starting From",
+          disclaimer: "ზუსტი ხარჯთაღრიცხვა დგინდება ობიექტზე უფასო შეფასების შემდეგ.",
+          sendBtn: "პროექტის ინჟინერთან გაგზავნა (WhatsApp)",
+          daysUnit: "დღე",
+          waIntro: "VECTOR-ის კონფიგურაცია:",
+          waPropertyLabel: "ობიექტის ტიპი:",
+          waDevicesLabel: "მოწყობილობები:",
+          waNoneSelected: "(არჩეული არაა)",
+          waBudgetLabel: "სავარაუდო ბიუჯეტი:",
+          waBudgetSuffix: "₾-დან (საორიენტაციო)"
+        },
+        simulator: {
+          dayNightTitle: "დღის / ღამის ხედვის სიმულატორი",
+          modeLabels: { day: "დღის რეჟიმი", ir: "IR (შავ-თეთრი)", colorvu: "ColorVu ფერადი" },
+          modeBadges: { day: "დღის რეჟიმი", ir: "IR ღამის ხედვა", colorvu: "ColorVu — სრულფერადი" },
+          lensTitle: "ობიექტივის კუთხის ვიზუალიზატორი",
+          lensSteps: ["2.8mm · 105°", "4mm · 85°", "მოტორიზებული ზუმი · 25°"],
+          automationTitle: "ჭკვიანი ავტომატიზაციის დემო",
+          gateClosed: "ჭიშკარი: დახურულია",
+          gateOpening: "ჭიშკარი: იხსნება...",
+          gateClosing: "ჭიშკარი: იხურება...",
+          gateOpenState: "ჭიშკარი: ღიაა",
+          gateBtn: "ჭიშკრის გაღება",
+          lightBtn: "პერიმეტრის განათება"
+        },
+        audit: {
+          questions: [
+            {
+              text: "როგორია თქვენი ელექტრო გაყვანილობის მდგომარეობა?",
+              options: ["ძველია და არასდროს შემოწმებულა", "ნაწილობრივ განახლებულია", "სრულიად ახალი ან ცოტა ხნის წინ განახლებული"],
+              recommendation: "ელექტრო გაყვანილობის აუდიტი და განახლება"
+            },
+            {
+              text: "არის თუ არა თქვენს პერიმეტრზე კამერები და განათება?",
+              options: ["არცერთი არ არის", "მხოლოდ განათება ან მხოლოდ კამერა", "სრული სამეთვალყურეო სისტემა და განათება"],
+              recommendation: "CCTV კამერების და პერიმეტრის განათების მონტაჟი"
+            },
+            {
+              text: "დამონტაჟებული გაქვთ ხანძრის ან გაზის გაჟონვის დეტექტორი?",
+              options: ["არა", "მხოლოდ ერთ ოთახში", "დიახ, სრული სისტემა"],
+              recommendation: "ხანძრის და გაზის დეტექტორების დაყენება"
+            },
+            {
+              text: "რა ტიპის საკეტი დგას თქვენს შესასვლელ კარზე?",
+              options: ["ჩვეულებრივი მექანიკური საკეტი", "კოდური ან ბარათიანი საკეტი", "ბიომეტრიული / ჭკვიანი საკეტი აპლიკაციით"],
+              recommendation: "ჭკვიანი ბიომეტრიული საკეტების დაყენება"
+            },
+            {
+              text: "დაცულია თუ არა თქვენი ტექნიკა ძაბვის ვარდნისგან (UPS/დამცავი)?",
+              options: ["არა, არაფერი არ დგას", "მხოლოდ ბაზისური სტაბილიზატორი", "UPS და სრული ზედმეტი ძაბვის დაცვა"],
+              recommendation: "UPS და surge-დამცავების მონტაჟი"
+            }
+          ],
+          riskHigh: "მაღალი რისკი",
+          riskMedium: "საშუალო დაცვა",
+          riskLow: "მაღალი უსაფრთხოება",
+          recommendationsTitle: "რეკომენდირებული სერვისები",
+          perfectMsg: "თქვენი ობიექტი კარგადაა დაცული — გირჩევთ პერიოდულ ტექნიკურ შემოწმებას.",
+          callCta: "VECTOR-ის ოსტატის უფასო კონსულტაცია (595 70 83 00)",
+          restartBtn: "გამეორება ↺"
+        }
+      },
       contactSection: { eyebrow: "კონტაქტი", title: "დაგვიკავშირდით", subtitle: "დაგვირეკეთ ან მოგვწერეთ WhatsApp-ზე — გიპასუხებთ სწრაფად." }
     },
     services: {
@@ -636,6 +720,90 @@ const translations = {
           monitoring: "Business monitoring"
         }
       },
+      hub: {
+        eyebrow: "VECTOR HUB",
+        title: "VECTOR Interactive Security Hub",
+        subtitle: "Build your configuration, try the technology, and check your risk score — all in one place.",
+        tabs: { builder: "Builder", simulator: "Tech Simulator", audit: "Risk Audit" },
+        builder: {
+          propertyLabel: "Property type",
+          propertyTypes: { apartment: "Apartment", house: "House / Villa", office: "Office", yard: "Yard / Warehouse" },
+          paletteLabel: "Device palette",
+          devices: {
+            camera: "4K IP Camera",
+            alarm: "Wireless Alarm Hub & Sensors",
+            lock: "Smart Biometric Door Lock",
+            fire: "Fire / Gas Detector",
+            relay: "Smart Relay / Gate Automation",
+            wifi: "Wi-Fi Access Point"
+          },
+          perUnit: "GEL / unit",
+          bomTitle: "Configuration Summary (BOM)",
+          bomEmpty: "Select devices from the panel on the left.",
+          timeframeLabel: "Estimated timeframe",
+          budgetLabel: "Estimated budget",
+          budgetBadge: "Starting From",
+          disclaimer: "The exact quote is determined after a free on-site assessment.",
+          sendBtn: "Send to Project Engineer (WhatsApp)",
+          daysUnit: "day(s)",
+          waIntro: "VECTOR configuration:",
+          waPropertyLabel: "Property type:",
+          waDevicesLabel: "Devices:",
+          waNoneSelected: "(none selected)",
+          waBudgetLabel: "Estimated budget:",
+          waBudgetSuffix: "GEL+ (indicative)"
+        },
+        simulator: {
+          dayNightTitle: "Day / Night Vision Simulator",
+          modeLabels: { day: "Day Mode", ir: "IR (B/W)", colorvu: "ColorVu Full-Color" },
+          modeBadges: { day: "Day Mode", ir: "IR Night Vision", colorvu: "ColorVu — Full-Color" },
+          lensTitle: "Lens Angle Visualizer",
+          lensSteps: ["2.8mm · 105°", "4mm · 85°", "Motorized Zoom · 25°"],
+          automationTitle: "Smart Automation Demo",
+          gateClosed: "Gate: Closed",
+          gateOpening: "Gate: Opening...",
+          gateClosing: "Gate: Closing...",
+          gateOpenState: "Gate: Open",
+          gateBtn: "Open Gate",
+          lightBtn: "Perimeter Lighting"
+        },
+        audit: {
+          questions: [
+            {
+              text: "What is the condition of your electrical wiring?",
+              options: ["Old, never inspected", "Partially updated", "Fully new or recently updated"],
+              recommendation: "Electrical wiring audit and upgrade"
+            },
+            {
+              text: "Do you have cameras and lighting covering your perimeter?",
+              options: ["Neither", "Only lighting or only a camera", "Full surveillance and lighting"],
+              recommendation: "CCTV camera and perimeter lighting installation"
+            },
+            {
+              text: "Do you have a fire or gas leak detector installed?",
+              options: ["No", "Only in one room", "Yes, a full system"],
+              recommendation: "Fire and gas detector installation"
+            },
+            {
+              text: "What type of lock is on your entrance door?",
+              options: ["A regular mechanical lock", "A keypad or card-based lock", "A biometric / smart app-controlled lock"],
+              recommendation: "Smart biometric lock installation"
+            },
+            {
+              text: "Is your equipment protected from power surges (UPS/surge protector)?",
+              options: ["No, nothing is installed", "Only a basic stabilizer", "UPS and full surge protection"],
+              recommendation: "UPS and surge-protection installation"
+            }
+          ],
+          riskHigh: "High Risk",
+          riskMedium: "Medium Protection",
+          riskLow: "High Security",
+          recommendationsTitle: "Recommended Services",
+          perfectMsg: "Your property is well protected — we recommend periodic technical inspections.",
+          callCta: "Free Consultation with a VECTOR Expert (595 70 83 00)",
+          restartBtn: "Restart ↺"
+        }
+      },
       contactSection: { eyebrow: "Contact", title: "Get in Touch", subtitle: "Call us or message us on WhatsApp — we reply quickly." }
     },
     services: {
@@ -1011,6 +1179,90 @@ const translations = {
           fire: "Снижение риска пожара",
           remote: "Дистанционное / умное управление",
           monitoring: "Мониторинг бизнеса"
+        }
+      },
+      hub: {
+        eyebrow: "VECTOR HUB",
+        title: "Интерактивный центр безопасности VECTOR",
+        subtitle: "Соберите свою конфигурацию, испытайте технологию и оцените риск — всё в одном месте.",
+        tabs: { builder: "Конструктор", simulator: "Тех-симулятор", audit: "Аудит риска" },
+        builder: {
+          propertyLabel: "Тип объекта",
+          propertyTypes: { apartment: "Квартира", house: "Дом / вилла", office: "Офис", yard: "Двор / склад" },
+          paletteLabel: "Палитра устройств",
+          devices: {
+            camera: "4K IP-камера",
+            alarm: "Беспроводной хаб сигнализации и датчики",
+            lock: "Умный биометрический замок",
+            fire: "Датчик дыма / газа",
+            relay: "Умное реле / автоматика ворот",
+            wifi: "Точка доступа Wi-Fi"
+          },
+          perUnit: "₾ / ед.",
+          bomTitle: "Сводка конфигурации (BOM)",
+          bomEmpty: "Выберите устройства на панели слева.",
+          timeframeLabel: "Ориентировочный срок",
+          budgetLabel: "Ориентировочный бюджет",
+          budgetBadge: "Starting From",
+          disclaimer: "Точная смета определяется после бесплатной оценки объекта.",
+          sendBtn: "Отправить инженеру проекта (WhatsApp)",
+          daysUnit: "дн.",
+          waIntro: "Конфигурация VECTOR:",
+          waPropertyLabel: "Тип объекта:",
+          waDevicesLabel: "Устройства:",
+          waNoneSelected: "(ничего не выбрано)",
+          waBudgetLabel: "Ориентировочный бюджет:",
+          waBudgetSuffix: "₾+ (ориентировочно)"
+        },
+        simulator: {
+          dayNightTitle: "Симулятор дневного / ночного видения",
+          modeLabels: { day: "Дневной режим", ir: "ИК (Ч/Б)", colorvu: "ColorVu цветной" },
+          modeBadges: { day: "Дневной режим", ir: "ИК ночное видение", colorvu: "ColorVu — полноцветный" },
+          lensTitle: "Визуализатор угла объектива",
+          lensSteps: ["2.8мм · 105°", "4мм · 85°", "Моторизованный зум · 25°"],
+          automationTitle: "Демо умной автоматизации",
+          gateClosed: "Ворота: закрыты",
+          gateOpening: "Ворота: открываются...",
+          gateClosing: "Ворота: закрываются...",
+          gateOpenState: "Ворота: открыты",
+          gateBtn: "Открыть ворота",
+          lightBtn: "Освещение периметра"
+        },
+        audit: {
+          questions: [
+            {
+              text: "В каком состоянии ваша электропроводка?",
+              options: ["Старая, никогда не проверялась", "Частично обновлена", "Полностью новая или недавно обновлена"],
+              recommendation: "Аудит и модернизация электропроводки"
+            },
+            {
+              text: "Есть ли у вас камеры и освещение по периметру?",
+              options: ["Ничего нет", "Только освещение или только камера", "Полное видеонаблюдение и освещение"],
+              recommendation: "Установка камер CCTV и освещения периметра"
+            },
+            {
+              text: "Установлен ли у вас датчик дыма или утечки газа?",
+              options: ["Нет", "Только в одной комнате", "Да, полная система"],
+              recommendation: "Установка датчиков дыма и газа"
+            },
+            {
+              text: "Какой тип замка установлен на входной двери?",
+              options: ["Обычный механический замок", "Кодовый или карточный замок", "Биометрический / умный замок с приложением"],
+              recommendation: "Установка умных биометрических замков"
+            },
+            {
+              text: "Защищена ли ваша техника от перепадов напряжения (ИБП/защита)?",
+              options: ["Нет, ничего не установлено", "Только базовый стабилизатор", "ИБП и полная защита от перенапряжения"],
+              recommendation: "Установка ИБП и защиты от перенапряжения"
+            }
+          ],
+          riskHigh: "Высокий риск",
+          riskMedium: "Средняя защита",
+          riskLow: "Высокая безопасность",
+          recommendationsTitle: "Рекомендованные услуги",
+          perfectMsg: "Ваш объект хорошо защищён — рекомендуем периодическую техническую проверку.",
+          callCta: "Бесплатная консультация мастера VECTOR (595 70 83 00)",
+          restartBtn: "Начать заново ↺"
         }
       },
       contactSection: { eyebrow: "Контакты", title: "Свяжитесь с нами", subtitle: "Позвоните или напишите нам в WhatsApp — ответим быстро." }

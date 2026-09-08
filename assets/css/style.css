@@ -45,6 +45,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--emerald);outline-of
 .lang-btn-footer{font-size:12px;padding:4px 8px;color:rgba(255,255,255,0.35);}
 .lang-btn-footer.active{color:var(--emerald);}
 
+/* VECTOR Interactive Security Hub — tab buttons (navy section background) */
+.hub-tab-btn{border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.72);background:rgba(255,255,255,0.05);}
+.hub-tab-btn:hover:not(.active){border-color:var(--emerald);color:var(--emerald);}
+.hub-tab-btn.active{background:var(--emerald);color:#08111F;border-color:transparent;box-shadow:0 0 20px rgba(18,183,106,0.25);}
+#hub-lens-slider{-webkit-appearance:none;appearance:none;height:4px;border-radius:9999px;background:linear-gradient(90deg,var(--emerald),var(--emerald-dark));outline:none;}
+#hub-lens-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:9999px;background:var(--navy);border:3px solid var(--emerald);cursor:pointer;box-shadow:0 0 10px rgba(18,183,106,0.5);}
+#hub-lens-slider::-moz-range-thumb{width:18px;height:18px;border-radius:9999px;background:var(--navy);border:3px solid var(--emerald);cursor:pointer;box-shadow:0 0 10px rgba(18,183,106,0.5);}
+
 /* hero (home) */
 .hero-bg{background:linear-gradient(160deg,#0B1424 0%,#0F1E38 55%,#0B1424 100%);}
 .blueprint-grid{

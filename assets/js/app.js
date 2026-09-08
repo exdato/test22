@@ -793,6 +793,512 @@ function ensureContainer(id) {
   return el;
 }
 
+/* ------------------------------------------------------------------ */
+/* VECTOR INTERACTIVE SECURITY HUB — Builder / Simulator / Risk Audit  */
+/* ------------------------------------------------------------------ */
+
+const HUB_DEVICE_ORDER = ["camera", "alarm", "lock", "fire", "relay", "wifi"];
+const HUB_DEVICE_META = {
+  camera: { icon: "camera", price: 350 },
+  alarm: { icon: "bell-ring", price: 450 },
+  lock: { icon: "fingerprint", price: 600 },
+  fire: { icon: "flame", price: 180 },
+  relay: { icon: "zap", price: 220 },
+  wifi: { icon: "wifi", price: 260 }
+};
+const HUB_PROPERTY_ORDER = ["apartment", "house", "office", "yard"];
+const HUB_PROPERTY_BASE_DAYS = { apartment: 1, house: 2, office: 2, yard: 3 };
+const HUB_LENS_ANGLES = [105, 85, 25];
+
+let hubBuilderState = { propertyType: "apartment", qty: { camera: 0, alarm: 0, lock: 0, fire: 0, relay: 0, wifi: 0 } };
+let hubQuizState = { current: 0, answers: [] };
+
+function renderSecurityHub() {
+  const root = document.getElementById("vector-hub-root");
+  if (!root) return;
+  const h = t("home.hub");
+
+  root.innerHTML = `
+    <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-10">
+      <button data-hub-tab="builder" class="hub-tab-btn active flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i> ${h.tabs.builder}
+      </button>
+      <button data-hub-tab="simulator" class="hub-tab-btn flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
+        <i data-lucide="camera" class="w-4 h-4"></i> ${h.tabs.simulator}
+      </button>
+      <button data-hub-tab="audit" class="hub-tab-btn flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
+        <i data-lucide="shield-alert" class="w-4 h-4"></i> ${h.tabs.audit}
+      </button>
+    </div>
+
+    <div id="hub-panel-builder" class="hub-panel"></div>
+    <div id="hub-panel-simulator" class="hub-panel hidden"></div>
+    <div id="hub-panel-audit" class="hub-panel hidden"></div>
+  `;
+
+  root.querySelectorAll(".hub-tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-hub-tab");
+      root.querySelectorAll(".hub-tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+      ["builder", "simulator", "audit"].forEach(key => {
+        document.getElementById(`hub-panel-${key}`).classList.toggle("hidden", key !== target);
+      });
+    });
+  });
+
+  renderHubBuilder();
+  renderHubSimulator();
+  renderHubAudit();
+  if (window.lucide) lucide.createIcons();
+}
+
+/* ---------- TOOL 1: Object Security Builder ---------- */
+function renderHubBuilder() {
+  const panel = document.getElementById("hub-panel-builder");
+  if (!panel) return;
+  const h = t("home.hub.builder");
+  const propLabels = t("home.hub.builder.propertyTypes");
+  const devLabels = t("home.hub.builder.devices");
+
+  panel.innerHTML = `
+    <div class="grid lg:grid-cols-5 gap-6">
+      <div class="lg:col-span-3 rounded-2xl p-6" style="background:#fff;border:1px solid #E3E7EC;">
+        <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--text-muted);">${h.propertyLabel}</div>
+        <div id="hub-prop-types" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-7">
+          ${HUB_PROPERTY_ORDER.map(id => `
+            <button data-prop="${id}" class="hub-prop-btn px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-150"
+              style="${id === hubBuilderState.propertyType ? "background:var(--emerald);color:#08111F;" : "background:var(--paper);color:var(--charcoal);border:1px solid #E3E7EC;"}">
+              ${propLabels[id]}
+            </button>`).join("")}
+        </div>
+        <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--text-muted);">${h.paletteLabel}</div>
+        <div id="hub-device-palette" class="flex flex-col gap-2"></div>
+      </div>
+
+      <div class="lg:col-span-2 rounded-2xl p-6 flex flex-col" style="background:var(--navy);box-shadow:0 20px 45px -28px rgba(11,20,36,0.35);">
+        <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:rgba(255,255,255,0.5);">${h.bomTitle}</div>
+        <div id="hub-bom-list" class="flex flex-col gap-2 mb-4" style="min-height:64px;"></div>
+        <div class="mt-auto pt-4" style="border-top:1px solid rgba(255,255,255,0.12);">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-xs" style="color:rgba(255,255,255,0.5);">${h.timeframeLabel}</span>
+            <span id="hub-timeframe" class="text-sm font-semibold text-white">—</span>
+          </div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs" style="color:rgba(255,255,255,0.5);">${h.budgetLabel}</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold" style="background:rgba(18,183,106,0.15);color:var(--emerald);">${h.budgetBadge}</span>
+          </div>
+          <div id="hub-budget" class="text-3xl font-bold mb-1 font-display" style="color:var(--emerald);">0 ₾</div>
+          <p class="text-[11px] leading-relaxed mb-5" style="color:rgba(255,255,255,0.4);">${h.disclaimer}</p>
+          <button id="hub-send-wa" class="w-full flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-semibold btn-primary">
+            <i data-lucide="send" class="w-4 h-4"></i>${h.sendBtn}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  panel.querySelectorAll(".hub-prop-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      hubBuilderState.propertyType = btn.getAttribute("data-prop");
+      renderHubBuilder();
+      if (window.lucide) lucide.createIcons();
+    });
+  });
+
+  const paletteEl = document.getElementById("hub-device-palette");
+  paletteEl.innerHTML = HUB_DEVICE_ORDER.map(id => {
+    const qty = hubBuilderState.qty[id];
+    const meta = HUB_DEVICE_META[id];
+    return `
+    <div class="flex items-center justify-between gap-3 p-3 rounded-xl" style="${qty > 0 ? "background:rgba(18,183,106,0.06);border:1px solid var(--emerald);" : "border:1px solid #E3E7EC;"}">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="flex items-center justify-center rounded-lg shrink-0" style="width:36px;height:36px;background:var(--paper);">
+          <i data-lucide="${meta.icon}" class="w-4 h-4" style="color:var(--emerald-dark);"></i>
+        </span>
+        <div class="min-w-0">
+          <div class="text-sm truncate" style="color:var(--navy);">${devLabels[id]}</div>
+          <div class="text-[11px]" style="color:var(--text-muted);">${meta.price} ${h.perUnit}</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button class="hub-qty-btn flex items-center justify-center rounded-full" style="width:28px;height:28px;border:1px solid #E3E7EC;color:var(--charcoal);" data-device="${id}" data-op="dec">−</button>
+        <span class="text-center text-sm font-semibold" style="width:20px;color:var(--navy);">${qty}</span>
+        <button class="hub-qty-btn flex items-center justify-center rounded-full" style="width:28px;height:28px;border:1px solid #E3E7EC;color:var(--charcoal);" data-device="${id}" data-op="inc">+</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  paletteEl.querySelectorAll(".hub-qty-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-device");
+      const op = btn.getAttribute("data-op");
+      if (op === "inc") hubBuilderState.qty[id] = Math.min(20, hubBuilderState.qty[id] + 1);
+      else hubBuilderState.qty[id] = Math.max(0, hubBuilderState.qty[id] - 1);
+      renderHubBuilder();
+      if (window.lucide) lucide.createIcons();
+    });
+  });
+
+  updateHubBuilderSummary();
+
+  document.getElementById("hub-send-wa").addEventListener("click", () => {
+    const selected = HUB_DEVICE_ORDER.filter(id => hubBuilderState.qty[id] > 0);
+    const total = selected.reduce((sum, id) => sum + HUB_DEVICE_META[id].price * hubBuilderState.qty[id], 0);
+    const lines = [];
+    lines.push(h.waIntro);
+    lines.push(`${h.waPropertyLabel} ${propLabels[hubBuilderState.propertyType]}`);
+    lines.push("");
+    lines.push(h.waDevicesLabel);
+    if (selected.length) {
+      selected.forEach(id => lines.push(`- ${devLabels[id]} × ${hubBuilderState.qty[id]}`));
+    } else {
+      lines.push(`- ${h.waNoneSelected}`);
+    }
+    lines.push("");
+    lines.push(`${h.waBudgetLabel} ${total.toLocaleString("ka-GE")} ${h.waBudgetSuffix}`);
+    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank");
+  });
+}
+
+function updateHubBuilderSummary() {
+  const h = t("home.hub.builder");
+  const devLabels = t("home.hub.builder.devices");
+  const bomList = document.getElementById("hub-bom-list");
+  const selected = HUB_DEVICE_ORDER.filter(id => hubBuilderState.qty[id] > 0);
+
+  bomList.innerHTML = selected.length
+    ? selected.map(id => {
+        const lineTotal = HUB_DEVICE_META[id].price * hubBuilderState.qty[id];
+        return `<div class="flex items-center justify-between text-xs">
+          <span style="color:rgba(255,255,255,0.75);">${devLabels[id]} × ${hubBuilderState.qty[id]}</span>
+          <span style="color:rgba(255,255,255,0.5);">${lineTotal} ₾</span>
+        </div>`;
+      }).join("")
+    : `<p class="text-xs" style="color:rgba(255,255,255,0.4);">${h.bomEmpty}</p>`;
+
+  const totalDevices = Object.values(hubBuilderState.qty).reduce((a, b) => a + b, 0);
+  const totalPrice = selected.reduce((sum, id) => sum + HUB_DEVICE_META[id].price * hubBuilderState.qty[id], 0);
+  const baseDays = HUB_PROPERTY_BASE_DAYS[hubBuilderState.propertyType];
+  const maxDays = Math.ceil(baseDays + Math.floor(totalDevices / 4) * 0.5);
+  const timeframeText = totalDevices === 0 ? "—" : (baseDays === maxDays ? `${baseDays} ${h.daysUnit}` : `${baseDays}–${maxDays} ${h.daysUnit}`);
+
+  document.getElementById("hub-timeframe").textContent = timeframeText;
+  document.getElementById("hub-budget").textContent = `${totalPrice.toLocaleString("ka-GE")} ₾-დან`;
+}
+
+/* ---------- TOOL 2: Live Tech Simulator ---------- */
+function renderHubSimulator() {
+  const panel = document.getElementById("hub-panel-simulator");
+  if (!panel) return;
+  const h = t("home.hub.simulator");
+
+  panel.innerHTML = `
+    <div class="grid lg:grid-cols-3 gap-6">
+      <div class="rounded-2xl p-5 flex flex-col" style="background:#fff;border:1px solid #E3E7EC;">
+        <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--text-muted);">${h.dayNightTitle}</div>
+        <div id="hub-scene-wrap" class="relative rounded-xl overflow-hidden mb-4" style="aspect-ratio:16/10;">
+          <svg id="hub-scene" viewBox="0 0 300 180" class="w-full h-full">
+            <rect id="hub-sky" x="0" y="0" width="300" height="120" fill="#7dd3fc"/>
+            <rect id="hub-ground" x="0" y="120" width="300" height="60" fill="#86efac"/>
+            <circle class="hub-star" cx="30" cy="20" r="1.4" fill="#fff" opacity="0"/>
+            <circle class="hub-star" cx="60" cy="40" r="1" fill="#fff" opacity="0"/>
+            <circle class="hub-star" cx="250" cy="18" r="1.3" fill="#fff" opacity="0"/>
+            <circle class="hub-star" cx="270" cy="45" r="1" fill="#fff" opacity="0"/>
+            <circle class="hub-star" cx="200" cy="25" r="1" fill="#fff" opacity="0"/>
+            <circle cx="230" cy="115" r="16" fill="#166534"/>
+            <rect x="227" y="110" width="6" height="20" fill="#78350f"/>
+            <rect id="hub-house-body" x="90" y="90" width="90" height="45" fill="#e2e8f0"/>
+            <polygon points="85,90 135,60 185,90" fill="#0B1424"/>
+            <rect x="130" y="105" width="16" height="30" fill="#78350f"/>
+            <rect id="hub-window" x="100" y="100" width="16" height="14" fill="#fde047"/>
+            <rect id="hub-window2" x="150" y="100" width="16" height="14" fill="#fde047"/>
+          </svg>
+          <div id="hub-mode-badge" class="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-semibold" style="background:rgba(11,20,36,0.8);color:var(--emerald);">
+            <span class="w-1.5 h-1.5 rounded-full" style="background:currentColor;"></span> ${h.modeBadges.day}
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5">
+          ${["day", "ir", "colorvu"].map((m, i) => `
+            <button data-mode="${m}" class="hub-mode-btn text-[11px] font-medium py-2 rounded-lg transition-all duration-150"
+              style="${i === 0 ? "background:var(--emerald);color:#08111F;" : "background:var(--paper);color:var(--charcoal);border:1px solid #E3E7EC;"}">
+              ${h.modeLabels[m]}
+            </button>`).join("")}
+        </div>
+      </div>
+
+      <div class="rounded-2xl p-5 flex flex-col" style="background:#fff;border:1px solid #E3E7EC;">
+        <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--text-muted);">${h.lensTitle}</div>
+        <div class="relative rounded-xl overflow-hidden mb-4" style="aspect-ratio:16/10;background:var(--navy);">
+          <div id="hub-cone" class="absolute inset-0" style="background:rgba(18,183,106,0.22);clip-path:polygon(50% 6%, 20% 100%, 80% 100%);transition:clip-path .45s ease;"></div>
+          <div class="absolute inset-0 flex items-start justify-center pt-2">
+            <div class="rounded-full flex items-center justify-center" style="width:28px;height:28px;background:rgba(255,255,255,0.1);border:2px solid var(--emerald);">
+              <i data-lucide="camera" class="w-3.5 h-3.5" style="color:var(--emerald);"></i>
+            </div>
+          </div>
+          <div id="hub-lens-label" class="absolute bottom-2 right-2 text-[10px] font-semibold px-2 py-1 rounded-full" style="background:rgba(11,20,36,0.8);color:var(--emerald);">${h.lensSteps[0]}</div>
+        </div>
+        <input id="hub-lens-slider" type="range" min="0" max="2" step="1" value="0" class="w-full mb-2">
+        <div class="flex justify-between text-[10px]" style="color:var(--text-muted);">
+          ${h.lensSteps.map(s => `<span>${s}</span>`).join("")}
+        </div>
+      </div>
+
+      <div class="rounded-2xl p-5 flex flex-col items-center" style="background:#fff;border:1px solid #E3E7EC;">
+        <div class="text-xs font-semibold uppercase tracking-wide mb-3 self-start" style="color:var(--text-muted);">${h.automationTitle}</div>
+        <div class="rounded-[2rem] p-3 flex flex-col gap-3" style="width:172px;background:var(--navy);border:4px solid #1E2530;">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[10px]" style="color:rgba(255,255,255,0.4);">VECTOR APP</span>
+            <span id="hub-led" class="rounded-full" style="width:10px;height:10px;background:#ef4444;transition:background .3s ease, box-shadow .3s ease;"></span>
+          </div>
+          <div class="rounded-xl p-3 flex flex-col items-center gap-2" style="background:rgba(255,255,255,0.06);">
+            <div class="relative" style="width:64px;height:40px;">
+              <div class="hub-gate-leaf absolute rounded-l" data-side="left" style="left:50%;top:0;width:32px;height:40px;background:#475569;transform-origin:left center;transform:translateX(-100%) rotateY(0deg);transition:transform .6s cubic-bezier(.34,1.56,.64,1);"></div>
+              <div class="hub-gate-leaf absolute rounded-r" data-side="right" style="left:50%;top:0;width:32px;height:40px;background:#475569;transform-origin:right center;transition:transform .6s cubic-bezier(.34,1.56,.64,1);"></div>
+            </div>
+            <span id="hub-gate-status" class="text-[10px]" style="color:rgba(255,255,255,0.5);">${h.gateClosed}</span>
+          </div>
+          <button id="hub-gate-btn" class="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-semibold btn-primary">
+            <i data-lucide="door-open" class="w-3.5 h-3.5"></i> ${h.gateBtn}
+          </button>
+          <button id="hub-light-btn" class="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-semibold" style="border:1px solid rgba(255,255,255,0.25);color:#fff;">
+            <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> ${h.lightBtn}
+          </button>
+          <div id="hub-perimeter-glow" class="rounded-full" style="height:8px;background:#1E2530;opacity:0.5;transition:opacity .5s ease, box-shadow .5s ease, background .3s ease;"></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  wireHubSceneModes(h);
+  wireHubLensSlider(h);
+  wireHubAutomationDemo(h);
+}
+
+function wireHubSceneModes(h) {
+  const sceneWrap = document.getElementById("hub-scene-wrap");
+  const modeBadge = document.getElementById("hub-mode-badge");
+  const sky = document.getElementById("hub-sky");
+  const ground = document.getElementById("hub-ground");
+  const houseBody = document.getElementById("hub-house-body");
+  const stars = document.querySelectorAll(".hub-star");
+  const windows = [document.getElementById("hub-window"), document.getElementById("hub-window2")];
+
+  const MODES = {
+    day: { sky: "#7dd3fc", ground: "#86efac", house: "#e2e8f0", filter: "none", starOp: 0, color: "var(--emerald)" },
+    ir: { sky: "#1e293b", ground: "#111827", house: "#94a3b8", filter: "grayscale(1) contrast(1.4) brightness(0.85)", starOp: 0.9, color: "#cbd5e1" },
+    colorvu: { sky: "#0c1a2e", ground: "#132a1c", house: "#cbd5e1", filter: "saturate(1.5) brightness(0.85) contrast(1.1)", starOp: 0.6, color: "var(--emerald)" }
+  };
+
+  function setMode(mode) {
+    const cfg = MODES[mode];
+    sky.setAttribute("fill", cfg.sky);
+    ground.setAttribute("fill", cfg.ground);
+    houseBody.setAttribute("fill", cfg.house);
+    sceneWrap.style.filter = cfg.filter;
+    stars.forEach(s => (s.style.opacity = cfg.starOp));
+    windows.forEach(w => w.setAttribute("fill", mode === "day" ? "#fde047" : "#facc15"));
+    modeBadge.style.color = cfg.color;
+    modeBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full" style="background:currentColor;"></span> ${h.modeBadges[mode]}`;
+  }
+
+  document.querySelectorAll(".hub-mode-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".hub-mode-btn").forEach(b => {
+        b.style.background = "var(--paper)"; b.style.color = "var(--charcoal)"; b.style.border = "1px solid #E3E7EC";
+      });
+      btn.style.background = "var(--emerald)"; btn.style.color = "#08111F"; btn.style.border = "none";
+      setMode(btn.getAttribute("data-mode"));
+    });
+  });
+  setMode("day");
+}
+
+function wireHubLensSlider(h) {
+  const slider = document.getElementById("hub-lens-slider");
+  const label = document.getElementById("hub-lens-label");
+  const cone = document.getElementById("hub-cone");
+
+  function updateCone(angleDeg) {
+    const half = angleDeg / 2;
+    const spread = Math.min(48, Math.tan((half * Math.PI) / 180) * 62);
+    cone.style.clipPath = `polygon(50% 6%, ${(50 - spread).toFixed(1)}% 100%, ${(50 + spread).toFixed(1)}% 100%)`;
+  }
+
+  slider.addEventListener("input", () => {
+    const idx = parseInt(slider.value, 10);
+    label.textContent = h.lensSteps[idx];
+    updateCone(HUB_LENS_ANGLES[idx]);
+  });
+  updateCone(HUB_LENS_ANGLES[0]);
+}
+
+function wireHubAutomationDemo(h) {
+  let gateOpen = false;
+  let lightOn = false;
+  const gateBtn = document.getElementById("hub-gate-btn");
+  const lightBtn = document.getElementById("hub-light-btn");
+  const led = document.getElementById("hub-led");
+  const gateStatus = document.getElementById("hub-gate-status");
+  const leftLeaf = document.querySelector('.hub-gate-leaf[data-side="left"]');
+  const rightLeaf = document.querySelector('.hub-gate-leaf[data-side="right"]');
+  const glow = document.getElementById("hub-perimeter-glow");
+
+  gateBtn.addEventListener("click", () => {
+    gateOpen = !gateOpen;
+    gateStatus.textContent = gateOpen ? h.gateOpening : h.gateClosing;
+    led.style.background = "#eab308";
+    led.style.boxShadow = "0 0 8px rgba(234,179,8,0.7)";
+    leftLeaf.style.transform = gateOpen ? "translateX(-100%) rotateY(-40deg)" : "translateX(-100%) rotateY(0deg)";
+    rightLeaf.style.transform = gateOpen ? "rotateY(40deg)" : "rotateY(0deg)";
+    setTimeout(() => {
+      gateStatus.textContent = gateOpen ? h.gateOpenState : h.gateClosed;
+      led.style.background = gateOpen ? "#10b981" : "#ef4444";
+      led.style.boxShadow = gateOpen ? "0 0 8px rgba(16,185,129,0.7)" : "0 0 8px rgba(239,68,68,0.5)";
+    }, 650);
+  });
+
+  lightBtn.addEventListener("click", () => {
+    lightOn = !lightOn;
+    lightBtn.style.background = lightOn ? "#fbbf24" : "transparent";
+    lightBtn.style.color = lightOn ? "#08111F" : "#fff";
+    lightBtn.style.border = lightOn ? "none" : "1px solid rgba(255,255,255,0.25)";
+    glow.style.opacity = lightOn ? "1" : "0.5";
+    glow.style.background = lightOn ? "#fbbf24" : "#1E2530";
+    glow.style.boxShadow = lightOn ? "0 0 16px 2px rgba(251,191,36,0.7)" : "none";
+  });
+}
+
+/* ---------- TOOL 3: 5-Step Risk Audit ---------- */
+function renderHubAudit() {
+  const panel = document.getElementById("hub-panel-audit");
+  if (!panel) return;
+  panel.innerHTML = `
+    <div class="max-w-2xl mx-auto rounded-2xl p-6 md:p-8" style="background:#fff;border:1px solid #E3E7EC;box-shadow:0 20px 45px -28px rgba(11,20,36,0.2);">
+      <div class="flex items-center justify-center gap-2 mb-8" id="hub-qdots"></div>
+      <div id="hub-quiz-question">
+        <h3 id="hub-q-text" class="text-lg md:text-xl font-bold mb-5 text-center font-display" style="color:var(--navy);"></h3>
+        <div id="hub-q-options" class="flex flex-col gap-2.5"></div>
+      </div>
+      <div id="hub-quiz-result" class="hidden text-center">
+        <div class="relative mx-auto mb-5" style="width:160px;height:160px;">
+          <svg viewBox="0 0 120 120" class="w-full h-full" style="transform:rotate(-90deg);">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#E3E7EC" stroke-width="10"/>
+            <circle id="hub-gauge-fg" cx="60" cy="60" r="52" fill="none" stroke="#ef4444" stroke-width="10" stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="327" style="transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1), stroke .6s ease;"/>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span id="hub-gauge-pct" class="text-3xl font-bold font-display" style="color:var(--navy);">0%</span>
+          </div>
+        </div>
+        <div id="hub-risk-label" class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-5"></div>
+        <div class="text-left mb-6">
+          <div class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:var(--text-muted);" id="hub-rec-title"></div>
+          <ul id="hub-recommendations" class="flex flex-col gap-2"></ul>
+        </div>
+        <a href="tel:${PHONE_TEL}" id="hub-call-cta" class="w-full flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-semibold btn-primary mb-3">
+          <i data-lucide="phone-call" class="w-4 h-4"></i>
+        </a>
+        <button id="hub-quiz-restart" class="text-xs" style="color:var(--text-muted);"></button>
+      </div>
+    </div>
+  `;
+  hubQuizState = { current: 0, answers: [] };
+  renderHubQuizQuestion();
+
+  document.getElementById("hub-quiz-restart").addEventListener("click", () => {
+    hubQuizState = { current: 0, answers: [] };
+    renderHubQuizQuestion();
+    if (window.lucide) lucide.createIcons();
+  });
+}
+
+function renderHubQuizQuestion() {
+  const a = t("home.hub.audit");
+  const questions = a.questions;
+
+  document.getElementById("hub-quiz-question").classList.remove("hidden");
+  document.getElementById("hub-quiz-result").classList.add("hidden");
+
+  const dots = document.getElementById("hub-qdots");
+  dots.innerHTML = questions.map((_, i) => {
+    const style = i < hubQuizState.current
+      ? "background:var(--emerald);"
+      : i === hubQuizState.current
+        ? "background:var(--emerald-dark);box-shadow:0 0 0 3px rgba(18,183,106,0.2);"
+        : "background:#E3E7EC;";
+    return `<span class="rounded-full" style="width:10px;height:10px;${style}"></span>`;
+  }).join("");
+
+  const q = questions[hubQuizState.current];
+  document.getElementById("hub-q-text").textContent = `${hubQuizState.current + 1}/${questions.length} — ${q.text}`;
+
+  const optsWrap = document.getElementById("hub-q-options");
+  optsWrap.innerHTML = q.options.map((label, i) => `
+    <button class="hub-option-btn text-left px-4 py-3 rounded-xl text-sm transition-all duration-150" style="border:1px solid #E3E7EC;color:var(--charcoal);" data-score="${i * 5}">
+      ${label}
+    </button>`).join("");
+
+  optsWrap.querySelectorAll(".hub-option-btn").forEach(btn => {
+    btn.addEventListener("mouseenter", () => { btn.style.borderColor = "var(--emerald)"; btn.style.background = "rgba(18,183,106,0.05)"; });
+    btn.addEventListener("mouseleave", () => { btn.style.borderColor = "#E3E7EC"; btn.style.background = "transparent"; });
+    btn.addEventListener("click", () => {
+      hubQuizState.answers.push({ score: parseInt(btn.getAttribute("data-score"), 10), recommendation: q.recommendation });
+      hubQuizState.current++;
+      if (hubQuizState.current < questions.length) {
+        renderHubQuizQuestion();
+      } else {
+        renderHubQuizResult();
+      }
+    });
+  });
+}
+
+function renderHubQuizResult() {
+  const a = t("home.hub.audit");
+  document.getElementById("hub-quiz-question").classList.add("hidden");
+  document.getElementById("hub-quiz-result").classList.remove("hidden");
+
+  const dots = document.getElementById("hub-qdots");
+  dots.innerHTML = a.questions.map(() => `<span class="rounded-full" style="width:10px;height:10px;background:var(--emerald);"></span>`).join("");
+
+  const totalScore = hubQuizState.answers.reduce((sum, ans) => sum + ans.score, 0);
+  const maxScore = a.questions.length * 10;
+  const pct = Math.round((totalScore / maxScore) * 100);
+  const circumference = 327;
+  const offset = circumference - (circumference * pct) / 100;
+  const color = pct >= 70 ? "#10b981" : pct >= 40 ? "#eab308" : "#ef4444";
+
+  const gaugeFg = document.getElementById("hub-gauge-fg");
+  requestAnimationFrame(() => {
+    gaugeFg.style.stroke = color;
+    gaugeFg.style.strokeDashoffset = offset;
+  });
+  document.getElementById("hub-gauge-pct").textContent = `${pct}%`;
+
+  const riskLabel = document.getElementById("hub-risk-label");
+  if (pct >= 70) {
+    riskLabel.textContent = a.riskLow;
+    riskLabel.style.cssText = "background:rgba(18,183,106,0.12);color:var(--emerald-dark);";
+  } else if (pct >= 40) {
+    riskLabel.textContent = a.riskMedium;
+    riskLabel.style.cssText = "background:rgba(234,179,8,0.12);color:#a16207;";
+  } else {
+    riskLabel.textContent = a.riskHigh;
+    riskLabel.style.cssText = "background:rgba(239,68,68,0.12);color:#b91c1c;";
+  }
+  riskLabel.className = "inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-5";
+
+  document.getElementById("hub-rec-title").textContent = a.recommendationsTitle;
+  const weak = hubQuizState.answers.filter(ans => ans.score < 10);
+  const recsWrap = document.getElementById("hub-recommendations");
+  recsWrap.innerHTML = weak.length
+    ? weak.map(ans => `<li class="text-sm flex items-center gap-2" style="color:var(--charcoal);"><i data-lucide="arrow-right" class="w-4 h-4 shrink-0" style="color:var(--emerald);"></i>${ans.recommendation}</li>`).join("")
+    : `<li class="text-sm flex items-center gap-2" style="color:var(--charcoal);"><i data-lucide="check-circle-2" class="w-4 h-4" style="color:var(--emerald);"></i>${a.perfectMsg}</li>`;
+
+  document.getElementById("hub-call-cta").innerHTML = `<i data-lucide="phone-call" class="w-4 h-4"></i>${a.callCta}`;
+  document.getElementById("hub-quiz-restart").textContent = a.restartBtn;
+  if (window.lucide) lucide.createIcons();
+}
+
 function renderFloatingActions() {
   const el = ensureContainer("floating-actions");
   el.innerHTML = `
@@ -1199,6 +1705,7 @@ function setLanguage(lang) {
     renderQuizBanner();
   }
   renderQuizModal();
+  renderSecurityHub();
   if (window.CURRENT_PAGE === "blog") renderBlogGrid();
   if (window.CURRENT_SERVICE) renderServiceDetail();
   if (window.CURRENT_POST) renderBlogPost();
