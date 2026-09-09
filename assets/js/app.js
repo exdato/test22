@@ -315,14 +315,27 @@ function renderHomeWhyUs() {
   const wrap = document.getElementById("why-grid");
   if (!wrap) return;
   const data = t("home.whyUs");
-  wrap.innerHTML = data.items.map(item => `
-    <div class="p-6 rounded-2xl" style="background:var(--paper);border:1px solid #E3E7EC;">
-      <div class="flex items-center justify-center rounded-xl mb-5" style="width:44px;height:44px;background:rgba(18,183,106,0.12);">
-        <i data-lucide="${item.icon}" style="width:20px;height:20px;color:var(--emerald-dark);"></i>
+  const borderClasses = [
+    "border-b sm:border-r",
+    "border-b",
+    "border-b sm:border-b-0 sm:border-r",
+    ""
+  ];
+  wrap.innerHTML = `
+    <div class="rounded-2xl overflow-hidden" style="border:1px solid #E3E7EC;background:#fff;">
+      <div class="grid sm:grid-cols-2">
+        ${data.items.map((item, i) => `
+        <div class="flex items-start gap-4 p-6 ${borderClasses[i]}" style="border-color:#E3E7EC;">
+          <span class="flex items-center justify-center shrink-0" style="width:40px;height:40px;border-radius:8px;background:var(--navy);">
+            <i data-lucide="${item.icon}" style="width:18px;height:18px;color:var(--emerald);"></i>
+          </span>
+          <div>
+            <h4 class="font-semibold mb-1.5 font-display" style="color:var(--navy);">${item.title}</h4>
+            <p class="text-sm leading-relaxed" style="color:var(--text-muted);">${item.desc}</p>
+          </div>
+        </div>`).join("")}
       </div>
-      <h4 class="font-semibold mb-2 font-display" style="color:var(--navy);">${item.title}</h4>
-      <p class="text-sm leading-relaxed" style="color:var(--text-muted);">${item.desc}</p>
-    </div>`).join("");
+    </div>`;
 }
 
 function renderHomeProcess() {
@@ -548,7 +561,7 @@ function renderCostEstimator() {
             <span class="text-[10px] font-bold uppercase tracking-wide" style="color:var(--emerald);">${t("common.pricingBadge")}</span>
           </div>
           <div class="text-xs font-medium mb-1" style="color:rgba(255,255,255,0.55);">${data.resultLabel}</div>
-          <div id="estimator-result" class="text-3xl md:text-4xl font-bold text-white mb-4 font-display"></div>
+          <div id="estimator-result" class="text-3xl md:text-4xl text-white mb-4 font-mono-readout"></div>
           <p class="text-xs leading-relaxed mb-6" style="color:rgba(255,255,255,0.45);">${t("common.pricingDisclaimer")}</p>
           <button id="estimator-cta" class="open-contact-modal-trigger inline-flex items-center justify-center gap-2 py-3 rounded-full text-sm font-semibold btn-primary mb-2.5">
             <i data-lucide="send" class="w-4 h-4"></i>${data.ctaBtn}
@@ -887,7 +900,7 @@ function renderHubBuilder() {
             <span class="text-xs" style="color:rgba(255,255,255,0.5);">${h.budgetLabel}</span>
             <span class="text-[10px] px-2 py-0.5 rounded-full font-semibold" style="background:rgba(18,183,106,0.15);color:var(--emerald);">${h.budgetBadge}</span>
           </div>
-          <div id="hub-budget" class="text-3xl font-bold mb-1 font-display" style="color:var(--emerald);">0 ₾</div>
+          <div id="hub-budget" class="text-3xl mb-1 font-mono-readout" style="color:var(--emerald);">0 ₾</div>
           <p class="text-[11px] leading-relaxed mb-5" style="color:rgba(255,255,255,0.4);">${h.disclaimer}</p>
           <button id="hub-send-wa" class="w-full flex items-center justify-center gap-2 py-3.5 rounded-full text-sm font-semibold btn-primary">
             <i data-lucide="send" class="w-4 h-4"></i>${h.sendBtn}
@@ -1186,7 +1199,7 @@ function renderHubAudit() {
             <circle id="hub-gauge-fg" cx="60" cy="60" r="52" fill="none" stroke="#ef4444" stroke-width="10" stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="327" style="transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1), stroke .6s ease;"/>
           </svg>
           <div class="absolute inset-0 flex flex-col items-center justify-center">
-            <span id="hub-gauge-pct" class="text-3xl font-bold font-display" style="color:var(--navy);">0%</span>
+            <span id="hub-gauge-pct" class="text-3xl font-mono-readout" style="color:var(--navy);">0%</span>
           </div>
         </div>
         <div id="hub-risk-label" class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-5"></div>
