@@ -68,7 +68,11 @@ const QUIZ_PRIORITY_META = {
   monitoring: { icon: "eye",          services: ["access", "cctv"] },
 };
 
-const ESTIMATOR_BASE_PRICE = { cctv: 150, alarm: 200, fire: 250, locks: 120, access: 300, network: 180, electrical: 220, smart: 100 };
+// Illustrative "starting from" floors per service, calibrated against real Tbilisi
+// market listings (e.g. 4-camera CCTV kits ~1100₾, per-camera installs from ~70-350₾,
+// basic alarm/smart-lock hardware in the 250-450₾ range). Replace with your own
+// real cost figures whenever you have them — these are still placeholders.
+const ESTIMATOR_BASE_PRICE = { cctv: 280, alarm: 320, fire: 350, locks: 280, access: 450, network: 260, electrical: 300, smart: 180 };
 const ESTIMATOR_SIZE_MULTIPLIER = { small: 1, medium: 1.5, large: 2.2 };
 const BRAND_LIST = ["Hikvision", "Dahua", "Ajax", "Tuya", "Sonoff", "Shelly"];
 const PRICE_LIST_PDF = "assets/pdf/vector-price-list.pdf";

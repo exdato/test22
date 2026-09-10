@@ -811,13 +811,16 @@ function ensureContainer(id) {
 /* ------------------------------------------------------------------ */
 
 const HUB_DEVICE_ORDER = ["camera", "alarm", "lock", "fire", "relay", "wifi"];
+// Per-unit "starting from" prices, calibrated against real Tbilisi market listings
+// (camera ≈ 280₾ matches ~1100₾/4-camera kits; others scaled similarly). Adjust to
+// your actual costs whenever you have them.
 const HUB_DEVICE_META = {
-  camera: { icon: "camera", price: 350 },
-  alarm: { icon: "bell-ring", price: 450 },
-  lock: { icon: "fingerprint", price: 600 },
-  fire: { icon: "flame", price: 180 },
-  relay: { icon: "zap", price: 220 },
-  wifi: { icon: "wifi", price: 260 }
+  camera: { icon: "camera", price: 280 },
+  alarm: { icon: "bell-ring", price: 380 },
+  lock: { icon: "fingerprint", price: 450 },
+  fire: { icon: "flame", price: 95 },
+  relay: { icon: "zap", price: 160 },
+  wifi: { icon: "wifi", price: 210 }
 };
 const HUB_PROPERTY_ORDER = ["apartment", "house", "office", "yard"];
 const HUB_PROPERTY_BASE_DAYS = { apartment: 1, house: 2, office: 2, yard: 3 };
