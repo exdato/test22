@@ -7,6 +7,12 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://www.vector-security.ge/interactive-hub.html</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.vector-security.ge/cameras.html</loc>
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>

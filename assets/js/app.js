@@ -99,6 +99,7 @@ function renderHeader() {
           <nav class="hidden lg:flex items-center gap-8">
             <a href="index.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.home"></a>
             <a href="index.html#services" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.services"></a>
+            <a href="interactive-hub.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.tools"></a>
             <a href="blog.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.blog"></a>
             <a href="index.html#contact" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.contact"></a>
           </nav>
@@ -139,6 +140,7 @@ function renderHeader() {
         <div class="px-5 py-4 flex flex-col gap-1">
           <a href="index.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.home"></a>
           <a href="index.html#services" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.services"></a>
+          <a href="interactive-hub.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.tools"></a>
           <a href="blog.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.blog"></a>
           <a href="index.html#contact" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.contact"></a>
           <div class="flex items-center gap-1.5 mt-2">
@@ -224,6 +226,7 @@ function renderFooter() {
           <ul class="flex flex-col gap-2.5">
             <li><a href="index.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.home"></span></a></li>
             <li><a href="index.html#services" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.services"></span></a></li>
+            <li><a href="interactive-hub.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.tools"></span></a></li>
             <li><a href="blog.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.blog"></span></a></li>
             <li><a href="index.html#contact" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.contact"></span></a></li>
           </ul>
@@ -588,7 +591,7 @@ function updateEstimatorResult() {
   const multiplier = ESTIMATOR_SIZE_MULTIPLIER[estimatorState.size];
   const total = estimatorState.services.reduce((sum, id) => sum + ESTIMATOR_BASE_PRICE[id], 0) * multiplier;
   const rounded = Math.round(total / 10) * 10;
-  resultEl.textContent = `${rounded} GEL+`;
+  resultEl.textContent = `${rounded} ${data.resultSuffix}`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -845,18 +848,57 @@ function renderSecurityHub() {
       <button data-hub-tab="audit" class="hub-tab-btn flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
         <i data-lucide="shield-alert" class="w-4 h-4"></i> ${h.tabs.audit}
       </button>
+      <button data-hub-tab="packages" class="hub-tab-btn flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
+        <i data-lucide="package" class="w-4 h-4"></i> ${h.tabs.packages}
+      </button>
+      <button data-hub-tab="map" class="hub-tab-btn flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200">
+        <i data-lucide="map-pin" class="w-4 h-4"></i> ${h.tabs.map}
+      </button>
     </div>
 
     <div id="hub-panel-builder" class="hub-panel"></div>
     <div id="hub-panel-simulator" class="hub-panel hidden"></div>
     <div id="hub-panel-audit" class="hub-panel hidden"></div>
+
+    <div id="hub-panel-packages" class="hub-panel hidden">
+      <div class="mb-16">
+        <div class="max-w-2xl mx-auto text-center mb-10">
+          <h3 class="text-xl md:text-2xl font-bold mb-2 font-display" style="color:#fff;">${t("home.selector.title")}</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,0.6);">${t("home.selector.subtitle")}</p>
+        </div>
+        <div id="space-selector-root"></div>
+      </div>
+      <div class="mb-16">
+        <div class="max-w-xl mx-auto text-center mb-10">
+          <h3 class="text-xl md:text-2xl font-bold mb-2 font-display" style="color:#fff;">${t("home.packages.title")}</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,0.6);">${t("home.packages.subtitle")}</p>
+        </div>
+        <div id="packages-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+      <div>
+        <div class="max-w-xl mx-auto text-center mb-10">
+          <h3 class="text-xl md:text-2xl font-bold mb-2 font-display" style="color:#fff;">${t("home.estimator.title")}</h3>
+          <p class="text-sm" style="color:rgba(255,255,255,0.6);">${t("home.estimator.subtitle")}</p>
+        </div>
+        <div id="estimator-root"></div>
+      </div>
+    </div>
+
+    <div id="hub-panel-map" class="hub-panel hidden">
+      <div class="max-w-2xl mx-auto text-center mb-10">
+        <h3 class="text-xl md:text-2xl font-bold mb-2 font-display" style="color:#fff;">${t("home.hotspots.title")}</h3>
+        <p class="text-sm" style="color:rgba(255,255,255,0.6);">${t("home.hotspots.subtitle")}</p>
+      </div>
+      <div id="hotspots-root"></div>
+    </div>
   `;
 
+  const tabKeys = ["builder", "simulator", "audit", "packages", "map"];
   root.querySelectorAll(".hub-tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const target = btn.getAttribute("data-hub-tab");
       root.querySelectorAll(".hub-tab-btn").forEach(b => b.classList.toggle("active", b === btn));
-      ["builder", "simulator", "audit"].forEach(key => {
+      tabKeys.forEach(key => {
         document.getElementById(`hub-panel-${key}`).classList.toggle("hidden", key !== target);
       });
     });
@@ -865,6 +907,10 @@ function renderSecurityHub() {
   renderHubBuilder();
   renderHubSimulator();
   renderHubAudit();
+  renderSpaceSelector();
+  renderPackages();
+  renderCostEstimator();
+  renderHotspots();
   if (window.lucide) lucide.createIcons();
 }
 
@@ -1677,6 +1723,7 @@ function getPageSeo() {
   if (window.CURRENT_POST) return t(`seo.posts.${window.CURRENT_POST}`);
   if (window.CURRENT_PAGE === "home") return t("seo.index");
   if (window.CURRENT_PAGE === "blog") return t("seo.blog");
+  if (window.CURRENT_PAGE === "hub") return t("seo.hub");
   return null;
 }
 
@@ -1711,17 +1758,19 @@ function setLanguage(lang) {
     renderHomeWhyUs();
     renderHomeProcess();
     renderHomeFAQ();
-    renderSpaceSelector();
-    renderPackages();
     renderWarrantyBadges();
     renderEmergencyBanner();
     renderBrandSlider();
+  }
+  if (window.CURRENT_PAGE === "hub") {
+    renderSpaceSelector();
+    renderPackages();
     renderCostEstimator();
     renderHotspots();
     renderQuizBanner();
+    renderQuizModal();
+    renderSecurityHub();
   }
-  renderQuizModal();
-  renderSecurityHub();
   if (window.CURRENT_PAGE === "blog") renderBlogGrid();
   if (window.CURRENT_SERVICE) renderServiceDetail();
   if (window.CURRENT_POST) renderBlogPost();

@@ -82,7 +82,7 @@ const translations = {
   ge: {
     common: {
       brandTag: "უსაფრთხოება & ელექტრო სერვისი",
-      nav: { home: "მთავარი", services: "სერვისები", blog: "ბლოგი", contact: "კონტაქტი" },
+      nav: { home: "მთავარი", services: "სერვისები", tools: "ხელსაწყოები", blog: "ბლოგი", contact: "კონტაქტი" },
       callNow: "დარეკვა ახლავე",
       learnMore: "ვრცლად",
       consultBtn: "მოითხოვეთ კონსულტაცია",
@@ -164,6 +164,7 @@ const translations = {
         sizeOptions: { small: "მცირე (< 80 მ²)", medium: "საშუალო (80–200 მ²)", large: "დიდი (> 200 მ²)" },
         servicesLabel: "სასურველი სერვისები",
         resultLabel: "სავარაუდო ღირებულება",
+        resultSuffix: "₾-დან",
         emptyState: "აირჩიეთ მინიმუმ ერთი სერვისი",
         ctaBtn: "ზუსტი შეთავაზების მოთხოვნა"
       },
@@ -263,11 +264,16 @@ const translations = {
           monitoring: "ბიზნესის მონიტორინგი"
         }
       },
+      toolsTeaser: {
+        title: "სცადეთ ჩვენი ინტერაქტიული ხელსაწყოები",
+        subtitle: "კონფიგურაციის კონსტრუქტორი, ფასების კალკულატორი, ტექნოლოგიის სიმულატორი და უსაფრთხოების აუდიტი — ერთ სივრცეში.",
+        btn: "ინსტრუმენტების ნახვა"
+      },
       hub: {
         eyebrow: "VECTOR HUB",
         title: "VECTOR-ის ინტერაქტიული უსაფრთხოების ცენტრი",
         subtitle: "ავაშენოთ თქვენი კონფიგურაცია, გამოვცადოთ ტექნოლოგია და შევაფასოთ რისკი — სამივე ერთ ადგილას.",
-        tabs: { builder: "კონსტრუქტორი", simulator: "ტექ-სიმულატორი", audit: "რისკის აუდიტი" },
+        tabs: { builder: "კონსტრუქტორი", simulator: "ტექ-სიმულატორი", audit: "რისკის აუდიტი", packages: "პაკეტები და ფასი", map: "ობიექტის რუკა" },
         builder: {
           propertyLabel: "ობიექტის ტიპი",
           propertyTypes: { apartment: "ბინა", house: "სახლი / ვილა", office: "ოფისი", yard: "ეზო / საწყობი" },
@@ -526,6 +532,7 @@ const translations = {
         smart:      { title: "ჭკვიანი მოწყობილობები და სახლის ავტომატიზაცია | VECTOR", description: "ჭკვიანი რელეები (Sonoff, Shelly, Tuya) განათების, გათბობისა და კარიბჭეების დისტანციური მართვისთვის თბილისში." }
       },
       blog: { title: "ბლოგი — რჩევები უსაფრთხოებისა და ელექტროობის შესახებ | VECTOR", description: "სასარგებლო სტატიები კამერების, სიგნალიზაციის, ელექტრო გაყვანილობისა და ჭკვიანი სისტემების შესახებ თბილისელი ექსპერტებისგან." },
+      hub: { title: "ინტერაქტიული ცენტრი — კონსტრუქტორი, კალკულატორი და რისკის აუდიტი | VECTOR", description: "ააწყვეთ თქვენი უსაფრთხოების სისტემა, გამოთვალეთ ღირებულება და შეამოწმეთ რისკის დონე — VECTOR-ის ინტერაქტიულ ინსტრუმენტებში." },
       posts: {
         post1: { title: "როგორ ავირჩიოთ IP კამერები სახლისა და ოფისისთვის | VECTOR ბლოგი", description: "გზამკვლევი IP კამერების შერჩევაში — გარჩევადობა, ღამის ხედვა და არქივის შენახვა. რჩევები VECTOR-ის ექსპერტებისგან თბილისში." },
         post2: { title: "უსადენო vs სადენიანი სიგნალიზაცია — რომელია უკეთესი?", description: "შევადაროთ უსადენო და სადენიანი სიგნალიზაციის სისტემები, რათა აირჩიოთ საუკეთესო გადაწყვეტა თქვენი ობიექტისთვის თბილისში." },
@@ -543,7 +550,7 @@ const translations = {
   en: {
     common: {
       brandTag: "Security & Electrical Services",
-      nav: { home: "Home", services: "Services", blog: "Blog", contact: "Contact" },
+      nav: { home: "Home", services: "Services", tools: "Tools", blog: "Blog", contact: "Contact" },
       callNow: "Call Now",
       learnMore: "Learn More",
       consultBtn: "Request a Consultation",
@@ -625,6 +632,7 @@ const translations = {
         sizeOptions: { small: "Small (< 80 m²)", medium: "Medium (80–200 m²)", large: "Large (> 200 m²)" },
         servicesLabel: "Desired Services",
         resultLabel: "Estimated Cost",
+        resultSuffix: "GEL+",
         emptyState: "Select at least one service",
         ctaBtn: "Request Exact Quote"
       },
@@ -724,11 +732,16 @@ const translations = {
           monitoring: "Business monitoring"
         }
       },
+      toolsTeaser: {
+        title: "Try our interactive tools",
+        subtitle: "Configuration builder, cost calculator, technology simulator, and a security audit — all in one place.",
+        btn: "View Tools"
+      },
       hub: {
         eyebrow: "VECTOR HUB",
         title: "VECTOR Interactive Security Hub",
         subtitle: "Build your configuration, try the technology, and check your risk score — all in one place.",
-        tabs: { builder: "Builder", simulator: "Tech Simulator", audit: "Risk Audit" },
+        tabs: { builder: "Builder", simulator: "Tech Simulator", audit: "Risk Audit", packages: "Packages & Pricing", map: "Property Map" },
         builder: {
           propertyLabel: "Property type",
           propertyTypes: { apartment: "Apartment", house: "House / Villa", office: "Office", yard: "Yard / Warehouse" },
@@ -987,6 +1000,7 @@ const translations = {
         smart:      { title: "Smart Home Devices & Automation | VECTOR", description: "Smart relays (Sonoff, Shelly, Tuya) for remote control of lighting, heating and gates in Tbilisi." }
       },
       blog: { title: "Blog — Security & Electrical Tips | VECTOR", description: "Helpful articles on cameras, alarms, electrical wiring and smart systems from Tbilisi's security experts." },
+      hub: { title: "Interactive Hub — Builder, Cost Calculator & Risk Audit | VECTOR", description: "Build your security configuration, estimate the cost, and check your risk score in VECTOR's interactive tools." },
       posts: {
         post1: { title: "How to Choose IP Cameras for Home & Office | VECTOR", description: "A guide to choosing IP cameras — resolution, night vision and storage. Expert tips from VECTOR in Tbilisi." },
         post2: { title: "Wireless vs Wired Alarms — Which Is Better?", description: "Comparing wireless and wired alarm systems to help you pick the best solution for your property in Tbilisi." },
@@ -1004,7 +1018,7 @@ const translations = {
   ru: {
     common: {
       brandTag: "Охранные и электромонтажные услуги",
-      nav: { home: "Главная", services: "Услуги", blog: "Блог", contact: "Контакты" },
+      nav: { home: "Главная", services: "Услуги", tools: "Инструменты", blog: "Блог", contact: "Контакты" },
       callNow: "Позвонить",
       learnMore: "Подробнее",
       consultBtn: "Запросить консультацию",
@@ -1086,6 +1100,7 @@ const translations = {
         sizeOptions: { small: "Малый (< 80 м²)", medium: "Средний (80–200 м²)", large: "Большой (> 200 м²)" },
         servicesLabel: "Нужные услуги",
         resultLabel: "Примерная стоимость",
+        resultSuffix: "₾+",
         emptyState: "Выберите хотя бы одну услугу",
         ctaBtn: "Запросить точную цену"
       },
@@ -1185,11 +1200,16 @@ const translations = {
           monitoring: "Мониторинг бизнеса"
         }
       },
+      toolsTeaser: {
+        title: "Попробуйте наши интерактивные инструменты",
+        subtitle: "Конструктор конфигурации, калькулятор стоимости, симулятор технологий и аудит безопасности — всё в одном месте.",
+        btn: "Смотреть инструменты"
+      },
       hub: {
         eyebrow: "VECTOR HUB",
         title: "Интерактивный центр безопасности VECTOR",
         subtitle: "Соберите свою конфигурацию, испытайте технологию и оцените риск — всё в одном месте.",
-        tabs: { builder: "Конструктор", simulator: "Тех-симулятор", audit: "Аудит риска" },
+        tabs: { builder: "Конструктор", simulator: "Тех-симулятор", audit: "Аудит риска", packages: "Пакеты и цены", map: "Карта объекта" },
         builder: {
           propertyLabel: "Тип объекта",
           propertyTypes: { apartment: "Квартира", house: "Дом / вилла", office: "Офис", yard: "Двор / склад" },
@@ -1448,6 +1468,7 @@ const translations = {
         smart:      { title: "Умные устройства и автоматизация дома | VECTOR", description: "Умные реле (Sonoff, Shelly, Tuya) для дистанционного управления освещением, отоплением и воротами в Тбилиси." }
       },
       blog: { title: "Блог — советы по безопасности и электрике | VECTOR", description: "Полезные статьи о камерах, сигнализации, электропроводке и умных системах от экспертов в Тбилиси." },
+      hub: { title: "Интерактивный центр — конструктор, калькулятор и аудит риска | VECTOR", description: "Соберите свою систему безопасности, рассчитайте стоимость и проверьте уровень риска в интерактивных инструментах VECTOR." },
       posts: {
         post1: { title: "Как выбрать IP-камеры для дома и офиса | VECTOR", description: "Гид по выбору IP-камер — разрешение, ночное видение и хранение. Советы экспертов VECTOR в Тбилиси." },
         post2: { title: "Беспроводная vs проводная сигнализация", description: "Сравниваем беспроводные и проводные системы сигнализации, чтобы выбрать решение для вашего объекта в Тбилиси." },
