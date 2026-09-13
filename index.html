@@ -188,6 +188,72 @@
   </div>
 </section>
 
+<!-- ================= LIVE SECURITY BLUEPRINT ================= -->
+<section id="blueprint-section" class="py-20 md:py-28" style="background:var(--navy);">
+  <div class="max-w-4xl mx-auto px-5 md:px-8 text-center mb-4">
+    <h2 class="text-2xl md:text-4xl font-bold text-white font-display" data-i18n="home.blueprint.title"></h2>
+  </div>
+  <div class="max-w-3xl mx-auto px-5">
+    <svg id="blueprint-svg" viewBox="0 0 800 400" class="w-full h-auto">
+      <!-- property perimeter -->
+      <path id="blueprint-perimeter-path" d="M60,60 L740,60 L740,340 L60,340 Z"
+            fill="none" stroke="rgba(18,183,106,0.35)" stroke-width="2"/>
+
+      <!-- house silhouette -->
+      <path id="blueprint-building-path"
+            d="M260,150 L400,80 L540,150 L520,150 L520,320 L280,320 L280,150 L260,150 Z"
+            fill="none" stroke="#12B76A" stroke-width="3" stroke-linejoin="round"/>
+
+      <!-- door + windows (fade with building) -->
+      <g class="blueprint-fixture">
+        <rect x="380" y="260" width="40" height="60" fill="rgba(18,183,106,0.18)" stroke="#12B76A" stroke-width="1.5"/>
+        <rect x="310" y="190" width="30" height="30" fill="rgba(18,183,106,0.12)" stroke="#12B76A" stroke-width="1.5"/>
+        <rect x="460" y="190" width="30" height="30" fill="rgba(18,183,106,0.12)" stroke="#12B76A" stroke-width="1.5"/>
+      </g>
+
+      <!-- corner cameras with sweep cones -->
+      <g class="blueprint-camera cam-1">
+        <polygon points="60,60 110,90 110,30" fill="rgba(18,183,106,0.15)"/>
+        <circle cx="60" cy="60" r="7" fill="#0B1424" stroke="#12B76A" stroke-width="2"/>
+      </g>
+      <g class="blueprint-camera cam-2">
+        <polygon points="740,60 690,90 690,30" fill="rgba(18,183,106,0.15)"/>
+        <circle cx="740" cy="60" r="7" fill="#0B1424" stroke="#12B76A" stroke-width="2"/>
+      </g>
+      <g class="blueprint-camera cam-3">
+        <polygon points="60,340 110,310 110,370" fill="rgba(18,183,106,0.15)"/>
+        <circle cx="60" cy="340" r="7" fill="#0B1424" stroke="#12B76A" stroke-width="2"/>
+      </g>
+      <g class="blueprint-camera cam-4">
+        <polygon points="740,340 690,310 690,370" fill="rgba(18,183,106,0.15)"/>
+        <circle cx="740" cy="340" r="7" fill="#0B1424" stroke="#12B76A" stroke-width="2"/>
+      </g>
+
+      <!-- sensor points: door + 2 windows -->
+      <g class="blueprint-sensor">
+        <circle class="blueprint-ping" cx="400" cy="320" r="5" fill="none" stroke="#12B76A" stroke-width="1.5"/>
+        <circle class="blueprint-sensor-dot" cx="400" cy="320" r="4" fill="#12B76A"/>
+      </g>
+      <g class="blueprint-sensor">
+        <circle class="blueprint-ping" cx="325" cy="220" r="5" fill="none" stroke="#12B76A" stroke-width="1.5"/>
+        <circle class="blueprint-sensor-dot" cx="325" cy="220" r="4" fill="#12B76A"/>
+      </g>
+      <g class="blueprint-sensor">
+        <circle class="blueprint-ping" cx="475" cy="220" r="5" fill="none" stroke="#12B76A" stroke-width="1.5"/>
+        <circle class="blueprint-sensor-dot" cx="475" cy="220" r="4" fill="#12B76A"/>
+      </g>
+    </svg>
+
+    <div class="blueprint-status flex items-center justify-center gap-2.5 mt-2">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full rounded-full opacity-75" style="background:var(--emerald);animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite;"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2" style="background:var(--emerald);"></span>
+      </span>
+      <span class="text-sm font-mono-readout tracking-wide" style="color:var(--emerald);" data-i18n="home.blueprint.status"></span>
+    </div>
+  </div>
+</section>
+
 <!-- ================= BRAND TRUST SLIDER ================= -->
 <section class="py-10" style="background:#fff;border-bottom:1px solid #E3E7EC;">
   <div class="max-w-7xl mx-auto px-5 md:px-8">

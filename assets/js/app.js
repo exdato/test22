@@ -1821,10 +1821,47 @@ function setLanguage(lang) {
 /* INIT                                                                 */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/* LIVE SECURITY BLUEPRINT — one-time scroll-triggered draw-on         */
+/* ------------------------------------------------------------------ */
+function initSecurityBlueprint() {
+  const section = document.getElementById("blueprint-section");
+  const perimeter = document.getElementById("blueprint-perimeter-path");
+  const building = document.getElementById("blueprint-building-path");
+  if (!section || !perimeter || !building) return;
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    section.classList.add("blueprint-instant");
+    return;
+  }
+
+  [perimeter, building].forEach(path => {
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+  });
+
+  if (!("IntersectionObserver" in window)) {
+    section.classList.add("blueprint-play");
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        section.classList.add("blueprint-play");
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.35 });
+  observer.observe(section);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderFooter();
   setLanguage(getLang());
+  initSecurityBlueprint();
 
   document.body.addEventListener("click", e => {
     const langBtn = e.target.closest(".lang-btn");

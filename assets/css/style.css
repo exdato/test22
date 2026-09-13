@@ -55,6 +55,37 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--emerald);outline-of
 #hub-lens-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:9999px;background:var(--navy);border:3px solid var(--emerald);cursor:pointer;box-shadow:0 0 10px rgba(18,183,106,0.5);}
 #hub-lens-slider::-moz-range-thumb{width:18px;height:18px;border-radius:9999px;background:var(--navy);border:3px solid var(--emerald);cursor:pointer;box-shadow:0 0 10px rgba(18,183,106,0.5);}
 
+/* ==================================================================
+   LIVE SECURITY BLUEPRINT — one-time scroll-triggered draw-on sequence
+================================================================== */
+#blueprint-perimeter-path,#blueprint-building-path{transition:stroke-dashoffset 1.6s ease;}
+.blueprint-fixture{opacity:0;transition:opacity .5s ease;}
+.blueprint-camera{opacity:0;transform-origin:center;transform:scale(.5);transition:opacity .4s ease,transform .4s ease;}
+.blueprint-sensor-dot{opacity:0;transition:opacity .3s ease;}
+.blueprint-ping{opacity:0;transform-origin:center;}
+.blueprint-status{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease;}
+
+#blueprint-section.blueprint-play #blueprint-perimeter-path{stroke-dashoffset:0;}
+#blueprint-section.blueprint-play #blueprint-building-path{stroke-dashoffset:0;transition-delay:.7s;}
+#blueprint-section.blueprint-play .blueprint-fixture{opacity:1;transition-delay:1.5s;}
+#blueprint-section.blueprint-play .blueprint-camera{opacity:1;transform:scale(1);}
+#blueprint-section.blueprint-play .blueprint-camera.cam-1{transition-delay:2.0s;}
+#blueprint-section.blueprint-play .blueprint-camera.cam-2{transition-delay:2.15s;}
+#blueprint-section.blueprint-play .blueprint-camera.cam-3{transition-delay:2.3s;}
+#blueprint-section.blueprint-play .blueprint-camera.cam-4{transition-delay:2.45s;}
+#blueprint-section.blueprint-play .blueprint-sensor-dot{opacity:1;transition-delay:2.7s;}
+#blueprint-section.blueprint-play .blueprint-ping{animation:bp-ping 1.3s ease-out 1;animation-delay:2.7s;}
+#blueprint-section.blueprint-play .blueprint-status{opacity:1;transform:translateY(0);transition-delay:3.1s;}
+@keyframes bp-ping{0%{opacity:.8;transform:scale(.6);}100%{opacity:0;transform:scale(2.6);}}
+
+#blueprint-section.blueprint-instant *{transition:none!important;animation:none!important;}
+#blueprint-section.blueprint-instant #blueprint-perimeter-path,
+#blueprint-section.blueprint-instant #blueprint-building-path{stroke-dashoffset:0!important;}
+#blueprint-section.blueprint-instant .blueprint-fixture,
+#blueprint-section.blueprint-instant .blueprint-camera,
+#blueprint-section.blueprint-instant .blueprint-sensor-dot,
+#blueprint-section.blueprint-instant .blueprint-status{opacity:1!important;transform:none!important;}
+
 /* hero (home) */
 .hero-bg{background:linear-gradient(160deg,#0B1424 0%,#0F1E38 55%,#0B1424 100%);}
 .blueprint-grid{

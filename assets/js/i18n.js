@@ -155,6 +155,7 @@ const translations = {
         subtitle: "დაგვირეკეთ ახლავე — ვმუშაობთ სასწრაფო შემთხვევებზეც.",
         cta: "სასწრაფო გამოძახება"
       },
+      blueprint: { title: "ასე გამოიყურება დაცული ობიექტი", status: "სისტემა აქტიურია" },
       brands: { eyebrow: "პარტნიორი ბრენდები", title: "ვმუშაობთ მსოფლიოში აღიარებულ ბრენდებთან" },
       estimator: {
         eyebrow: "კალკულატორი",
@@ -646,6 +647,7 @@ const translations = {
         subtitle: "Call us now — we also handle emergency call-outs.",
         cta: "Emergency Call"
       },
+      blueprint: { title: "This Is What a Protected Property Looks Like", status: "SYSTEM ARMED" },
       brands: { eyebrow: "Partner Brands", title: "We work with globally trusted brands" },
       estimator: {
         eyebrow: "Calculator",
@@ -1137,6 +1139,7 @@ const translations = {
         subtitle: "Позвоните нам прямо сейчас — принимаем и аварийные вызовы.",
         cta: "Аварийный вызов"
       },
+      blueprint: { title: "Так выглядит защищённый объект", status: "СИСТЕМА АКТИВНА" },
       brands: { eyebrow: "Бренды-партнёры", title: "Работаем с признанными мировыми брендами" },
       estimator: {
         eyebrow: "Калькулятор",
