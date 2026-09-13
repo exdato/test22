@@ -99,6 +99,7 @@ function renderHeader() {
           <nav class="hidden lg:flex items-center gap-8">
             <a href="index.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.home"></a>
             <a href="index.html#services" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.services"></a>
+            <a href="about.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.about"></a>
             <a href="interactive-hub.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.tools"></a>
             <a href="blog.html" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.blog"></a>
             <a href="index.html#contact" class="nav-link text-sm font-medium tracking-wide" data-i18n="common.nav.contact"></a>
@@ -140,6 +141,7 @@ function renderHeader() {
         <div class="px-5 py-4 flex flex-col gap-1">
           <a href="index.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.home"></a>
           <a href="index.html#services" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.services"></a>
+          <a href="about.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.about"></a>
           <a href="interactive-hub.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.tools"></a>
           <a href="blog.html" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.blog"></a>
           <a href="index.html#contact" class="text-left py-2.5 text-sm font-medium text-white/85 border-b border-white/5" data-i18n="common.nav.contact"></a>
@@ -226,6 +228,7 @@ function renderFooter() {
           <ul class="flex flex-col gap-2.5">
             <li><a href="index.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.home"></span></a></li>
             <li><a href="index.html#services" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.services"></span></a></li>
+            <li><a href="about.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.about"></span></a></li>
             <li><a href="interactive-hub.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.tools"></span></a></li>
             <li><a href="blog.html" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.blog"></span></a></li>
             <li><a href="index.html#contact" class="text-sm flex items-center gap-1.5" style="color:rgba(255,255,255,0.5);"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i><span data-i18n="common.nav.contact"></span></a></li>
@@ -513,6 +516,32 @@ function renderBrandSlider() {
         ${doubled.map(name => `<span class="brand-chip">${name}</span>`).join("")}
       </div>
     </div>`;
+}
+
+/* ------------------------------------------------------------------ */
+/* ABOUT PAGE — team grid                                              */
+/* ------------------------------------------------------------------ */
+
+function renderAboutTeam() {
+  const wrap = document.getElementById("team-grid");
+  if (!wrap) return;
+  const data = t("about.team");
+  wrap.innerHTML = data.members.map(member => `
+    <div class="rounded-2xl p-6 text-center" style="background:#fff;border:1px solid #E3E7EC;">
+      <div class="mx-auto mb-4 flex items-center justify-center rounded-full" style="width:56px;height:56px;background:var(--navy);">
+        <i data-lucide="${member.icon}" style="width:24px;height:24px;color:var(--emerald);"></i>
+      </div>
+      <h4 class="font-semibold mb-2 font-display" style="color:var(--navy);">${member.title}</h4>
+      <p class="text-sm leading-relaxed" style="color:var(--text-muted);">${member.desc}</p>
+    </div>`).join("");
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderAboutStory() {
+  const wrap = document.getElementById("about-story-paragraphs");
+  if (!wrap) return;
+  const paragraphs = t("about.story.paragraphs");
+  wrap.innerHTML = paragraphs.map(p => `<p class="text-base leading-relaxed" style="color:var(--charcoal);">${p}</p>`).join("");
 }
 
 /* ------------------------------------------------------------------ */
@@ -1724,6 +1753,7 @@ function getPageSeo() {
   if (window.CURRENT_PAGE === "home") return t("seo.index");
   if (window.CURRENT_PAGE === "blog") return t("seo.blog");
   if (window.CURRENT_PAGE === "hub") return t("seo.hub");
+  if (window.CURRENT_PAGE === "about") return t("seo.about");
   return null;
 }
 
@@ -1770,6 +1800,11 @@ function setLanguage(lang) {
     renderQuizBanner();
     renderQuizModal();
     renderSecurityHub();
+  }
+  if (window.CURRENT_PAGE === "about") {
+    renderAboutStory();
+    renderAboutTeam();
+    renderBrandSlider();
   }
   if (window.CURRENT_PAGE === "blog") renderBlogGrid();
   if (window.CURRENT_SERVICE) renderServiceDetail();

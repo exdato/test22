@@ -82,7 +82,7 @@ const translations = {
   ge: {
     common: {
       brandTag: "უსაფრთხოება & ელექტრო სერვისი",
-      nav: { home: "მთავარი", services: "სერვისები", tools: "ხელსაწყოები", blog: "ბლოგი", contact: "კონტაქტი" },
+      nav: { home: "მთავარი", services: "სერვისები", about: "ჩვენ შესახებ", tools: "ხელსაწყოები", blog: "ბლოგი", contact: "კონტაქტი" },
       callNow: "დარეკვა ახლავე",
       learnMore: "ვრცლად",
       consultBtn: "მოითხოვეთ კონსულტაცია",
@@ -146,7 +146,7 @@ const translations = {
         items: [
           { icon: "shield-check", title: "2-წლიანი ოფიციალური გარანტია", desc: "ყველა მონტაჟსა და მოწყობილობაზე წერილობითი გარანტიით." },
           { icon: "badge-check", title: "სერტიფიცირებული აღჭურვილობა", desc: "ვმუშაობთ მხოლოდ ცნობილ, სანდო ბრენდებთან." },
-          { icon: "headset", title: "24/7 მხარდაჭერა", desc: "მონტაჟის შემდეგაც ვართ ხელმისაწვდომნი ნებისმიერ დროს." }
+          { icon: "headphones", title: "24/7 მხარდაჭერა", desc: "მონტაჟის შემდეგაც ვართ ხელმისაწვდომნი ნებისმიერ დროს." }
         ]
       },
       emergency: {
@@ -519,6 +519,28 @@ const translations = {
         }
       }
     },
+    about: {
+      hero: { title: "გუნდი, რომელიც თქვენს უსაფრთხოებაზე ზრუნავს", subtitle: "გავეცანით VECTOR-ის ისტორიას, ღირებულებებსა და იმ ადამიანებს, ვინც ყოველდღე მუშაობს თქვენი დაცვისთვის." },
+      story: {
+        title: "ჩვენი ისტორია",
+        paragraphs: [
+          "VECTOR დაარსდა თბილისში მცირე გუნდის მიერ, რომელიც სპეციალიზირდებოდა უსაფრთხოების სისტემების მონტაჟში. წლების განმავლობაში თანდათან გავიზარდეთ სრულმასშტაბიან კომპანიად, რომელიც მოიცავს უსაფრთხოების, ავტომატიზაციისა და ელექტრო მომსახურების სრულ სპექტრს.",
+          "დღეს ჩვენი გუნდი ემსახურება ასობით კლიენტს თბილისსა და შემოგარენში — საცხოვრებელი სახლებიდან დიდ კომერციულ ობიექტებამდე. ჩვენი მუშაობის პრინციპი უცვლელია: ხარისხიანი აღჭურვილობა, პროფესიონალური მონტაჟი და გამჭვირვალე ფასდადება."
+        ]
+      },
+      team: {
+        title: "ჩვენი გუნდი",
+        subtitle: "სპეციალისტთა გუნდი, რომელიც დგას ყოველი პროექტის მიღმა — დაგეგმვიდან საბოლოო შემოწმებამდე.",
+        members: [
+          { icon: "compass", title: "საინჟინრო და დაგეგმვის გუნდი", desc: "აფასებენ ობიექტს, ირჩევენ ოპტიმალურ აღჭურვილობასა და ადგენენ ტექნიკურ გეგმას." },
+          { icon: "wrench", title: "მონტაჟის ტექნიკოსები", desc: "ველზე მომუშავე გამოცდილი სპეციალისტები — სუფთა და ზუსტი ინსტალაცია ყოველ ობიექტზე." },
+          { icon: "badge-check", title: "ხარისხის კონტროლი", desc: "ყოველი სისტემა მოწმდება და ტესტირდება ჩაბარებამდე, სტანდარტებთან სრული შესაბამისობით." },
+          { icon: "headphones", title: "მომხმარებელთა მხარდაჭერა", desc: "თქვენი კითხვები და მოთხოვნები — კონსულტაციიდან პოსტ-სერვისამდე." }
+        ]
+      },
+      certifications: { title: "პარტნიორი ბრენდები", subtitle: "ვმუშაობთ მსოფლიოში აღიარებულ, სერტიფიცირებულ მოწყობილობებთან." },
+      cta: { title: "გსურთ შეხვდეთ ჩვენს გუნდს?", subtitle: "დაგვირეკეთ ან მოგვწერეთ — მზად ვართ ვუპასუხოთ თქვენს კითხვებს.", btn: "დაგვიკავშირდით" }
+    },
     seo: {
       index: { title: "VECTOR — უსაფრთხოების სისტემები და ელექტრო მომსახურება თბილისში", description: "კამერების მონტაჟი, სიგნალიზაცია, სახანძრო უსაფრთხოება და ელექტრო გაყვანილობა თბილისსა და შემოგარენში. დარეკეთ: 595 70 83 00." },
       services: {
@@ -533,6 +555,7 @@ const translations = {
       },
       blog: { title: "ბლოგი — რჩევები უსაფრთხოებისა და ელექტროობის შესახებ | VECTOR", description: "სასარგებლო სტატიები კამერების, სიგნალიზაციის, ელექტრო გაყვანილობისა და ჭკვიანი სისტემების შესახებ თბილისელი ექსპერტებისგან." },
       hub: { title: "ინტერაქტიული ცენტრი — კონსტრუქტორი, კალკულატორი და რისკის აუდიტი | VECTOR", description: "ააწყვეთ თქვენი უსაფრთხოების სისტემა, გამოთვალეთ ღირებულება და შეამოწმეთ რისკის დონე — VECTOR-ის ინტერაქტიულ ინსტრუმენტებში." },
+      about: { title: "ჩვენ შესახებ — გუნდი და ისტორია | VECTOR", description: "გაიცანით VECTOR-ის გუნდი, ისტორია და პარტნიორი ბრენდები — თბილისის უსაფრთხოებისა და ელექტრო მომსახურების კომპანია." },
       posts: {
         post1: { title: "როგორ ავირჩიოთ IP კამერები სახლისა და ოფისისთვის | VECTOR ბლოგი", description: "გზამკვლევი IP კამერების შერჩევაში — გარჩევადობა, ღამის ხედვა და არქივის შენახვა. რჩევები VECTOR-ის ექსპერტებისგან თბილისში." },
         post2: { title: "უსადენო vs სადენიანი სიგნალიზაცია — რომელია უკეთესი?", description: "შევადაროთ უსადენო და სადენიანი სიგნალიზაციის სისტემები, რათა აირჩიოთ საუკეთესო გადაწყვეტა თქვენი ობიექტისთვის თბილისში." },
@@ -550,7 +573,7 @@ const translations = {
   en: {
     common: {
       brandTag: "Security & Electrical Services",
-      nav: { home: "Home", services: "Services", tools: "Tools", blog: "Blog", contact: "Contact" },
+      nav: { home: "Home", services: "Services", about: "About", tools: "Tools", blog: "Blog", contact: "Contact" },
       callNow: "Call Now",
       learnMore: "Learn More",
       consultBtn: "Request a Consultation",
@@ -614,7 +637,7 @@ const translations = {
         items: [
           { icon: "shield-check", title: "2-Year Official Warranty", desc: "A written warranty on every installation and piece of equipment." },
           { icon: "badge-check", title: "Certified Hardware", desc: "We work only with well-known, trusted brands." },
-          { icon: "headset", title: "24/7 Support", desc: "Our team is available anytime, even after installation." }
+          { icon: "headphones", title: "24/7 Support", desc: "Our team is available anytime, even after installation." }
         ]
       },
       emergency: {
@@ -987,6 +1010,28 @@ const translations = {
         }
       }
     },
+    about: {
+      hero: { title: "The team behind your security", subtitle: "Meet VECTOR's story, values, and the people who work every day to protect you." },
+      story: {
+        title: "Our Story",
+        paragraphs: [
+          "VECTOR was founded in Tbilisi by a small team specializing in security system installation. Over the years we grew into a full-scale company covering the entire spectrum of security, automation, and electrical services.",
+          "Today our team serves hundreds of clients across Tbilisi and the surrounding area — from private homes to large commercial properties. Our approach hasn't changed: quality hardware, professional installation, and transparent pricing."
+        ]
+      },
+      team: {
+        title: "Our Team",
+        subtitle: "The specialists behind every project — from planning to final inspection.",
+        members: [
+          { icon: "compass", title: "Engineering & Planning", desc: "Assess the property, select the optimal hardware, and prepare the technical plan." },
+          { icon: "wrench", title: "Installation Technicians", desc: "Experienced field specialists — clean, precise installation on every site." },
+          { icon: "badge-check", title: "Quality Control", desc: "Every system is checked and tested before handover, in full standards compliance." },
+          { icon: "headphones", title: "Customer Support", desc: "Your questions and requests — from consultation through after-sales service." }
+        ]
+      },
+      certifications: { title: "Partner Brands", subtitle: "We work with globally recognized, certified hardware." },
+      cta: { title: "Want to meet the team?", subtitle: "Call us or send a message — we're happy to answer your questions.", btn: "Get in Touch" }
+    },
     seo: {
       index: { title: "VECTOR — Security Systems & Electrical Services in Tbilisi", description: "CCTV installation, alarms, fire safety and electrical wiring across Tbilisi and the surrounding area. Call: 595 70 83 00." },
       services: {
@@ -1001,6 +1046,7 @@ const translations = {
       },
       blog: { title: "Blog — Security & Electrical Tips | VECTOR", description: "Helpful articles on cameras, alarms, electrical wiring and smart systems from Tbilisi's security experts." },
       hub: { title: "Interactive Hub — Builder, Cost Calculator & Risk Audit | VECTOR", description: "Build your security configuration, estimate the cost, and check your risk score in VECTOR's interactive tools." },
+      about: { title: "About Us — Our Team & Story | VECTOR", description: "Meet the VECTOR team, our story, and partner brands — a Tbilisi-based security and electrical services company." },
       posts: {
         post1: { title: "How to Choose IP Cameras for Home & Office | VECTOR", description: "A guide to choosing IP cameras — resolution, night vision and storage. Expert tips from VECTOR in Tbilisi." },
         post2: { title: "Wireless vs Wired Alarms — Which Is Better?", description: "Comparing wireless and wired alarm systems to help you pick the best solution for your property in Tbilisi." },
@@ -1018,7 +1064,7 @@ const translations = {
   ru: {
     common: {
       brandTag: "Охранные и электромонтажные услуги",
-      nav: { home: "Главная", services: "Услуги", tools: "Инструменты", blog: "Блог", contact: "Контакты" },
+      nav: { home: "Главная", services: "Услуги", about: "О нас", tools: "Инструменты", blog: "Блог", contact: "Контакты" },
       callNow: "Позвонить",
       learnMore: "Подробнее",
       consultBtn: "Запросить консультацию",
@@ -1082,7 +1128,7 @@ const translations = {
         items: [
           { icon: "shield-check", title: "2-летняя официальная гарантия", desc: "Письменная гарантия на все монтажные работы и оборудование." },
           { icon: "badge-check", title: "Сертифицированное оборудование", desc: "Работаем только с известными, надёжными брендами." },
-          { icon: "headset", title: "Поддержка 24/7", desc: "Мы на связи в любое время, даже после монтажа." }
+          { icon: "headphones", title: "Поддержка 24/7", desc: "Мы на связи в любое время, даже после монтажа." }
         ]
       },
       emergency: {
@@ -1455,6 +1501,28 @@ const translations = {
         }
       }
     },
+    about: {
+      hero: { title: "Команда, которая заботится о вашей безопасности", subtitle: "Узнайте историю VECTOR, наши ценности и людей, которые каждый день работают ради вашей защиты." },
+      story: {
+        title: "Наша история",
+        paragraphs: [
+          "VECTOR была основана в Тбилиси небольшой командой, специализирующейся на установке систем безопасности. За годы работы мы выросли в полноценную компанию, охватывающую весь спектр услуг безопасности, автоматизации и электромонтажа.",
+          "Сегодня наша команда обслуживает сотни клиентов по всему Тбилиси и окрестностям — от частных домов до крупных коммерческих объектов. Наш подход не изменился: качественное оборудование, профессиональный монтаж и прозрачное ценообразование."
+        ]
+      },
+      team: {
+        title: "Наша команда",
+        subtitle: "Специалисты, стоящие за каждым проектом — от планирования до финальной проверки.",
+        members: [
+          { icon: "compass", title: "Инженерия и планирование", desc: "Оценивают объект, подбирают оптимальное оборудование и готовят технический план." },
+          { icon: "wrench", title: "Монтажные техники", desc: "Опытные полевые специалисты — чистый и точный монтаж на каждом объекте." },
+          { icon: "badge-check", title: "Контроль качества", desc: "Каждая система проверяется и тестируется перед сдачей, в полном соответствии со стандартами." },
+          { icon: "headphones", title: "Поддержка клиентов", desc: "Ваши вопросы и запросы — от консультации до постпродажного обслуживания." }
+        ]
+      },
+      certifications: { title: "Бренды-партнёры", subtitle: "Работаем с признанным, сертифицированным оборудованием мирового класса." },
+      cta: { title: "Хотите познакомиться с командой?", subtitle: "Позвоните или напишите нам — с радостью ответим на ваши вопросы.", btn: "Связаться с нами" }
+    },
     seo: {
       index: { title: "VECTOR — Охранные системы и электромонтаж в Тбилиси", description: "Установка видеонаблюдения, сигнализации, пожарной безопасности и электропроводки в Тбилиси и окрестностях. Звоните: 595 70 83 00." },
       services: {
@@ -1469,6 +1537,7 @@ const translations = {
       },
       blog: { title: "Блог — советы по безопасности и электрике | VECTOR", description: "Полезные статьи о камерах, сигнализации, электропроводке и умных системах от экспертов в Тбилиси." },
       hub: { title: "Интерактивный центр — конструктор, калькулятор и аудит риска | VECTOR", description: "Соберите свою систему безопасности, рассчитайте стоимость и проверьте уровень риска в интерактивных инструментах VECTOR." },
+      about: { title: "О нас — команда и история | VECTOR", description: "Познакомьтесь с командой VECTOR, нашей историей и брендами-партнёрами — компания охранных и электрических услуг в Тбилиси." },
       posts: {
         post1: { title: "Как выбрать IP-камеры для дома и офиса | VECTOR", description: "Гид по выбору IP-камер — разрешение, ночное видение и хранение. Советы экспертов VECTOR в Тбилиси." },
         post2: { title: "Беспроводная vs проводная сигнализация", description: "Сравниваем беспроводные и проводные системы сигнализации, чтобы выбрать решение для вашего объекта в Тбилиси." },
